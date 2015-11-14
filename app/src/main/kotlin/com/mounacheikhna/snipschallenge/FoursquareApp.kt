@@ -4,7 +4,11 @@ import android.app.Application
 import com.squareup.leakcanary.LeakCanary
 import timber.log.Timber
 
-class FoursquareApp: Application() {
+public class FoursquareApp: Application() {
+
+    companion object {
+        @JvmStatic lateinit public var appComponent: AppComponent
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -16,6 +20,11 @@ class FoursquareApp: Application() {
         } else {
             //TODO: add crashkytics tree ?
         }
+
+        appComponent = DaggerAppComponent.builder()
+                .appModule(AppModule(this))
+                .build()
+        appComponent.inject(this)
     }
 
 }

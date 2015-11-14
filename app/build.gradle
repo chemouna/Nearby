@@ -53,6 +53,7 @@ dependencies {
   compile rootProject.ext.rxJava
   compile rootProject.ext.supportAppCompat
   compile rootProject.ext.supportAnnotations
+  compile rootProject.ext.supportRecyclerView
 
   compile rootProject.ext.retrofit
   compile rootProject.ext.converter_moshi
@@ -65,11 +66,13 @@ dependencies {
   provided rootProject.ext.javax_annotation
 
   compile rootProject.ext.reactive_location
+  compile rootProject.ext.kotterknife
 
   debugCompile rootProject.ext.leakcanary
   releaseCompile rootProject.ext.leakcanary_no_op
 
 }
-repositories {
-  mavenCentral()
+
+kapt {
+  generateStubs = true
 }

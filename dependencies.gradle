@@ -27,9 +27,12 @@ ext {
   adapter_rxjava = 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
 
   timber = 'com.jakewharton.timber:timber:4.1.0'
-  leakcanary = "com.squareup.leakcanary:leakcanary-android:1.4-SNAPSHOT"
-  leakcanary_no_op = "com.squareup.leakcanary:leakcanary-android-no-op:1.4-SNAPSHOT"
-  reactive_location = "pl.charmas.android:android-reactive-location:0.8@aar"
+  leakcanary = 'com.squareup.leakcanary:leakcanary-android:1.4-SNAPSHOT'
+  leakcanary_no_op = 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-SNAPSHOT'
+  reactive_location = 'pl.charmas.android:android-reactive-location:0.8@aar'
+
+  //butterknife = 'com.jakewharton:butterknife:7.0.1'
+  kotterknife = 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
 
   supportTestRunner = 'com.android.support.test:runner:0.4.1'
   supportTestRules = 'com.android.support.test:rules:0.4.1'

@@ -1,3 +1,9 @@
 <resources>
   <string name="app_name">SnipsChallenge</string>
+  <string name="nearby_venues_title">Nearby Venues</string>
+  <string name="loading_message">Loading...</string>
+  <string name="error_title">Error while fetching venues</string>
+  <string name="error_message">Error</string>
+  <string name="empty_title">No venues.</string>
+  <string name="empty_message">No venues.</string>
 </resources>
