@@ -7,7 +7,7 @@ import timber.log.Timber
 public class FoursquareApp: Application() {
 
     companion object {
-        @JvmStatic lateinit public var appComponent: AppComponent
+        lateinit public var appComponent: AppComponent
     }
 
     override fun onCreate() {

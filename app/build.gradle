@@ -50,10 +50,10 @@ dependencies {
   compile rootProject.ext.kotlinStdlib
   compile rootProject.ext.kotlinAndroidSdkAnnotations
 
-  compile rootProject.ext.rxJava
   compile rootProject.ext.supportAppCompat
   compile rootProject.ext.supportAnnotations
   compile rootProject.ext.supportRecyclerView
+  compile rootProject.ext.supportDesign
 
   compile rootProject.ext.retrofit
   compile rootProject.ext.converter_moshi
@@ -65,11 +65,15 @@ dependencies {
   kapt rootProject.ext.dagger_compiler
   provided rootProject.ext.javax_annotation
 
-  compile rootProject.ext.reactive_location
   compile rootProject.ext.kotterknife
-
   debugCompile rootProject.ext.leakcanary
   releaseCompile rootProject.ext.leakcanary_no_op
+
+  compile rootProject.ext.rxJava
+  compile rootProject.ext.reactive_location
+  compile rootProject.ext.play_services_location
+  compile rootProject.ext.rxAndroid
+
 
 }
 
