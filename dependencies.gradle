@@ -19,23 +19,26 @@ ext {
   supportDesign = 'com.android.support:design:23.1.0'
 
   dagger = 'com.google.dagger:dagger:2.0.2'
-  dagger_compiler = 'com.google.dagger:dagger-compiler:2.0.2'
-  javax_annotation = 'org.glassfish:javax.annotation:10.0-b28'
+  daggerCompiler = 'com.google.dagger:dagger-compiler:2.0.2'
+  javaxAnnotation = 'org.glassfish:javax.annotation:10.0-b28'
 
   retrofit = 'com.squareup.retrofit:retrofit:2.0.0-beta2'
-  converter_moshi = 'com.squareup.retrofit:converter-moshi:2.0.0-beta2'
-  adapter_rxjava = 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+  converterMoshi = 'com.squareup.retrofit:converter-moshi:2.0.0-beta2'
+  adapterRxjava = 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
 
   timber = 'com.jakewharton.timber:timber:4.1.0'
   kotterknife = 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
 
   leakcanary = 'com.squareup.leakcanary:leakcanary-android:1.4-SNAPSHOT'
-  leakcanary_no_op = 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-SNAPSHOT'
+  leakcanaryNoOp = 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-SNAPSHOT'
 
-  reactive_location = 'pl.charmas.android:android-reactive-location:0.8@aar'
+  reactiveLocation = 'pl.charmas.android:android-reactive-location:0.8@aar'
   rxJava = 'io.reactivex:rxjava:1.0.16'
   rxAndroid = 'io.reactivex:rxandroid:1.0.1'
-  play_services_location = 'com.google.android.gms:play-services-location:8.1.0'
+  playServicesLocation = 'com.google.android.gms:play-services-location:8.1.0'
+
+  rxJavaDebug = 'io.reactivex:rxjava-debug:1.0.3'
+  rxpermissions = 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
 
   supportTestRunner = 'com.android.support.test:runner:0.4.1'
   supportTestRules = 'com.android.support.test:rules:0.4.1'

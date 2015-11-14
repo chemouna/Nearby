@@ -56,24 +56,26 @@ dependencies {
   compile rootProject.ext.supportDesign
 
   compile rootProject.ext.retrofit
-  compile rootProject.ext.converter_moshi
-  compile rootProject.ext.adapter_rxjava
+  compile rootProject.ext.converterMoshi
+  compile rootProject.ext.adapterRxjava
 
   compile rootProject.ext.timber
 
   compile rootProject.ext.dagger
-  kapt rootProject.ext.dagger_compiler
-  provided rootProject.ext.javax_annotation
+  kapt rootProject.ext.daggerCompiler
+  provided rootProject.ext.javaxAnnotation
 
   compile rootProject.ext.kotterknife
-  debugCompile rootProject.ext.leakcanary
-  releaseCompile rootProject.ext.leakcanary_no_op
-
   compile rootProject.ext.rxJava
-  compile rootProject.ext.reactive_location
-  compile rootProject.ext.play_services_location
+  compile rootProject.ext.reactiveLocation
+  compile rootProject.ext.playServicesLocation
   compile rootProject.ext.rxAndroid
+  compile rootProject.ext.rxpermissions
 
+  debugCompile rootProject.ext.rxJavaDebug
+  debugCompile rootProject.ext.leakcanary
+
+  releaseCompile rootProject.ext.leakcanaryNoOp
 
 }
 
