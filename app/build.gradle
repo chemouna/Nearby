@@ -3,6 +3,9 @@ buildscript {
     classpath rootProject.ext.androidPlugin
     classpath rootProject.ext.kotlinPlugin
   }
+  repositories {
+    mavenCentral()
+  }
 }
 
 apply plugin: 'com.android.application'
@@ -44,9 +47,29 @@ android {
 }
 
 dependencies {
+  compile rootProject.ext.kotlinStdlib
+  compile rootProject.ext.kotlinAndroidSdkAnnotations
+
   compile rootProject.ext.rxJava
   compile rootProject.ext.supportAppCompat
   compile rootProject.ext.supportAnnotations
 
+  compile rootProject.ext.retrofit
+  compile rootProject.ext.converter_moshi
+  compile rootProject.ext.adapter_rxjava
 
+  compile rootProject.ext.timber
+
+  compile rootProject.ext.dagger
+  kapt rootProject.ext.dagger_compiler
+  provided rootProject.ext.javax_annotation
+
+  compile rootProject.ext.reactive_location
+
+  debugCompile rootProject.ext.leakcanary
+  releaseCompile rootProject.ext.leakcanary_no_op
+
+}
+repositories {
+  mavenCentral()
 }
