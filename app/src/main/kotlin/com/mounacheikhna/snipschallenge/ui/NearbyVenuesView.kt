@@ -93,27 +93,34 @@ class NearbyVenuesView : LinearLayout {
      */
     private fun fetchNearbyVenues() {
         val updatedLocation = locationProvider.getUpdatedLocation(createLocationRequest())
-        updatedLocation.subscribe { location ->
+        updatedLocation.distinctUntilChanged()
+            .subscribe { location ->
             nearbyVenuesSubscription = startNearbyVenuesSearch(location)
-            var snackbar = Snackbar.make(this, "You have moved.. Fetching places near you.",
-                Snackbar.LENGTH_SHORT)
-                .setAction("Cancel", View.OnClickListener {})
-            RxSnackbar.dismisses(snackbar)
-                .firstOrDefault(0)
-                .subscribe {
-                    eventId ->
-                    when (eventId) {
-                        Snackbar.Callback.DISMISS_EVENT_ACTION -> {
-                            Timber.d(" TEST - Canceling locations nearby new fetch ");
-                            //TODO: cancel observable to requery update
-                            nearbyVenuesSubscription.unsubscribe()
-                        }
-                        else -> {
-                            venuesAdapter.clear()
-                        }
+            var snackBar = createForNewLocationSnackbar()
+            snackBar.show()
+        }
+    }
+
+    private fun createForNewLocationSnackbar(): Snackbar {
+        var snackBar = Snackbar.make(this, R.string.info_location_changed_fetch,
+            Snackbar.LENGTH_SHORT)
+            .setAction(R.string.cancel, View.OnClickListener {})
+        RxSnackbar.dismisses(snackBar)
+            .firstOrDefault(0)
+            .subscribe {
+                eventId ->
+                when (eventId) {
+                    Snackbar.Callback.DISMISS_EVENT_ACTION -> {
+                        Timber.d(" TEST - Canceling locations nearby new fetch ");
+                        //TODO: cancel observable to requery update
+                        nearbyVenuesSubscription.unsubscribe()
+                    }
+                    else -> {
+                        venuesAdapter.clear()
                     }
                 }
-        }
+            }
+        return snackBar
     }
 
     /**
@@ -144,15 +151,14 @@ class NearbyVenuesView : LinearLayout {
 
     /**
      * Creates a {@link LocationRequest} which defines the rate of location updates : accuracy,
-     * update interval and number of updates (using location request of library reactive location).
+     * update interval and number of updates.
      *
      * @return locationRequest the request to define updates rate.
      */
     private fun createLocationRequest(): LocationRequest {
         val locationRequest = LocationRequest()
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-        locationRequest.setFastestInterval(260).setInterval(500/*1000*/)
-        locationRequest.setNumUpdates(1)
+        locationRequest.setInterval(20000)
         return locationRequest
     }
 

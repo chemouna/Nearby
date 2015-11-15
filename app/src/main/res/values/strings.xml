@@ -9,4 +9,7 @@
 
     <string name="error_permission_not_granted">The app needs location permission to fetch venues.
     </string>
+
+    <string name="info_location_changed_fetch">"You have moved, Fetching places near you."</string>
+    <string name="cancel">Cancel</string>
 </resources>
