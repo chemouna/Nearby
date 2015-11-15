@@ -9,10 +9,10 @@ public data class Venue
     val canonicalUrl: String,
 
     //val categories:List<Category>,
-    val verified: Boolean//,
-    /*val stats:Stats,
-    var ratingAvailability:RatingLoadingStatus = RatingLoadingStatus.NOT_LOADED,
-    var rating:Double? = null*/
+    val verified: Boolean,
+    /*val stats:Stats,*/
+    //var ratingAvailability:RatingLoadingStatus = RatingLoadingStatus.NOT_LOADED,
+    var rating:Double? = null
 )
 
 

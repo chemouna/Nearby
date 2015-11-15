@@ -41,6 +41,9 @@ ext {
   rxpermissions = 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
   rxKotlin = 'io.reactivex:rxkotlin:0.24.100'
 
+  rxbinding = 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+  rxbindingDesign = 'com.jakewharton.rxbinding:rxbinding-design:0.3.0'
+
   stetho = 'com.facebook.stetho:stetho:1.2.0'
   stethoOkhttp = 'com.facebook.stetho:stetho-okhttp:1.2.0'
   threetenabp = 'com.jakewharton.threetenabp:threetenabp:1.0.2'

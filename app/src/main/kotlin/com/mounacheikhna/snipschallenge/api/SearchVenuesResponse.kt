@@ -1,6 +1,6 @@
 package com.mounacheikhna.snipschallenge.api
 
-public data class FoursquareResponse(
+public data class SearchVenuesResponse(
     val meta: Meta,
     val response: Response
 )

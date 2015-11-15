@@ -11,7 +11,6 @@ import com.mounacheikhna.snipschallenge.R
 class MainActivity: AppCompatActivity() {
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
-    val venuesView: NearbyVenuesView by bindView(R.id.venues_view)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         FoursquareApp.appComponent.inject(this)

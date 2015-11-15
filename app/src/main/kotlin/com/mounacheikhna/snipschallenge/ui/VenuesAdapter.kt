@@ -43,4 +43,8 @@ class VenuesAdapter(): RecyclerView.Adapter<VenuesAdapter.ViewHolder>(), Action1
         setData(venues)
     }
 
+    fun clear() {
+        setData(ArrayList())
+    }
+
 }

@@ -85,6 +85,9 @@ dependencies {
   compile rootProject.ext.stethoOkhttp
   compile rootProject.ext.threetenabp
 
+  compile rootProject.ext.rxbinding
+  compile rootProject.ext.rxbindingDesign
+
   debugCompile rootProject.ext.rxJavaDebug
   debugCompile rootProject.ext.leakcanary
 
