@@ -8,7 +8,7 @@ import pl.charmas.android.reactivelocation.ReactiveLocationProvider
 import javax.inject.Singleton
 
 @Module
-class LocationModule {
+public class LocationModule {
 
    /* @Provides @Singleton
     fun provideLocationManager(context: Context): LocationManager {

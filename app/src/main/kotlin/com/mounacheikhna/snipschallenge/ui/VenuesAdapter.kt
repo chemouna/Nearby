@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.mounacheikhna.snipschallenge.api.Venue
 import com.mounacheikhna.snipschallenge.R;
+import rx.functions.Action1
+import java.util.*
 
-class VenuesAdapter(): RecyclerView.Adapter<VenuesAdapter.ViewHolder>() {
+class VenuesAdapter(): RecyclerView.Adapter<VenuesAdapter.ViewHolder>(), Action1<List<Venue>> {
 
     //TODO: maybe implement Action 1 and pass adapter to call method
     var venues: List<Venue> = listOf()
@@ -34,4 +36,9 @@ class VenuesAdapter(): RecyclerView.Adapter<VenuesAdapter.ViewHolder>() {
     public class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.name) as TextView
     }
+
+    override fun call(venues: List<Venue>?) {
+        setData(ArrayList<Venue>(venues))
+    }
+
 }

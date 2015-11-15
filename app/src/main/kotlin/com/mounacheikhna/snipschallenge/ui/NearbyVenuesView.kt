@@ -9,27 +9,24 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import android.widget.Toast
 import butterknife.bindView
 import com.mounacheikhna.snipschallenge.FoursquareApp
 import com.mounacheikhna.snipschallenge.R
+import com.mounacheikhna.snipschallenge.api.FoursquareApi
+import com.mounacheikhna.snipschallenge.api.FoursquareManager
 import com.tbruyelle.rxpermissions.RxPermissions
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider
-import timber.log.Timber
 import javax.inject.Inject
 
 class NearbyVenuesView : LinearLayout {
 
     val venuesList: RecyclerView by bindView(R.id.venues_list)
     val venuesAnimator: BetterViewAnimator by bindView(R.id.venues_animator)
-
     val venuesAdapter: VenuesAdapter by lazy(LazyThreadSafetyMode.NONE) { VenuesAdapter() }
 
-    @Inject
-    lateinit var rxPermissions: RxPermissions
-
-    @Inject
-    lateinit var locationProvider: ReactiveLocationProvider
+    @Inject lateinit var rxPermissions: RxPermissions
+    @Inject lateinit var locationProvider: ReactiveLocationProvider
+    @Inject lateinit var foursquareApi: FoursquareApi
 
     public constructor(context: Context) : super(context) {
         init(context);
@@ -61,14 +58,16 @@ class NearbyVenuesView : LinearLayout {
 
     private fun fetchVenues() {
         locationProvider.lastKnownLocation
-            .subscribe({ location -> // Timber.d(" location received : %s", location)
-                Toast.makeText(context, " Received location : " + location,
-                    Toast.LENGTH_LONG).show()
-            },
-                { error ->
-                    Toast.makeText(context, " Error location : " + error, Toast.LENGTH_LONG).show()
-                    Timber.d(" TEST - Error e  : " + error)
-                });
+            .map { location ->
+                foursquareApi.searchVenues("${location.latitude}, ${location.longitude}")
+                    .map { resp -> resp.venues }
+            }
+            .flatMap { venues -> venues } //temp
+            .subscribe(venuesAdapter)
+            /*.flatMap { venues -> venues.map {
+                            venue -> foursquareManager.getDetails(venue.id)
+                } }*/
+            //temp -> TODO: move more of this to 4squaremanager
     }
 
     private fun checkLocationPermission() {
@@ -80,9 +79,10 @@ class NearbyVenuesView : LinearLayout {
                     val message = R.string.error_permission_not_granted
                     showSnackbar(message)
                 }
-            }, { error ->
-                showSnackbar(error.message ?: "error")
-            })
+            },
+                { error ->
+                    showSnackbar(error.message ?: "error")
+                })
     }
 
     private fun showSnackbar(message: String) {

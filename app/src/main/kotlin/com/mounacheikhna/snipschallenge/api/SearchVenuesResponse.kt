@@ -1,5 +1,3 @@
 package com.mounacheikhna.snipschallenge.api
 
-class SearchVenuesResponse {
-
-}
+public data class SearchVenuesResponse(val venues: List<Venue>)

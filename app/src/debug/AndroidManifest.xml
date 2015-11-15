@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.mounacheikhna.snipschallenge">
+
+    <application
+            android:name=".DebugFoursquareApp"
+            android:allowBackup="true"
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            tools:replace="android:name">
+        <!-- Manifest merger will take care of merging other components declarations
+                from main build type -->
+    </application>
+
+</manifest>

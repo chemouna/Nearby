@@ -39,6 +39,9 @@ ext {
 
   rxJavaDebug = 'io.reactivex:rxjava-debug:1.0.3'
   rxpermissions = 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
+  stetho = 'com.facebook.stetho:stetho:1.2.0'
+  stethoOkhttp = 'com.facebook.stetho:stetho-okhttp:1.2.0'
+  threetenabp = 'com.jakewharton.threetenabp:threetenabp:1.0.2'
 
   supportTestRunner = 'com.android.support.test:runner:0.4.1'
   supportTestRules = 'com.android.support.test:rules:0.4.1'
