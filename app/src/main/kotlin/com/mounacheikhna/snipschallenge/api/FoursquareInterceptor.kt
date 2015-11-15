@@ -7,6 +7,7 @@ import com.squareup.okhttp.Response
  * Interceptor to add common values to all requests sent to foursquare
  */
 class FoursquareInterceptor(val clientId: String, val clientSecret: String, val apiVersion: String, val apiType: String) : Interceptor {
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val url = chain.request().httpUrl().newBuilder()
             .setQueryParameter("client_id", clientId)

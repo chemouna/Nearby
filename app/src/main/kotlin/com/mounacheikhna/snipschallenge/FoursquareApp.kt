@@ -18,13 +18,18 @@ public open class FoursquareApp : Application() {
         super.onCreate()
         AndroidThreeTen.init(this)
         LeakCanary.install(this);
-        if (BuildConfig.DEBUG) {
+
+        ///temp
+        Timber.plant(Timber.DebugTree())
+        Stetho.initializeWithDefaults(this);
+        //
+        /*if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
             Stetho.initializeWithDefaults(this);
 
         } else {
             //TODO: add crashlytics tree ?
-        }
+        }*/
 
         appComponent = DaggerAppComponent.builder()
                 .appModule(AppModule(this))

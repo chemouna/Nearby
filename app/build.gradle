@@ -75,6 +75,8 @@ dependencies {
 
   compile rootProject.ext.kotterknife
   compile rootProject.ext.rxJava
+  compile rootProject.ext.rxKotlin
+
   compile rootProject.ext.reactiveLocation
   compile rootProject.ext.playServicesLocation
   compile rootProject.ext.rxAndroid

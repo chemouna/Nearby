@@ -8,14 +8,15 @@ import android.widget.TextView
 import com.mounacheikhna.snipschallenge.api.Venue
 import com.mounacheikhna.snipschallenge.R;
 import rx.functions.Action1
+import timber.log.Timber
 import java.util.*
 
-class VenuesAdapter(): RecyclerView.Adapter<VenuesAdapter.ViewHolder>(), Action1<List<Venue>> {
+class VenuesAdapter(): RecyclerView.Adapter<VenuesAdapter.ViewHolder>(), Action1<Venue> {
 
     //TODO: maybe implement Action 1 and pass adapter to call method
-    var venues: List<Venue> = listOf()
+    var venues: MutableList<Venue> = ArrayList()
 
-    fun setData(list: List<Venue>) {
+    fun setData(list: MutableList<Venue>) {
         venues = list
         notifyDataSetChanged()
     }
@@ -29,16 +30,17 @@ class VenuesAdapter(): RecyclerView.Adapter<VenuesAdapter.ViewHolder>(), Action1
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val v = venues.get(position)
-        viewHolder.name.text = v.venueName.toString()
+        val v = venues[position]
+        viewHolder.name.text = v.name.toString()
     }
 
     public class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.name) as TextView
     }
 
-    override fun call(venues: List<Venue>?) {
-        setData(ArrayList<Venue>(venues))
+    override fun call(v: Venue) {
+        venues.add(v)
+        setData(venues)
     }
 
 }

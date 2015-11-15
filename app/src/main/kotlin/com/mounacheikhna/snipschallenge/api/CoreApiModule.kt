@@ -3,6 +3,7 @@ package com.mounacheikhna.snipschallenge.api
 import com.facebook.stetho.okhttp.StethoInterceptor
 import com.mounacheikhna.snipschallenge.annotation.*
 import com.squareup.moshi.Moshi
+import com.squareup.okhttp.HttpUrl
 import com.squareup.okhttp.Interceptor
 import com.squareup.okhttp.OkHttpClient
 import dagger.Module
@@ -18,7 +19,7 @@ import javax.inject.Singleton
 @Module
 public class CoreApiModule {
 
-    private val FOURSQUARE_ENDPOINT = "https://api.foursquare.com/";
+    private val FOURSQUARE_ENDPOINT_URL = "https://api.foursquare.com/";
     private val FOURSQUARE_CLIENT_ID = "DTK233D1LP2FQGDZDEYQIDUAVEAUX54IJ54IKWH0FE4ZBUL0"
     private val FOURSQUARE_CLIENT_SECRET = "5KH33YETVNSEQ42MFJ5UYCCGCIRBX5NBGM5JYY2S2PC4RIR1"
     private val FOURSQUARE_API_VERSION: String = "20151114"
@@ -44,11 +45,6 @@ public class CoreApiModule {
         return FoursquareInterceptor(clientId, clientSecret, apiVersion, apiType)
     }
 
-    @Provides @Singleton
-    fun provideFoursquareApi(retrofit: Retrofit): FoursquareApi {
-        return retrofit.create(FoursquareApi::class.java)
-    }
-
     @Provides @Singleton @Named("Api")
     fun provideApiClient(client: OkHttpClient,
                          @AppInterceptors interceptors: List<out Interceptor>,
@@ -67,22 +63,24 @@ public class CoreApiModule {
     @Provides @Singleton
     fun provideRetrofit(@Named("Api") apiClient: OkHttpClient,
                         moshi: Moshi): Retrofit {
-        return Retrofit.Builder().baseUrl(FOURSQUARE_ENDPOINT).client(apiClient)
+        return Retrofit.Builder()
+            .client(apiClient)
+            .baseUrl(HttpUrl.parse(FOURSQUARE_ENDPOINT_URL))
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build()
-    }
-
-    //Maybe move this into a moshi module ?
-    @Provides @Singleton
-    fun provideMoshi(): Moshi {
-        return Moshi.Builder().build()
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .build()
     }
 
     @Provides @Singleton
-    public fun provideOkHttpClient(): OkHttpClient {
-        val client = OkHttpClient()
-        return client
+    fun provideFoursquareApi(retrofit: Retrofit): FoursquareApi {
+        return retrofit.create(FoursquareApi::class.java)
     }
+
+    @Provides @Singleton
+    fun provideMoshi(): Moshi = Moshi.Builder().build()
+
+    @Provides @Singleton
+    public fun provideOkHttpClient(): OkHttpClient = OkHttpClient()
 
     @Provides @Singleton
     fun provideClock(): Clock = Clock.systemDefaultZone()
