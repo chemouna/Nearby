@@ -1,6 +1,7 @@
 package com.mounacheikhna.snipschallenge
 
 import android.content.Context
+import com.mounacheikhna.snipschallenge.annotation.ApplicationContext
 import com.tbruyelle.rxpermissions.RxPermissions
 import dagger.Module
 import dagger.Provides
@@ -12,7 +13,7 @@ public class AppModule(val app: FoursquareApp) {
     @Provides @Singleton
     fun provideApp(): FoursquareApp = app
 
-    @Provides @Singleton
+    @Provides @Singleton @ApplicationContext
     fun provideApplicationContext(): Context = app
 
     @Provides @Singleton

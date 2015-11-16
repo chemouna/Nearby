@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<merge
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:showIn="@layout/activity_main">
+        xmlns:tools="http://schemas.android.com/tools">
 
     <com.mounacheikhna.snipschallenge.ui.BetterViewAnimator
             android:id="@+id/venues_animator"
@@ -126,4 +122,4 @@
                     />
         <!--</android.support.v4.widget.SwipeRefreshLayout>-->
     </com.mounacheikhna.snipschallenge.ui.BetterViewAnimator>
-</LinearLayout>
+</merge>

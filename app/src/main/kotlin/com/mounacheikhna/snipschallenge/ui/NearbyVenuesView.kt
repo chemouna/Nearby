@@ -1,6 +1,7 @@
 package com.mounacheikhna.snipschallenge.ui
 
 import android.Manifest
+import android.annotation.TargetApi
 import android.content.Context
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
@@ -24,18 +25,26 @@ import rx.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 import android.location.Location;
+import android.os.Build
+import android.support.v4.content.ContextCompat
+import com.mounacheikhna.snipschallenge.api.Venue
+import com.mounacheikhna.snipschallenge.api.VenueDetailsResponse
+import com.squareup.picasso.Picasso
+import rx.Observable
+import rx.functions.Func2
 
-class NearbyVenuesView : LinearLayout {
+class NearbyVenuesView: LinearLayout {
 
     val venuesList: RecyclerView by bindView(R.id.venues_list)
     val venuesAnimator: BetterViewAnimator by bindView(R.id.venues_animator)
-    val venuesAdapter: VenuesAdapter by lazy(LazyThreadSafetyMode.NONE) { VenuesAdapter() }
 
+    lateinit var venuesAdapter: VenuesAdapter
     lateinit var nearbyVenuesSubscription: Subscription
 
     @Inject lateinit var rxPermissions: RxPermissions
     @Inject lateinit var locationProvider: ReactiveLocationProvider
     @Inject lateinit var foursquareApi: FoursquareApi
+    @Inject lateinit var picasso: Picasso
 
     public constructor(context: Context) : super(context) {
         init(context);
@@ -52,7 +61,7 @@ class NearbyVenuesView : LinearLayout {
 
     private fun init(context: Context) {
         LayoutInflater.from(context).inflate(R.layout.nearby_venues_view, this, true)
-        //TODO: use merge & set orientation vertical
+        orientation = VERTICAL
     }
 
     override fun onAttachedToWindow() {
@@ -60,8 +69,14 @@ class NearbyVenuesView : LinearLayout {
 
         FoursquareApp.appComponent.inject(this)
 
+        venuesAdapter = VenuesAdapter(picasso)
         venuesList.adapter = venuesAdapter
         venuesList.layoutManager = LinearLayoutManager(context)
+
+        val dividerPaddingStart = context.resources.getDimension(R.dimen.venue_divider_padding_start)
+        val forRtl = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && isRtl()
+        venuesList.addItemDecoration(
+            DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST, dividerPaddingStart, forRtl))
         checkLocationPermission()
     }
 
@@ -103,7 +118,7 @@ class NearbyVenuesView : LinearLayout {
 
     private fun createForNewLocationSnackbar(): Snackbar {
         var snackBar = Snackbar.make(this, R.string.info_location_changed_fetch,
-            Snackbar.LENGTH_SHORT)
+            Snackbar.LENGTH_LONG)
             .setAction(R.string.cancel, View.OnClickListener {})
         RxSnackbar.dismisses(snackBar)
             .firstOrDefault(0)
@@ -111,8 +126,6 @@ class NearbyVenuesView : LinearLayout {
                 eventId ->
                 when (eventId) {
                     Snackbar.Callback.DISMISS_EVENT_ACTION -> {
-                        Timber.d(" TEST - Canceling locations nearby new fetch ");
-                        //TODO: cancel observable to requery update
                         nearbyVenuesSubscription.unsubscribe()
                     }
                     else -> {
@@ -125,16 +138,19 @@ class NearbyVenuesView : LinearLayout {
 
     /**
      * Fetches venues near a {@link Location} then for each id fetches the {@link Venue}
-     * to get its ratings and then displays them.
+     * to get its ratings and photos then displays them.
      *
      * @param location to fetch venues near it.
      * @return subscription to unsubscribe from it.
      */
     private fun startNearbyVenuesSearch(location: Location): Subscription {
-        return foursquareApi.searchVenues("${location.latitude}, ${location.longitude}")
+        val searchObservable = foursquareApi.searchVenues("${location.latitude}, ${location.longitude}")
             .flatMapIterable { it -> it.response.venues }
-            .flatMap { it -> foursquareApi.venueDetails(it.id) }
-            .map { it -> it.response.venue }
+        val venueDetailsObservable = searchObservable.flatMap { it -> foursquareApi.venueDetails(it.id) }
+        val venuePhotosObservable = searchObservable.flatMap { it -> foursquareApi.venuePhotos(it.id, 1) }
+        return Observable.zip(venueDetailsObservable, venuePhotosObservable, { response, photos ->
+                VenueResult(response.response.venue, photos)
+             })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -158,7 +174,7 @@ class NearbyVenuesView : LinearLayout {
     private fun createLocationRequest(): LocationRequest {
         val locationRequest = LocationRequest()
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-        locationRequest.setInterval(20000)
+        locationRequest.setInterval(50000)
         return locationRequest
     }
 
@@ -175,4 +191,7 @@ class NearbyVenuesView : LinearLayout {
         Snackbar.make(this, message, Snackbar.LENGTH_LONG).show()
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1) private fun isRtl(): Boolean {
+        return layoutDirection == View.LAYOUT_DIRECTION_RTL
+    }
 }

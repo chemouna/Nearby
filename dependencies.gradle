@@ -48,6 +48,8 @@ ext {
   stethoOkhttp = 'com.facebook.stetho:stetho-okhttp:1.2.0'
   threetenabp = 'com.jakewharton.threetenabp:threetenabp:1.0.2'
 
+  picasso = 'com.squareup.picasso:picasso:2.5.2'
+
   supportTestRunner = 'com.android.support.test:runner:0.4.1'
   supportTestRules = 'com.android.support.test:rules:0.4.1'
   supportTestEspresso = 'com.android.support.test.espresso:espresso-core:2.2.1'

@@ -87,6 +87,7 @@ dependencies {
 
   compile rootProject.ext.rxbinding
   compile rootProject.ext.rxbindingDesign
+  compile rootProject.ext.picasso
 
   debugCompile rootProject.ext.rxJavaDebug
   debugCompile rootProject.ext.leakcanary
