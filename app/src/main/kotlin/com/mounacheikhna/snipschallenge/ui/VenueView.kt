@@ -15,6 +15,7 @@ import butterknife.bindView
 import com.mounacheikhna.snipschallenge.R
 import com.mounacheikhna.snipschallenge.api.Venue
 import com.squareup.picasso.Picasso
+import timber.log.Timber
 
 class VenueView: RelativeLayout {
 
@@ -43,9 +44,10 @@ class VenueView: RelativeLayout {
     }
 
     fun bindTo(item: VenueResult, picasso: Picasso) {
-        val photos = item.photos.items
+        val photos = item.getAllPhotos()
         if(photos != null && photos.size > 0) {
-            val url = "${photos[0].prefix}100x100${photos[0].suffix}"
+            val url = "${photos[0].prefix}300x300${photos[0].suffix}"
+            Timber.d(" TEST - load url for img : "+ url)
             picasso.load(url)
                 .placeholder(R.drawable.ic_city).fit()
                 //.transform(avatarTransformation)

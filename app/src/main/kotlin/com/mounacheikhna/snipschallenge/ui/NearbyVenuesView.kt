@@ -32,6 +32,8 @@ import com.mounacheikhna.snipschallenge.api.VenueDetailsResponse
 import com.squareup.picasso.Picasso
 import rx.Observable
 import rx.functions.Func2
+import rx.subscriptions.CompositeSubscription
+import java.util.concurrent.TimeUnit
 
 class NearbyVenuesView: LinearLayout {
 
@@ -40,6 +42,7 @@ class NearbyVenuesView: LinearLayout {
 
     lateinit var venuesAdapter: VenuesAdapter
     lateinit var nearbyVenuesSubscription: Subscription
+    var subscriptions: CompositeSubscription = CompositeSubscription()
 
     @Inject lateinit var rxPermissions: RxPermissions
     @Inject lateinit var locationProvider: ReactiveLocationProvider
@@ -80,13 +83,18 @@ class NearbyVenuesView: LinearLayout {
         checkLocationPermission()
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        subscriptions.unsubscribe() //unsubscribe from all to avoid leaks
+    }
+
     /**
      * Check for location permissions (granted pre-Marshmallow and asks the use for them
      * in Marshmallow and up).
      *
      */
     private fun checkLocationPermission() {
-        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,
+        subscriptions.add(rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION)
             .subscribe({ granted ->
                 if (granted) {
@@ -96,9 +104,9 @@ class NearbyVenuesView: LinearLayout {
                     showSnackbar(message)
                 }
             },
-                { error ->
-                    showSnackbar(error.message ?: "error")
-                })
+            { error ->
+                showSnackbar(error.message ?: "error")
+            }))
     }
 
     /**
@@ -108,19 +116,20 @@ class NearbyVenuesView: LinearLayout {
      */
     private fun fetchNearbyVenues() {
         val updatedLocation = locationProvider.getUpdatedLocation(createLocationRequest())
-        updatedLocation.distinctUntilChanged()
+        var locationSubscription = updatedLocation.distinctUntilChanged()
             .subscribe { location ->
-            nearbyVenuesSubscription = startNearbyVenuesSearch(location)
-            var snackBar = createForNewLocationSnackbar()
-            snackBar.show()
-        }
+                nearbyVenuesSubscription = startNearbyVenuesSearch(location)
+                var snackBar = createForNewLocationSnackbar()
+                snackBar.show()
+            }
+        subscriptions.add(locationSubscription)
     }
 
     private fun createForNewLocationSnackbar(): Snackbar {
         var snackBar = Snackbar.make(this, R.string.info_location_changed_fetch,
             Snackbar.LENGTH_LONG)
-            .setAction(R.string.cancel, View.OnClickListener {})
-        RxSnackbar.dismisses(snackBar)
+            .setAction(R.string.cancel, {/* the click action is specified in dismiss subscribe method*/})
+        var snackBarSubscription = RxSnackbar.dismisses(snackBar)
             .firstOrDefault(0)
             .subscribe {
                 eventId ->
@@ -133,6 +142,7 @@ class NearbyVenuesView: LinearLayout {
                     }
                 }
             }
+        subscriptions.add(snackBarSubscription)
         return snackBar
     }
 
@@ -145,11 +155,12 @@ class NearbyVenuesView: LinearLayout {
      */
     private fun startNearbyVenuesSearch(location: Location): Subscription {
         val searchObservable = foursquareApi.searchVenues("${location.latitude}, ${location.longitude}")
-            .flatMapIterable { it -> it.response.venues }
+                                        .flatMapIterable { it -> it.response.venues }
         val venueDetailsObservable = searchObservable.flatMap { it -> foursquareApi.venueDetails(it.id) }
         val venuePhotosObservable = searchObservable.flatMap { it -> foursquareApi.venuePhotos(it.id, 1) }
-        return Observable.zip(venueDetailsObservable, venuePhotosObservable, { response, photos ->
-                VenueResult(response.response.venue, photos)
+
+        var subscription = Observable.zip(venueDetailsObservable, venuePhotosObservable, { respVenues, respPhotos ->
+                VenueResult(respVenues.response.venue, respPhotos)
              })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -163,6 +174,9 @@ class NearbyVenuesView: LinearLayout {
                 { error -> displayError() },
                 { Timber.d(" completed! ") }
             )
+
+        subscriptions.add(subscription)
+        return subscription
     }
 
     /**
@@ -174,7 +188,7 @@ class NearbyVenuesView: LinearLayout {
     private fun createLocationRequest(): LocationRequest {
         val locationRequest = LocationRequest()
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-        locationRequest.setInterval(50000)
+            .setInterval(1000000)
         return locationRequest
     }
 

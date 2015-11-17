@@ -15,9 +15,7 @@ class LoggingInterceptor
     @Inject constructor(private val clock: Clock) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        Timber.d(" TEST - from  intercept  ")
         val request = chain.request()
-
         val startMs = clock.millis()
         Timber.v("Sending request %s%s", request.url(), prettyHeaders(request.headers()))
 
