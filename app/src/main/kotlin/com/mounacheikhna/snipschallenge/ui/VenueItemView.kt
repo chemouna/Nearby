@@ -19,7 +19,7 @@ import com.mounacheikhna.snipschallenge.extensions.hide
 import com.squareup.picasso.Picasso
 import timber.log.Timber
 
-class VenueView: PercentRelativeLayout {
+class VenueItemView : PercentRelativeLayout {
 
     val venueImage: ImageView by bindView(R.id.venue_image)
     val venueName: TextView by bindView(R.id.venue_name)

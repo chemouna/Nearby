@@ -30,7 +30,7 @@ class VenuesAdapter(picasso: Picasso) : RecyclerView.Adapter<VenuesAdapter.Venue
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): VenueViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.venue_item, parent,
             false)
-        return VenueViewHolder(view as VenueView)
+        return VenueViewHolder(view as VenueItemView)
     }
 
     override fun onBindViewHolder(viewHolder: VenueViewHolder, position: Int) {
@@ -38,14 +38,14 @@ class VenuesAdapter(picasso: Picasso) : RecyclerView.Adapter<VenuesAdapter.Venue
     }
 
     inner class VenueViewHolder : RecyclerView.ViewHolder {
-        lateinit var itemVenueView: VenueView
+        lateinit var itemVenueItemView: VenueItemView
 
-        public constructor(item: VenueView) : super(item) {
-            this.itemVenueView = item
+        public constructor(item: VenueItemView) : super(item) {
+            this.itemVenueItemView = item
         }
 
         fun bindTo(venue: VenueResult) {
-            itemVenueView.bindTo(venue, picasso)
+            itemVenueItemView.bindTo(venue, picasso)
         }
     }
 
