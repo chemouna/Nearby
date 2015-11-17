@@ -8,8 +8,6 @@ import javax.inject.Inject
 
 abstract class BasePresenter<T : PresenterScreen>() {
 
-  @Inject lateinit var foursquareApi: FoursquareApi
-
   protected val compositeSubscription = CompositeSubscription()
   protected var view: T? = null
 

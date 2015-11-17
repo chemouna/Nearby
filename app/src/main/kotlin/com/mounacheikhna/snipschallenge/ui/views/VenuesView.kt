@@ -3,6 +3,7 @@ package com.mounacheikhna.snipschallenge.ui.views
 import android.Manifest
 import android.annotation.TargetApi
 import android.content.Context
+import android.os.Build
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
@@ -12,33 +13,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import butterknife.bindView
-import com.google.android.gms.location.LocationRequest
 import com.jakewharton.rxbinding.support.design.widget.RxSnackbar
 import com.mounacheikhna.snipschallenge.FoursquareApp
 import com.mounacheikhna.snipschallenge.R
 import com.mounacheikhna.snipschallenge.api.FoursquareApi
-import com.tbruyelle.rxpermissions.RxPermissions
-import pl.charmas.android.reactivelocation.ReactiveLocationProvider
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
-import timber.log.Timber
-import javax.inject.Inject
-import android.location.Location;
-import android.os.Build
-import android.support.v4.content.ContextCompat
-import com.mounacheikhna.snipschallenge.api.Venue
-import com.mounacheikhna.snipschallenge.api.VenueDetailsResponse
 import com.mounacheikhna.snipschallenge.ui.BetterViewAnimator
 import com.mounacheikhna.snipschallenge.ui.DividerItemDecoration
 import com.mounacheikhna.snipschallenge.ui.VenueResult
 import com.mounacheikhna.snipschallenge.ui.VenuesAdapter
+import com.mounacheikhna.snipschallenge.ui.presenters.VenuesPresenter
 import com.mounacheikhna.snipschallenge.ui.screens.VenuesScreen
 import com.squareup.picasso.Picasso
-import rx.Observable
-import rx.functions.Func2
+import com.tbruyelle.rxpermissions.RxPermissions
+import pl.charmas.android.reactivelocation.ReactiveLocationProvider
+import rx.Subscription
 import rx.subscriptions.CompositeSubscription
-import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class VenuesView : LinearLayout, VenuesScreen {
 
@@ -46,13 +36,15 @@ class VenuesView : LinearLayout, VenuesScreen {
     val venuesAnimator: BetterViewAnimator by bindView(R.id.venues_animator)
 
     lateinit var venuesAdapter: VenuesAdapter
-    lateinit var nearbyVenuesSubscription: Subscription
+    //lateinit var nearbyVenuesSubscription: Subscription
     var subscriptions: CompositeSubscription = CompositeSubscription()
 
     @Inject lateinit var rxPermissions: RxPermissions
     @Inject lateinit var locationProvider: ReactiveLocationProvider
     @Inject lateinit var foursquareApi: FoursquareApi
     @Inject lateinit var picasso: Picasso
+
+    lateinit var presenter: VenuesPresenter
 
     public constructor(context: Context) : super(context) {
         init(context);
@@ -77,11 +69,14 @@ class VenuesView : LinearLayout, VenuesScreen {
 
         FoursquareApp.appComponent.inject(this)
 
+        presenter = VenuesPresenter(foursquareApi, locationProvider)
+
         venuesAdapter = VenuesAdapter(picasso)
         venuesList.adapter = venuesAdapter
         venuesList.layoutManager = LinearLayoutManager(context)
 
-        val dividerPaddingStart = context.resources.getDimension(R.dimen.venue_divider_padding_start)
+        val dividerPaddingStart = context.resources.getDimension(
+            R.dimen.venue_divider_padding_start)
         val forRtl = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && isRtl()
         venuesList.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST, dividerPaddingStart,
@@ -103,100 +98,50 @@ class VenuesView : LinearLayout, VenuesScreen {
         subscriptions.add(rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION)
             .subscribe({ granted ->
-            if (granted) {
-                fetchNearbyVenues()
-            } else {
-                val message = R.string.error_permission_not_granted
-                showSnackbar(message)
-            }
-        },
-            { error ->
-                showSnackbar(error.message ?: "error")
-            }))
+                if (granted) {
+                    presenter.fetchNearbyVenues()
+                } else {
+                    val message = R.string.error_permission_not_granted
+                    showSnackbar(message)
+                }
+            },
+                { error ->
+                    showSnackbar(error.message ?: "error")
+                }))
     }
 
-    /**
-     * Fetch nearby venues each time a location change but gives the user a message saying it will
-     * fetch so that if they don't want to they can cancel it.
-     *
-     */
-    private fun fetchNearbyVenues() {
-        val updatedLocation = locationProvider.getUpdatedLocation(createLocationRequest())
-        var locationSubscription = updatedLocation.distinctUntilChanged()
-            .subscribe { location ->
-            nearbyVenuesSubscription = startNearbyVenuesSearch(location)
-            var snackBar = createForNewLocationSnackbar()
-            snackBar.show()
-        }
-        subscriptions.add(locationSubscription)
-    }
-
-    private fun createForNewLocationSnackbar(): Snackbar {
+    override fun onNewLocationUpdate() {
         var snackBar = Snackbar.make(this, R.string.info_location_changed_fetch,
             Snackbar.LENGTH_LONG)
             .setAction(R.string.cancel,
-            { /* the click action is specified in dismiss subscribe method*/ })
+                { /* the click action is specified in dismiss subscribe method*/ })
         var snackBarSubscription = RxSnackbar.dismisses(snackBar)
             .firstOrDefault(0)
             .subscribe {
-            eventId ->
-            when (eventId) {
-                Snackbar.Callback.DISMISS_EVENT_ACTION -> {
-                    nearbyVenuesSubscription.unsubscribe()
-                }
-                else -> {
-                    venuesAdapter.clear()
+                eventId ->
+                when (eventId) {
+                    Snackbar.Callback.DISMISS_EVENT_ACTION -> {
+                        //nearbyVenuesSubscription.unsubscribe()
+                        presenter.cancelVenuesSearch()
+                    }
+                    else -> {
+                        venuesAdapter.clear()
+                    }
                 }
             }
-        }
         subscriptions.add(snackBarSubscription)
-        return snackBar
+        snackBar.show();
     }
 
-    /**
-     * Fetches venues near a {@link Location} then for each id fetches the {@link Venue}
-     * to get its ratings and photos then displays them.
-     *
-     * @param location to fetch venues near it.
-     * @return subscription to unsubscribe from it.
-     */
-    private fun startNearbyVenuesSearch(location: Location): Subscription {
-        val searchObservable = foursquareApi.searchVenues("${location.latitude}, ${location.longitude}")
-                .flatMapIterable { it -> it.response.venues }
-        val venueDetailsObservable = searchObservable.flatMap { it -> foursquareApi.venueDetails(it.id) }
-        val venuePhotosObservable = searchObservable.flatMap { it -> foursquareApi.venuePhotos(it.id, 1) }
-
-        var subscription = Observable.zip(venueDetailsObservable, venuePhotosObservable, { respVenues, respPhotos ->
-            VenueResult(respVenues.response.venue, respPhotos)
-             })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-            { venue ->
-                if (venuesAnimator.getDisplayedChildId() !== R.id.venues_list) {
-                    venuesAnimator.setDisplayedChildId(R.id.venues_list)
-                }
-                venuesAdapter.call(venue)
-            },
-            { error -> displayError() },
-            { Timber.d(" completed! ") }
-        )
-
-        subscriptions.add(subscription)
-        return subscription
+    override fun onVenueFetchError() {
+        displayError()
     }
 
-    /**
-     * Creates a {@link LocationRequest} which defines the rate of location updates : accuracy,
-     * update interval and number of updates.
-     *
-     * @return locationRequest the request to define updates rate.
-     */
-    private fun createLocationRequest(): LocationRequest {
-        val locationRequest = LocationRequest()
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-            .setInterval(1000000)
-        return locationRequest
+    override fun onVenueFetchSuccess(venueResult: VenueResult) {
+        if (venuesAnimator.getDisplayedChildId() !== R.id.venues_list) {
+            venuesAnimator.setDisplayedChildId(R.id.venues_list)
+        }
+        venuesAdapter.call(venueResult)
     }
 
     private fun displayError() {
