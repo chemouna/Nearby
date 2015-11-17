@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="venue_divider_padding_start">72dp</dimen>
+    <dimen name="venue_divider_padding_start">16dp</dimen>
 
 </resources>

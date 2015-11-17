@@ -11,9 +11,12 @@
         >
     <ImageView
             android:id="@+id/venue_image"
-            app:layout_widthPercent="20%"
-            android:layout_height="match_parent"
+            app:layout_widthPercent="25%"
+            android:layout_height="90dp"
             android:contentDescription="@string/venue_image_desc"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="4dp"
+            android:layout_marginEnd="8dp"
             tools:src="@drawable/ic_city"
             />
     <RelativeLayout

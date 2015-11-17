@@ -1,5 +1,11 @@
+apply from: rootProject.file('dependencies.gradle')
+
 subprojects {
   buildscript {
+    dependencies {
+      classpath rootProject.ext.androidPlugin
+      classpath rootProject.ext.kotlinPlugin
+    }
     repositories {
       mavenCentral()
     }
@@ -19,8 +25,6 @@ subprojects {
   }
 
 }
-
-apply from: rootProject.file('dependencies.gradle')
 
 task clean(type: Delete) {
   delete rootProject.buildDir

@@ -51,7 +51,8 @@ class VenueView: PercentRelativeLayout {
             Timber.d(" TEST - load url for img : "+ url)
             picasso.load(url)
                 .placeholder(R.drawable.ic_city)
-                //.fit()
+                .fit()
+                .error(R.drawable.ic_city)
                 //.transform(avatarTransformation)
                 .into(venueImage)
         }

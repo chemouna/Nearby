@@ -163,7 +163,7 @@ class NearbyVenuesView: LinearLayout {
                 VenueResult(respVenues.response.venue, respPhotos)
              })
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { venue ->
                     if (venuesAnimator.getDisplayedChildId() !== R.id.venues_list) {

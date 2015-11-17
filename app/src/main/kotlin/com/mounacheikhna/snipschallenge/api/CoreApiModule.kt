@@ -1,6 +1,7 @@
 package com.mounacheikhna.snipschallenge.api
 
 import com.facebook.stetho.okhttp.StethoInterceptor
+import com.mounacheikhna.snipschallenge.BuildConfig
 import com.mounacheikhna.snipschallenge.annotation.*
 import com.squareup.moshi.Moshi
 import com.squareup.okhttp.HttpUrl
@@ -20,16 +21,14 @@ import javax.inject.Singleton
 public class CoreApiModule {
 
     private val FOURSQUARE_ENDPOINT_URL = "https://api.foursquare.com/";
-    private val FOURSQUARE_CLIENT_ID = "DTK233D1LP2FQGDZDEYQIDUAVEAUX54IJ54IKWH0FE4ZBUL0"
-    private val FOURSQUARE_CLIENT_SECRET = "5KH33YETVNSEQ42MFJ5UYCCGCIRBX5NBGM5JYY2S2PC4RIR1"
     private val FOURSQUARE_API_VERSION: String = "20151114"
     private val FOURSQUARE_API_TYPE: String = "foursquare"
 
     @Provides @Singleton @ClientId
-    fun provideClientId(): String = FOURSQUARE_CLIENT_ID
+    fun provideClientId(): String = BuildConfig.FOURSQUARE_CLIENT_ID
 
     @Provides @Singleton @ClientSecret
-    fun provideClientSecret(): String = FOURSQUARE_CLIENT_SECRET
+    fun provideClientSecret(): String = BuildConfig.FOURSQUARE_CLIENT_SECRET
 
     @Provides @Singleton @FoursquareApiVersion
     fun provideFoursquareApiVersion(): String = FOURSQUARE_API_VERSION

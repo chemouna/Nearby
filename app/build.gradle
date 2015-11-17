@@ -1,13 +1,3 @@
-buildscript {
-  dependencies {
-    classpath rootProject.ext.androidPlugin
-    classpath rootProject.ext.kotlinPlugin
-  }
-  repositories {
-    mavenCentral()
-  }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
@@ -21,6 +11,10 @@ android {
     targetSdkVersion rootProject.ext.targetSdkVersion
     versionCode rootProject.ext.versionCode
     versionName rootProject.ext.versionName
+
+    buildConfigField "String", "FOURSQUARE_CLIENT_ID", "\"" + "DTK233D1LP2FQGDZDEYQIDUAVEAUX54IJ54IKWH0FE4ZBUL0" + "\"";
+    buildConfigField "String", "FOURSQUARE_CLIENT_SECRET", "\"" + "5KH33YETVNSEQ42MFJ5UYCCGCIRBX5NBGM5JYY2S2PC4RIR1" + "\"";
+
   }
   buildTypes {
     debug {

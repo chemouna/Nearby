@@ -1,3 +1,3 @@
 rootProject.name = 'SnipsChallenge'
 
-include ':app'
+include ':app', ':wear'
