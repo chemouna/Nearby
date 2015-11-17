@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.mounacheikhna.snipschallenge.ui.VenueView
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -8,23 +9,23 @@
         android:clickable="true"
         android:padding="16dp"
         >
-        <ImageView
-                android:id="@+id/venue_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:importantForAccessibility="no"
-                tools:src="@drawable/ic_city"
-                />
+    <ImageView
+            android:id="@+id/venue_image"
+            app:layout_widthPercent="20%"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/venue_image_desc"
+            tools:src="@drawable/ic_city"
+            />
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/venue_image"
+            android:layout_toRightOf="@id/venue_image">
+
         <TextView
                 android:id="@+id/venue_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/venue_image"
-                android:layout_toRightOf="@id/venue_image"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -38,8 +39,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_below="@id/venue_name"
-                android:layout_toEndOf="@id/venue_image"
-                android:layout_toRightOf="@id/venue_image"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="14sp"
                 android:maxLines="2"
@@ -52,8 +51,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/venue_description"
                 android:layout_marginTop="4dp"
-                android:layout_toEndOf="@id/venue_image"
-                android:layout_toRightOf="@id/venue_image"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="14sp"
                 android:maxLines="3"
@@ -68,34 +65,32 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/venue_location"
                 android:layout_marginTop="4dp"
-                android:layout_toEndOf="@id/venue_image"
-                android:layout_toRightOf="@id/venue_image"
                 android:orientation="horizontal"
                 >
-                <TextView
-                        android:id="@+id/venue_rating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:gravity="center"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:textSize="14sp"
-                        android:drawableLeft="@drawable/ic_star_brown_18dp"
-                        android:drawableStart="@drawable/ic_star_brown_18dp"
-                        android:drawableTint="@color/accent"
-                        tools:text="6.9"
-                        />
-                <TextView
-                        android:id="@+id/venue_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:textSize="14sp"
-                        android:drawableLeft="@drawable/ic_money_brown_18dp"
-                        android:drawableStart="@drawable/ic_money_brown_18dp"
-                        tools:text="4"
-                        />
+            <TextView
+                    android:id="@+id/venue_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="14sp"
+                    android:drawableLeft="@drawable/ic_star_brown_18dp"
+                    android:drawableStart="@drawable/ic_star_brown_18dp"
+                    tools:text="6.9"
+                    />
+            <TextView
+                    android:id="@+id/venue_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="14sp"
+                    android:drawableLeft="@drawable/ic_money_brown_18dp"
+                    android:drawableStart="@drawable/ic_money_brown_18dp"
+                    tools:text="4"
+                    />
         </LinearLayout>
+    </RelativeLayout>
 </com.mounacheikhna.snipschallenge.ui.VenueView>

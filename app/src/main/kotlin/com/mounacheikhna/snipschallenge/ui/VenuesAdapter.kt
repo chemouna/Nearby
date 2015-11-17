@@ -1,20 +1,14 @@
 package com.mounacheikhna.snipschallenge.ui
 
-import android.content.Context
-import android.support.v7.internal.view.menu.ActionMenuItemView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.mounacheikhna.snipschallenge.api.Venue
-import com.mounacheikhna.snipschallenge.R;
+import com.mounacheikhna.snipschallenge.R
 import com.squareup.picasso.Picasso
 import rx.functions.Action1
-import timber.log.Timber
 import java.util.*
 
-class VenuesAdapter(picasso: Picasso): RecyclerView.Adapter<VenuesAdapter.VenueViewHolder>(), Action1<VenueResult> {
+class VenuesAdapter(picasso: Picasso) : RecyclerView.Adapter<VenuesAdapter.VenueViewHolder>(), Action1<VenueResult> {
 
     //TODO: maybe implement Action 1 and pass adapter to call method
     var venues: MutableList<VenueResult> = ArrayList()

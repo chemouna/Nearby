@@ -62,6 +62,7 @@ dependencies {
   compile rootProject.ext.supportAnnotations
   compile rootProject.ext.supportRecyclerView
   compile rootProject.ext.supportDesign
+  compile rootProject.ext.supportPercent
 
   compile rootProject.ext.retrofit
   compile rootProject.ext.converterMoshi

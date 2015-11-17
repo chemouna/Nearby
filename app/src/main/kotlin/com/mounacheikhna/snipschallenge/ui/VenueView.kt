@@ -1,6 +1,7 @@
 package com.mounacheikhna.snipschallenge.ui
 
 import android.content.Context
+import android.support.percent.PercentRelativeLayout
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
@@ -17,7 +18,7 @@ import com.mounacheikhna.snipschallenge.api.Venue
 import com.squareup.picasso.Picasso
 import timber.log.Timber
 
-class VenueView: RelativeLayout {
+class VenueView: PercentRelativeLayout {
 
     val venueImage: ImageView by bindView(R.id.venue_image)
     val venueName: TextView by bindView(R.id.venue_name)
@@ -40,16 +41,17 @@ class VenueView: RelativeLayout {
     }
 
     private fun init(context: Context) {
-
+        //orientation = VERTICAL
     }
 
     fun bindTo(item: VenueResult, picasso: Picasso) {
         val photos = item.getAllPhotos()
         if(photos != null && photos.size > 0) {
-            val url = "${photos[0].prefix}300x300${photos[0].suffix}"
+            val url = "${photos[0].prefix}300x500${photos[0].suffix}"
             Timber.d(" TEST - load url for img : "+ url)
             picasso.load(url)
-                .placeholder(R.drawable.ic_city).fit()
+                .placeholder(R.drawable.ic_city)
+                //.fit()
                 //.transform(avatarTransformation)
                 .into(venueImage)
         }

@@ -12,4 +12,5 @@
 
     <string name="info_location_changed_fetch">"You have moved, Fetching places near you."</string>
     <string name="cancel">Cancel</string>
+    <string name="venue_image_desc">Venue\'s image</string>
 </resources>
