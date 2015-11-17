@@ -15,6 +15,7 @@ import android.widget.TextView
 import butterknife.bindView
 import com.mounacheikhna.snipschallenge.R
 import com.mounacheikhna.snipschallenge.api.Venue
+import com.mounacheikhna.snipschallenge.extensions.hide
 import com.squareup.picasso.Picasso
 import timber.log.Timber
 
@@ -62,7 +63,7 @@ class VenueView: PercentRelativeLayout {
         //venuePrice.setText(venue.price)
 
         if(venue.location.formattedAddress == null) {
-            venueLocation.visibility = View.GONE
+            venueLocation.hide()
         }
         else {
             venueLocation.text = venue.location.formattedAddress?.joinToString(",")

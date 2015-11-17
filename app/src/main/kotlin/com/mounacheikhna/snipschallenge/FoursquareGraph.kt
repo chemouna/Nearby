@@ -1,7 +1,7 @@
 package com.mounacheikhna.snipschallenge
 
 import com.mounacheikhna.snipschallenge.ui.MainActivity
-import com.mounacheikhna.snipschallenge.ui.NearbyVenuesView
+import com.mounacheikhna.snipschallenge.ui.views.NearbyVenuesView
 
 public interface FoursquareGraph {
 

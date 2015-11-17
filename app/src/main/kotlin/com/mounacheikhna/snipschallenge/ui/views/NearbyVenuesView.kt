@@ -1,4 +1,4 @@
-package com.mounacheikhna.snipschallenge.ui
+package com.mounacheikhna.snipschallenge.ui.views
 
 import android.Manifest
 import android.annotation.TargetApi
@@ -29,6 +29,9 @@ import android.os.Build
 import android.support.v4.content.ContextCompat
 import com.mounacheikhna.snipschallenge.api.Venue
 import com.mounacheikhna.snipschallenge.api.VenueDetailsResponse
+import com.mounacheikhna.snipschallenge.ui.BetterViewAnimator
+import com.mounacheikhna.snipschallenge.ui.DividerItemDecoration
+import com.mounacheikhna.snipschallenge.ui.VenuesAdapter
 import com.squareup.picasso.Picasso
 import rx.Observable
 import rx.functions.Func2
@@ -79,7 +82,8 @@ class NearbyVenuesView: LinearLayout {
         val dividerPaddingStart = context.resources.getDimension(R.dimen.venue_divider_padding_start)
         val forRtl = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && isRtl()
         venuesList.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST, dividerPaddingStart, forRtl))
+            DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST, dividerPaddingStart,
+                forRtl))
         checkLocationPermission()
     }
 
@@ -94,16 +98,14 @@ class NearbyVenuesView: LinearLayout {
      *
      */
     private fun checkLocationPermission() {
-        subscriptions.add(rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION)
-            .subscribe({ granted ->
-                if (granted) {
-                    fetchNearbyVenues()
-                } else {
-                    val message = R.string.error_permission_not_granted
-                    showSnackbar(message)
-                }
-            },
+        subscriptions.add(Observable.subscribe({ granted ->
+            if (granted) {
+                fetchNearbyVenues()
+            } else {
+                val message = R.string.error_permission_not_granted
+                showSnackbar(message)
+            }
+        },
             { error ->
                 showSnackbar(error.message ?: "error")
             }))
@@ -116,32 +118,28 @@ class NearbyVenuesView: LinearLayout {
      */
     private fun fetchNearbyVenues() {
         val updatedLocation = locationProvider.getUpdatedLocation(createLocationRequest())
-        var locationSubscription = updatedLocation.distinctUntilChanged()
-            .subscribe { location ->
-                nearbyVenuesSubscription = startNearbyVenuesSearch(location)
-                var snackBar = createForNewLocationSnackbar()
-                snackBar.show()
-            }
+        var locationSubscription = Observable.subscribe { location ->
+            nearbyVenuesSubscription = startNearbyVenuesSearch(location)
+            var snackBar = createForNewLocationSnackbar()
+            snackBar.show()
+        }
         subscriptions.add(locationSubscription)
     }
 
     private fun createForNewLocationSnackbar(): Snackbar {
-        var snackBar = Snackbar.make(this, R.string.info_location_changed_fetch,
-            Snackbar.LENGTH_LONG)
-            .setAction(R.string.cancel, {/* the click action is specified in dismiss subscribe method*/})
-        var snackBarSubscription = RxSnackbar.dismisses(snackBar)
-            .firstOrDefault(0)
-            .subscribe {
-                eventId ->
-                when (eventId) {
-                    Snackbar.Callback.DISMISS_EVENT_ACTION -> {
-                        nearbyVenuesSubscription.unsubscribe()
-                    }
-                    else -> {
-                        venuesAdapter.clear()
-                    }
+        var snackBar = Snackbar.setAction(R.string.cancel,
+            { /* the click action is specified in dismiss subscribe method*/ })
+        var snackBarSubscription = Observable.subscribe {
+            eventId ->
+            when (eventId) {
+                Snackbar.Callback.DISMISS_EVENT_ACTION -> {
+                    nearbyVenuesSubscription.unsubscribe()
+                }
+                else -> {
+                    venuesAdapter.clear()
                 }
             }
+        }
         subscriptions.add(snackBarSubscription)
         return snackBar
     }
@@ -154,26 +152,20 @@ class NearbyVenuesView: LinearLayout {
      * @return subscription to unsubscribe from it.
      */
     private fun startNearbyVenuesSearch(location: Location): Subscription {
-        val searchObservable = foursquareApi.searchVenues("${location.latitude}, ${location.longitude}")
-                                        .flatMapIterable { it -> it.response.venues }
-        val venueDetailsObservable = searchObservable.flatMap { it -> foursquareApi.venueDetails(it.id) }
-        val venuePhotosObservable = searchObservable.flatMap { it -> foursquareApi.venuePhotos(it.id, 1) }
+        val searchObservable = Observable.flatMapIterable { it -> it.response.venues }
+        val venueDetailsObservable = Observable.flatMap { it -> foursquareApi.venueDetails(it.id) }
+        val venuePhotosObservable = Observable.flatMap { it -> foursquareApi.venuePhotos(it.id, 1) }
 
-        var subscription = Observable.zip(venueDetailsObservable, venuePhotosObservable, { respVenues, respPhotos ->
-                VenueResult(respVenues.response.venue, respPhotos)
-             })
-            .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { venue ->
-                    if (venuesAnimator.getDisplayedChildId() !== R.id.venues_list) {
-                        venuesAnimator.setDisplayedChildId(R.id.venues_list)
-                    }
-                    venuesAdapter.call(venue)
-                },
-                { error -> displayError() },
-                { Timber.d(" completed! ") }
-            )
+        var subscription = Observable.subscribe(
+            { venue ->
+                if (venuesAnimator.getDisplayedChildId() !== R.id.venues_list) {
+                    venuesAnimator.setDisplayedChildId(R.id.venues_list)
+                }
+                venuesAdapter.call(venue)
+            },
+            { error -> displayError() },
+            { Timber.d(" completed! ") }
+        )
 
         subscriptions.add(subscription)
         return subscription
