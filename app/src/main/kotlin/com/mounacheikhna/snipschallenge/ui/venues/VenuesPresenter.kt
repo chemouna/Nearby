@@ -5,28 +5,30 @@ import com.google.android.gms.location.LocationRequest
 import com.mounacheikhna.snipschallenge.api.FoursquareApi
 import com.mounacheikhna.snipschallenge.ui.VenueResult
 import com.mounacheikhna.snipschallenge.ui.base.BasePresenter
-import com.mounacheikhna.snipschallenge.ui.base.ScopeSingleton
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider
 import rx.Observable
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Presenter for {@link VenuesView}
+ */
 //@ScopeSingleton(VenuesView.VenuesComponent::class)
 @Singleton //temp
 class VenuesPresenter : BasePresenter<VenuesScreen> {
 
-    lateinit var searchVenuesSubscription: Subscription
+    lateinit var searchVenuesSubject: PublishSubject<VenueResult>
     var subscriptions: CompositeSubscription = CompositeSubscription()
 
     val locationProvider: ReactiveLocationProvider
     val foursquareApi: FoursquareApi
 
-    //TODO: maybe inject it here and make it also injectable in its view ?
     @Inject
     public constructor(foursquareApi: FoursquareApi, locationProvider: ReactiveLocationProvider) : super() {
         this.foursquareApi = foursquareApi
@@ -36,28 +38,29 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
     /**
      * Fetch nearby venues each time a location change but gives the user a message saying it will
      * fetch so that if they don't want to they can cancel it.
-     *
      */
-    fun fetchNearbyVenues() {
-        val updatedLocation = locationProvider.getUpdatedLocation(createLocationRequest())
-        var locationSubscription = updatedLocation.distinctUntilChanged()
-            .subscribe { location ->
-                view?.onNewLocationUpdate()
-                searchVenuesSubscription = startNearbyVenuesSearch(location)
-            }
+    fun fetchVenuesForLocations(): PublishSubject<VenueResult> {
+        val updatedLocation = locationProvider.getUpdatedLocation(
+                    createLocationRequest()).distinctUntilChanged()
+        var locationSubscription = updatedLocation
+                .subscribe { location ->
+                    view?.onNewLocationUpdate()
+                    searchVenuesSubject = startNearbyVenuesSearch(location)
+                }
+        //updatedLocation.map { location ->  startNearbyVenuesSearch(location)}.takeUntil(view.cancel)
         subscriptions.add(locationSubscription)
+        return searchVenuesSubject
     }
 
     /**
-     * Fetches venues near a {@link Location} then for each id fetches the {@link (
-    com.mounacheikhna.snipschallenge.api.Venue)
-    }
-     * to get its ratings and photos then displays them.
+     * Fetches venues near a {@link Location} then for each id fetches the {@link VenueResult}
+     * to get venue's details, ratings and photos then displays them.
      *
      * @param location to fetch venues near it.
      * @return subscription to unsubscribe from it.
      */
-    private fun startNearbyVenuesSearch(location: Location): Subscription {
+     fun startNearbyVenuesSearch(location: Location): PublishSubject<VenueResult> {
+        var searchSubject = PublishSubject.create<VenueResult>()
         val searchObservable = foursquareApi.searchVenues(
             "${location.latitude}, ${location.longitude}")
             .flatMapIterable { it -> it.response.venues }
@@ -74,18 +77,21 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
             })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
+            .subscribe(searchSubject)
+
+            /*(
                 { venueResult -> view?.onVenueFetchSuccess(venueResult) },
                 { error -> view?.onVenueFetchError() },
                 { Timber.d(" completed! ") }
-            )
+            )*/
 
         subscriptions.add(subscription)
-        return subscription
+        return searchSubject
     }
 
     fun cancelVenuesSearch() {
-        searchVenuesSubscription.unsubscribe()
+        //searchVenuesSubject.unsubscribe()
+        //TODO : maybe takeUntil
     }
 
     /**
@@ -94,7 +100,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
      *
      * @return locationRequest the request to define updates rate.
      */
-    private fun createLocationRequest(): LocationRequest {
+    fun createLocationRequest(): LocationRequest {
         val locationRequest = LocationRequest()
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
             .setInterval(1000000)

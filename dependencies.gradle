@@ -67,5 +67,6 @@ ext {
 
   junit = 'junit:junit:4.12'
   truth = 'com.google.truth:truth:0.27'
+  mockito = 'org.mockito:mockito-core:2.0.31-beta'
 
 }

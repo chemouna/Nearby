@@ -15,6 +15,8 @@ android {
     buildConfigField "String", "FOURSQUARE_CLIENT_ID", "\"" + "DTK233D1LP2FQGDZDEYQIDUAVEAUX54IJ54IKWH0FE4ZBUL0" + "\"";
     buildConfigField "String", "FOURSQUARE_CLIENT_SECRET", "\"" + "5KH33YETVNSEQ42MFJ5UYCCGCIRBX5NBGM5JYY2S2PC4RIR1" + "\"";
 
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
   }
   buildTypes {
     debug {
@@ -44,6 +46,12 @@ android {
       release.java.srcDirs += 'src/release/kotlin'
     }
     exclude "META-INF/LICENSE.txt"
+  }
+}
+
+configurations.all {
+  resolutionStrategy {
+    force 'com.android.support:support-annotations:23.0.1'
   }
 }
 
@@ -87,6 +95,21 @@ dependencies {
   debugCompile rootProject.ext.leakcanary
 
   releaseCompile rootProject.ext.leakcanaryNoOp
+
+  /*androidTestCompile rootProject.ext.junit
+  androidTestCompile rootProject.ext.truth
+  androidTestCompile rootProject.ext.mockito
+  androidTestCompile rootProject.ext.supportTestRunner
+  androidTestCompile rootProject.ext.supportTestRules*/
+
+  androidTestCompile 'com.google.truth:truth:0.27'
+  androidTestCompile 'org.mockito:mockito-core:1.9.5'
+  androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+  androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+  androidTestCompile 'com.android.support.test:runner:0.4'
+  androidTestCompile 'com.android.support.test:rules:0.4'
+  androidTestCompile 'junit:junit:4.12'
+
 }
 
 kapt {

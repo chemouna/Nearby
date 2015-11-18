@@ -80,11 +80,11 @@ class VenuesView : LinearLayout, VenuesScreen {
         venuesList.adapter = venuesAdapter
         venuesList.layoutManager = LinearLayoutManager(context)
 
-        val dividerPaddingStart = context.resources.getDimension(
-            R.dimen.venue_divider_padding_start)
+        /*val dividerPaddingStart = context.resources.getDimension(
+            R.dimen.venue_divider_padding_start)*/
         val forRtl = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && isRtl()
         venuesList.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST, dividerPaddingStart,
+            DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST, 0F,
                 forRtl))
         checkLocationPermission()
     }
@@ -105,7 +105,7 @@ class VenuesView : LinearLayout, VenuesScreen {
             Manifest.permission.ACCESS_FINE_LOCATION)
             .subscribe({ granted ->
                 if (granted) {
-                    presenter.fetchNearbyVenues()
+                    onLocationPermissionsGranted()
                 } else {
                     val message = R.string.error_permission_not_granted
                     showSnackbar(message)
@@ -116,11 +116,30 @@ class VenuesView : LinearLayout, VenuesScreen {
                 }))
     }
 
+    private fun onLocationPermissionsGranted() {
+        presenter.fetchVenuesForLocations()
+            .subscribe(
+                { venueResult ->
+                    if (venuesAnimator.getDisplayedChildId() !== R.id.venues_list) {
+                        venuesAnimator.setDisplayedChildId(R.id.venues_list)
+                    }
+                    venuesAdapter.call(venueResult)
+                },
+                { error -> venuesAnimator.setDisplayedChildId(R.id.venues_error) },
+                { if (venuesAnimator.getDisplayedChildId() !== R.id.venues_list
+                        && venuesAnimator.getDisplayedChildId() !== R.id.venues_error) {
+                        //no result
+                        venuesAnimator.setDisplayedChildId(R.id.venues_empty)
+                    }
+                }
+            )
+    }
+
     override fun onNewLocationUpdate() {
         var snackBar = Snackbar.make(this, R.string.info_location_changed_fetch,
             Snackbar.LENGTH_LONG)
             .setAction(R.string.cancel,
-                { /* the click action is specified in dismiss subscribe method*/ })
+                { /* click action is specified in dismiss subscribe method*/ })
         var snackBarSubscription = RxSnackbar.dismisses(snackBar)
             .firstOrDefault(0)
             .subscribe {
@@ -136,22 +155,6 @@ class VenuesView : LinearLayout, VenuesScreen {
             }
         subscriptions.add(snackBarSubscription)
         snackBar.show();
-    }
-
-    override fun onVenueFetchError() {
-        displayError()
-    }
-
-    override fun onVenueFetchSuccess(venueResult: VenueResult) {
-        if (venuesAnimator.getDisplayedChildId() !== R.id.venues_list) {
-            venuesAnimator.setDisplayedChildId(R.id.venues_list)
-        }
-        venuesAdapter.call(venueResult)
-    }
-
-    private fun displayError() {
-        //TODO: find a good error state icon
-        venuesAnimator.setDisplayedChildId(R.id.venues_error)
     }
 
     private fun showSnackbar(message: String) {
