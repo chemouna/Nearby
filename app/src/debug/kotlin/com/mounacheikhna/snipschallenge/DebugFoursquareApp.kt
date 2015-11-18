@@ -7,18 +7,18 @@ import rx.plugins.DebugNotificationListener
 import rx.plugins.RxJavaPlugins
 
 /**
- * Extends app to add debug build specific configuration
+ * Extends app to add debug build specific configurations.
  */
 class DebugFoursquareApp: FoursquareApp() {
 
     override fun onCreate() {
         super.onCreate()
+        //RxJava calls logging.
         RxJavaPlugins.getInstance().registerObservableExecutionHook(
             DebugHook(LoggingListener()))
     }
 
     public class LoggingListener : DebugNotificationListener<Any>() {
-
         val TAG = "RxLog"
         override fun <T> onNext(n: DebugNotification<T>?): T? {
             Log.v(TAG, " onNext ${n?.observer} ${n?.value}")

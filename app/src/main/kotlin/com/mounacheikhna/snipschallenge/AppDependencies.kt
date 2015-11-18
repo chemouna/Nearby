@@ -5,7 +5,7 @@ import com.squareup.picasso.Picasso
 import com.tbruyelle.rxpermissions.RxPermissions
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider
 
-public interface BaseComponent {
+public interface AppDependencies {
     fun provideFoursquareApi(): FoursquareApi
     fun providesLocationProvider(): ReactiveLocationProvider
     fun providePicasso(): Picasso

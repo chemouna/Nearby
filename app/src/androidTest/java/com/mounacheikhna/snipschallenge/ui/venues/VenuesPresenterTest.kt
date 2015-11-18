@@ -1,28 +1,27 @@
 package com.mounacheikhna.snipschallenge.ui.venues
 
-import com.mounacheikhna.snipschallenge.api.FoursquareApi
-import org.junit.Before
-import org.junit.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations.initMocks
-import pl.charmas.android.reactivelocation.ReactiveLocationProvider
-import rx.Observable
 import android.location.Location
 import android.support.test.runner.AndroidJUnit4
-import com.google.common.truth.Truth
+import com.mounacheikhna.snipschallenge.api.FoursquareApi
 import com.mounacheikhna.snipschallenge.ui.VenueResult
+import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.*
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations.initMocks
+import pl.charmas.android.reactivelocation.ReactiveLocationProvider
 import retrofit.mock.MockRetrofit
 import retrofit.mock.NetworkBehavior
 import retrofit.mock.RxJavaBehaviorAdapter
+import rx.Observable
 import rx.observers.TestSubscriber
 import rx.plugins.RxJavaSchedulersTestRule
-import java.util.concurrent.TimeUnit
 
 /**
- * Note: this is a unit test but we need to put it here (instead of test/ folder) to use
+ * NOTE: this is a unit test but we need to put it here (instead of test/ folder) to use
  * RxJavaSchedulersTestRule which replaces observeOn(mainThread) in code we run test against
  * with {@code Schedulers.immediate()}
  *
@@ -45,7 +44,7 @@ public class VenuesPresenterTest {
     }
 
     @Test
-    fun fetchForLocationWithEmptyResults() {
+    fun fetchForLocationWithEmptyResultsDoesntEmitValuesToScreen() {
         var mockLocation = mockLocation()
         `when`(locationProvider.getUpdatedLocation(presenter.createLocationRequest()))
             .thenReturn(Observable.just(mockLocation))
@@ -64,7 +63,7 @@ public class VenuesPresenterTest {
 
     //TODO: use mock web server to simulate an error and check error state displayed
     @Test //#FBN
-    fun fetchForLocationsWithErrorResults() {
+    fun fetchForLocationWithErrorResultsEmitsErrorToScreen() {
         var mockLocation = mockLocation()
         `when`(locationProvider.getUpdatedLocation(presenter.createLocationRequest()))
             .thenReturn(Observable.just(mockLocation))
@@ -75,9 +74,18 @@ public class VenuesPresenterTest {
         //and make sure view does displays to the user a network not existant error
 
         var mockRetrofit = MockRetrofit(behavior, RxJavaBehaviorAdapter.create());
-        mockRetrofit.create(FoursquareApi::class.java, mockService);
+        //mockRetrofit.create(FoursquareApi::class.java, mockService);
     }
 
+    @Test
+    fun fetchForLocationWithNoNetworkEmitsNetworkError() {
+        //TODO
+    }
+
+    @Test
+    fun fetchForLocationWithResultsEmitsThemToScreen() {
+
+    }
     /*private fun mockFoursquareApi(): FoursquareApi {
         val behavior = NetworkBehavior.create()
         behavior.setDelay(100, TimeUnit.MILLISECONDS)

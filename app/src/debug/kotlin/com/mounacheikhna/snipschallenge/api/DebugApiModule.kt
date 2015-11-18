@@ -15,11 +15,12 @@ import javax.inject.Singleton
 class DebugApiModule {
 
     /**
-     * We need logging and stetho interceptor only for debug builds
-     * since we don't information about server api to be logged in release mode
+     * We need logging and stetho only for debug builds since we don't want information
+     * about server api to be logged on release buildS.
      */
     @Provides @Singleton @NetworkInterceptors
-    fun provideNetworkInterceptors(clock: Clock): List<out Interceptor> { //dagger needs 'out' here to generate the correct binding with '? extend'
+    fun provideNetworkInterceptors(clock: Clock): List<out Interceptor> {//dagger needs 'out' here
+                                    // to generate the correct binding with '? extend' in java.
         return arrayListOf(StethoInterceptor(), LoggingInterceptor(clock))
     }
 

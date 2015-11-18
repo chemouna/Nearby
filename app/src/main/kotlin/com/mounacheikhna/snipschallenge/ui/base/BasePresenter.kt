@@ -16,11 +16,15 @@ abstract class BasePresenter<T : PresenterScreen>() {
         this.view = null
     }
 
-    protected fun addSubscription(subscription: Subscription) {
+    fun addSubscription(subscription: Subscription) {
         compositeSubscription.add(subscription)
     }
 
-    fun onDestroy() {
+    fun onAttach(view: T) {
+        bind(view)
+    }
+
+    fun onDetach() {
         compositeSubscription.clear()
         unbind()
     }

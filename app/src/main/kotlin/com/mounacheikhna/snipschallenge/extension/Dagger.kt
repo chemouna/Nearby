@@ -1,4 +1,4 @@
-package com.mounacheikhna.snipschallenge.extensions
+package com.mounacheikhna.snipschallenge.extension
 
 
 fun <T> createComponent(componentClass: Class<T>, vararg dependencies: Any): T {

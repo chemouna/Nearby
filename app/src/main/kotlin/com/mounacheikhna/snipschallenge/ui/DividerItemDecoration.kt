@@ -9,9 +9,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 
-class DividerItemDecoration(context: Context, orientation: Int, paddingStart: Float, private val rtl: Boolean) : RecyclerView.ItemDecoration() {
+class DividerItemDecoration(context: Context, orientation: Int, paddingStart: Float,
+                            private val rtl: Boolean) : RecyclerView.ItemDecoration() {
     private val divider: Drawable
-
     private var orientation: Int = 0
     private var paddingStart: Float = 0.toFloat()
 
@@ -89,7 +89,6 @@ class DividerItemDecoration(context: Context, orientation: Int, paddingStart: Fl
 
     companion object {
         private val ATTRS = intArrayOf(android.R.attr.listDivider)
-
         val HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL
         val VERTICAL_LIST = LinearLayoutManager.VERTICAL
     }

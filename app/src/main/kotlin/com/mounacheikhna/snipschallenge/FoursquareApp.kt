@@ -22,7 +22,7 @@ public open class FoursquareApp : Application() {
             Stetho.initializeWithDefaults(this);
 
         } else {
-            //TODO: add crashlytics tree ?
+            //TODO: add Crashlytics tree
         }
 
         appComponent = DaggerAppComponent.builder()

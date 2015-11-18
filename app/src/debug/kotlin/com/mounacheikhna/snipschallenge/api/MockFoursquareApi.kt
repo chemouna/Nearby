@@ -11,9 +11,9 @@ import javax.inject.Singleton
 
 //not sure yet this the right place -> maybe move it to test package
 //@Singleton
-class MockFoursquareApi
-    /*@Inject*/
-    internal constructor(private val preferences: SharedPreferences) : FoursquareApi {
+class MockFoursquareApi {
+    //@Inject
+    /*internal constructor(private val preferences: SharedPreferences) : FoursquareApi {
     private val responses = LinkedHashMap<Class<out Enum<*>>, Enum<*>>()
 
     init {
@@ -22,10 +22,10 @@ class MockFoursquareApi
         loadResponse(MockRepositoriesResponse::class.java, MockRepositoriesResponse.SUCCESS)
     }
 
-    /**
+    *//**
      * Initializes the current response for `responseClass` from `SharedPreferences`, or
      * uses `defaultValue` if a response was not found.
-     */
+     *//*
     private fun <T : Enum<T>> loadResponse(responseClass: Class<T>, defaultValue: T) {
         responses.put(responseClass, EnumPreferences.getEnumValue(preferences, responseClass, //
             responseClass.canonicalName, defaultValue))
@@ -54,6 +54,6 @@ class MockFoursquareApi
 
         return Observable.just(
             Result.response<RepositoriesResponse>(Response.success<RepositoriesResponse>(response)))
-    }
+    }*/
 }
 

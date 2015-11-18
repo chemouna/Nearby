@@ -8,6 +8,13 @@ import rx.android.plugins.RxAndroidPlugins
 import rx.android.plugins.RxAndroidSchedulersHook
 import rx.schedulers.Schedulers
 
+/**
+ * A {@link TestRule} to apply to tests that have observables that subscribe/observe on
+ * RxJava/RxAndroid schedulers.
+ *
+ * NOTE: we needed to put in package rx.plugins to be able to access reset method that has
+ * a package private (there's currently an issue on RxJava to make it public).
+ */
 public class RxJavaSchedulersTestRule : TestRule {
     override fun apply(base: Statement, description: Description): Statement {
         return object : Statement() {
@@ -16,9 +23,7 @@ public class RxJavaSchedulersTestRule : TestRule {
                 resetPlugins()
                 RxJavaPlugins.getInstance().registerSchedulersHook(TestRxJavaSchedulersHook())
                 RxAndroidPlugins.getInstance().registerSchedulersHook(TestRxAndroidSchedulersHook())
-
                 base.evaluate()
-
                 resetPlugins()
             }
         }

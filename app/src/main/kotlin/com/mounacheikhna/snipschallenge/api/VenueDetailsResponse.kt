@@ -1,16 +1,16 @@
 package com.mounacheikhna.snipschallenge.api
 
-public data class VenueDetailsResponse(
+data class VenueDetailsResponse(
     val meta: VenueMeta,
     val response: VenueResponse
 )
 
-public data class VenueMeta(
+data class VenueMeta(
     val code: Int,
     val requestId: String
 )
 
-public data class VenueResponse(
+data class VenueResponse(
     val venue: Venue
 )
 

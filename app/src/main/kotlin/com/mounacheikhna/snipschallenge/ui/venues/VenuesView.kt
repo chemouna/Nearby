@@ -18,16 +18,14 @@ import com.mounacheikhna.snipschallenge.FoursquareApp
 import com.mounacheikhna.snipschallenge.R
 import com.mounacheikhna.snipschallenge.ui.BetterViewAnimator
 import com.mounacheikhna.snipschallenge.ui.DividerItemDecoration
-import com.mounacheikhna.snipschallenge.ui.VenueResult
 import com.squareup.picasso.Picasso
 import com.tbruyelle.rxpermissions.RxPermissions
-import rx.subscriptions.CompositeSubscription
 import javax.inject.Inject
 
 class VenuesView : LinearLayout, VenuesScreen {
 
     /* @ScopeSingleton(VenuesComponent::class)
-     @Subcomponent(modules = arrayOf(VenuesModule::class),
+     @Subcomponent(modules = arrayOf(VenuesModule&::class),
          dependencies = arrayOf(AppComponent::class))
      public interface VenuesComponent*//*: BaseComponent*//* {
         fun inject(venuesView: VenuesView)
@@ -38,9 +36,7 @@ class VenuesView : LinearLayout, VenuesScreen {
 
     val venuesList: RecyclerView by bindView(R.id.venues_list)
     val venuesAnimator: BetterViewAnimator by bindView(R.id.venues_animator)
-
     lateinit var venuesAdapter: VenuesAdapter
-    var subscriptions: CompositeSubscription = CompositeSubscription()
 
     @Inject lateinit var rxPermissions: RxPermissions
     @Inject lateinit var picasso: Picasso
@@ -74,7 +70,7 @@ class VenuesView : LinearLayout, VenuesScreen {
             .inject(this)*/
         //createComponent(VenuesComponent::class.java, FoursquareApp.appComponent)
         FoursquareApp.appComponent.inject(this)
-        presenter.bind(this)
+        presenter.onAttach(this)
 
         venuesAdapter = VenuesAdapter(picasso)
         venuesList.adapter = venuesAdapter
@@ -91,8 +87,8 @@ class VenuesView : LinearLayout, VenuesScreen {
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        subscriptions.unsubscribe() //unsubscribe from all to avoid leaks
-        presenter.unbind()
+        //subscriptions.unsubscribe() //unsubscribe from all to avoid leaks
+        presenter.onDetach()
     }
 
     /**
@@ -101,7 +97,7 @@ class VenuesView : LinearLayout, VenuesScreen {
      *
      */
     private fun checkLocationPermission() {
-        subscriptions.add(rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,
+        presenter.addSubscription(rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION)
             .subscribe({ granted ->
                 if (granted) {
@@ -126,7 +122,8 @@ class VenuesView : LinearLayout, VenuesScreen {
                     venuesAdapter.call(venueResult)
                 },
                 { error -> venuesAnimator.setDisplayedChildId(R.id.venues_error) },
-                { if (venuesAnimator.getDisplayedChildId() !== R.id.venues_list
+                {
+                    if (venuesAnimator.getDisplayedChildId() !== R.id.venues_list
                         && venuesAnimator.getDisplayedChildId() !== R.id.venues_error) {
                         //no result
                         venuesAnimator.setDisplayedChildId(R.id.venues_empty)
@@ -153,7 +150,7 @@ class VenuesView : LinearLayout, VenuesScreen {
                     }
                 }
             }
-        subscriptions.add(snackBarSubscription)
+        presenter.addSubscription(snackBarSubscription)
         snackBar.show();
     }
 

@@ -1,17 +1,21 @@
 package com.mounacheikhna.snipschallenge.api
 
+import android.content.Context
 import com.mounacheikhna.snipschallenge.BuildConfig
 import com.mounacheikhna.snipschallenge.annotation.*
 import com.squareup.moshi.Moshi
 import com.squareup.okhttp.HttpUrl
 import com.squareup.okhttp.Interceptor
 import com.squareup.okhttp.OkHttpClient
+import com.squareup.picasso.OkHttpDownloader
+import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import org.threeten.bp.Clock
 import retrofit.MoshiConverterFactory
 import retrofit.Retrofit
 import retrofit.RxJavaCallAdapterFactory
+import timber.log.Timber
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -47,8 +51,7 @@ public class CoreApiModule {
                          @AppInterceptors interceptors: List<out Interceptor>,
                          @NetworkInterceptors networkInterceptors: List<out Interceptor>): OkHttpClient {
         var okClient = client.clone()
-        okClient.interceptors().addAll(
-            interceptors)//TODO: may need to add it instead to network interceptors
+        okClient.interceptors().addAll(interceptors)
         okClient.networkInterceptors().addAll(networkInterceptors)
         return okClient
     }
@@ -84,4 +87,11 @@ public class CoreApiModule {
     @Provides @Singleton
     fun provideClock(): Clock = Clock.systemDefaultZone()
 
+    @Provides @Singleton
+    fun providePicasso(@ApplicationContext context: Context, okHttpClient: OkHttpClient): Picasso {
+        return Picasso.Builder(context).downloader(
+            OkHttpDownloader(okHttpClient)).listener { picasso, uri, e ->
+            Timber.e(e, "Failed to load image with url : %s", uri)
+        }.build()
+    }
 }

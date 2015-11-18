@@ -1,4 +1,4 @@
-package com.mounacheikhna.snipschallenge.extensions
+package com.mounacheikhna.snipschallenge.extension
 
 /*
 fun View.show() {

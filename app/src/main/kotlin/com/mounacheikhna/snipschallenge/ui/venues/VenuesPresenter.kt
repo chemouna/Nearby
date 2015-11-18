@@ -7,12 +7,9 @@ import com.mounacheikhna.snipschallenge.ui.VenueResult
 import com.mounacheikhna.snipschallenge.ui.base.BasePresenter
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider
 import rx.Observable
-import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,8 +21,6 @@ import javax.inject.Singleton
 class VenuesPresenter : BasePresenter<VenuesScreen> {
 
     lateinit var searchVenuesSubject: PublishSubject<VenueResult>
-    var subscriptions: CompositeSubscription = CompositeSubscription()
-
     val locationProvider: ReactiveLocationProvider
     val foursquareApi: FoursquareApi
 
@@ -41,14 +36,14 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
      */
     fun fetchVenuesForLocations(): PublishSubject<VenueResult> {
         val updatedLocation = locationProvider.getUpdatedLocation(
-                    createLocationRequest()).distinctUntilChanged()
+            createLocationRequest()).distinctUntilChanged()
         var locationSubscription = updatedLocation
-                .subscribe { location ->
-                    view?.onNewLocationUpdate()
-                    searchVenuesSubject = startNearbyVenuesSearch(location)
-                }
+            .subscribe { location ->
+                view?.onNewLocationUpdate()
+                searchVenuesSubject = startNearbyVenuesSearch(location)
+            }
         //updatedLocation.map { location ->  startNearbyVenuesSearch(location)}.takeUntil(view.cancel)
-        subscriptions.add(locationSubscription)
+        addSubscription(locationSubscription)
         return searchVenuesSubject
     }
 
@@ -59,7 +54,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
      * @param location to fetch venues near it.
      * @return subscription to unsubscribe from it.
      */
-     fun startNearbyVenuesSearch(location: Location): PublishSubject<VenueResult> {
+    fun startNearbyVenuesSearch(location: Location): PublishSubject<VenueResult> {
         var searchSubject = PublishSubject.create<VenueResult>()
         val searchObservable = foursquareApi.searchVenues(
             "${location.latitude}, ${location.longitude}")
@@ -79,13 +74,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(searchSubject)
 
-            /*(
-                { venueResult -> view?.onVenueFetchSuccess(venueResult) },
-                { error -> view?.onVenueFetchError() },
-                { Timber.d(" completed! ") }
-            )*/
-
-        subscriptions.add(subscription)
+        addSubscription(subscription)
         return searchSubject
     }
 

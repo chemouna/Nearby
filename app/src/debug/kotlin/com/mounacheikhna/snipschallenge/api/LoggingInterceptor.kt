@@ -9,7 +9,9 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/** Verbose logging of network calls, which includes path, headers, and times.  */
+/**
+ * Interceptor to log network calls with their path, headers and times.
+ */
 @Singleton
 class LoggingInterceptor
     @Inject constructor(private val clock: Clock) : Interceptor {
