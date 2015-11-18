@@ -14,8 +14,12 @@ import com.mounacheikhna.snipschallenge.ui.VenueResult
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.mockito.Mockito.*
+import retrofit.mock.MockRetrofit
+import retrofit.mock.NetworkBehavior
+import retrofit.mock.RxJavaBehaviorAdapter
 import rx.observers.TestSubscriber
 import rx.plugins.RxJavaSchedulersTestRule
+import java.util.concurrent.TimeUnit
 
 /**
  * Note: this is a unit test but we need to put it here (instead of test/ folder) to use
@@ -60,12 +64,28 @@ public class VenuesPresenterTest {
 
     //TODO: use mock web server to simulate an error and check error state displayed
     @Test //#FBN
-    fun fetchForLocations() {
+    fun fetchForLocationsWithErrorResults() {
         var mockLocation = mockLocation()
         `when`(locationProvider.getUpdatedLocation(presenter.createLocationRequest()))
             .thenReturn(Observable.just(mockLocation))
 
+        val behavior = NetworkBehavior.create()
+        behavior.setFailurePercent(100)
+        //behavior.setFailureException() //TODO: add another test with this as a network exception
+        //and make sure view does displays to the user a network not existant error
+
+        var mockRetrofit = MockRetrofit(behavior, RxJavaBehaviorAdapter.create());
+        mockRetrofit.create(FoursquareApi::class.java, mockService);
     }
+
+    /*private fun mockFoursquareApi(): FoursquareApi {
+        val behavior = NetworkBehavior.create()
+        behavior.setDelay(100, TimeUnit.MILLISECONDS)
+        behavior.setFailurePercent(100)
+        behavior.setVariancePercent(networkVariancePercent.get())
+
+        MockRetrofit(behavior, RxJavaBehaviorAdapter.create());
+    }*/
 
     private fun mockLocation(): Location {
         var mockLocation = mock(Location::class.java)
