@@ -1,9 +1,10 @@
-package com.mounacheikhna.snipschallenge.ui
+package com.mounacheikhna.snipschallenge.ui.venues
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mounacheikhna.snipschallenge.R
+import com.mounacheikhna.snipschallenge.ui.VenueResult
 import com.squareup.picasso.Picasso
 import rx.functions.Action1
 import java.util.*

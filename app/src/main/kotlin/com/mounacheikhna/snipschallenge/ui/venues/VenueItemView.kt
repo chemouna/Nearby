@@ -1,21 +1,14 @@
-package com.mounacheikhna.snipschallenge.ui
+package com.mounacheikhna.snipschallenge.ui.venues
 
 import android.content.Context
 import android.support.percent.PercentRelativeLayout
-import android.support.v7.widget.RecyclerView
-import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import butterknife.bindView
 import com.mounacheikhna.snipschallenge.R
-import com.mounacheikhna.snipschallenge.api.Venue
-import com.mounacheikhna.snipschallenge.extensions.hide
+import com.mounacheikhna.snipschallenge.ui.VenueResult
 import com.squareup.picasso.Picasso
 import timber.log.Timber
 
@@ -47,9 +40,9 @@ class VenueItemView : PercentRelativeLayout {
 
     fun bindTo(item: VenueResult, picasso: Picasso) {
         val photos = item.getAllPhotos()
-        if(photos != null && photos.size > 0) {
+        if (photos != null && photos.size > 0) {
             val url = "${photos[0].prefix}300x500${photos[0].suffix}"
-            Timber.d(" TEST - load url for img : "+ url)
+            Timber.d(" TEST - load url for img : " + url)
             picasso.load(url)
                 .placeholder(R.drawable.ic_city)
                 .fit()
@@ -59,13 +52,12 @@ class VenueItemView : PercentRelativeLayout {
         }
         var venue = item.venue
         venueName.text = venue.name
-        venueRating.text = if(venue.rating != null) "${venue.rating}" else "0"
+        venueRating.text = if (venue.rating != null) "${venue.rating}" else "0"
         //venuePrice.setText(venue.price)
 
-        if(venue.location.formattedAddress == null) {
-            venueLocation.hide()
-        }
-        else {
+        if (venue.location.formattedAddress == null) {
+            venueLocation.visibility = View.GONE
+        } else {
             venueLocation.text = venue.location.formattedAddress?.joinToString(",")
         }
         venueDescription.text = venue.description

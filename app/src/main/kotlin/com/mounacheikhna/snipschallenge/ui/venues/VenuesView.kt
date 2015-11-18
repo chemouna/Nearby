@@ -1,4 +1,4 @@
-package com.mounacheikhna.snipschallenge.ui.views
+package com.mounacheikhna.snipschallenge.ui.venues
 
 import android.Manifest
 import android.annotation.TargetApi
@@ -16,35 +16,35 @@ import butterknife.bindView
 import com.jakewharton.rxbinding.support.design.widget.RxSnackbar
 import com.mounacheikhna.snipschallenge.FoursquareApp
 import com.mounacheikhna.snipschallenge.R
-import com.mounacheikhna.snipschallenge.api.FoursquareApi
 import com.mounacheikhna.snipschallenge.ui.BetterViewAnimator
 import com.mounacheikhna.snipschallenge.ui.DividerItemDecoration
 import com.mounacheikhna.snipschallenge.ui.VenueResult
-import com.mounacheikhna.snipschallenge.ui.VenuesAdapter
-import com.mounacheikhna.snipschallenge.ui.presenters.VenuesPresenter
-import com.mounacheikhna.snipschallenge.ui.screens.VenuesScreen
 import com.squareup.picasso.Picasso
 import com.tbruyelle.rxpermissions.RxPermissions
-import pl.charmas.android.reactivelocation.ReactiveLocationProvider
-import rx.Subscription
 import rx.subscriptions.CompositeSubscription
 import javax.inject.Inject
 
 class VenuesView : LinearLayout, VenuesScreen {
 
+    /* @ScopeSingleton(VenuesComponent::class)
+     @Subcomponent(modules = arrayOf(VenuesModule::class),
+         dependencies = arrayOf(AppComponent::class))
+     public interface VenuesComponent*//*: BaseComponent*//* {
+        fun inject(venuesView: VenuesView)
+    }
+
+    @Module
+    class VenuesModule {}*/
+
     val venuesList: RecyclerView by bindView(R.id.venues_list)
     val venuesAnimator: BetterViewAnimator by bindView(R.id.venues_animator)
 
     lateinit var venuesAdapter: VenuesAdapter
-    //lateinit var nearbyVenuesSubscription: Subscription
     var subscriptions: CompositeSubscription = CompositeSubscription()
 
     @Inject lateinit var rxPermissions: RxPermissions
-    @Inject lateinit var locationProvider: ReactiveLocationProvider
-    @Inject lateinit var foursquareApi: FoursquareApi
     @Inject lateinit var picasso: Picasso
-
-    lateinit var presenter: VenuesPresenter
+    @Inject lateinit var presenter: VenuesPresenter
 
     public constructor(context: Context) : super(context) {
         init(context);
@@ -67,9 +67,14 @@ class VenuesView : LinearLayout, VenuesScreen {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
+        /*DaggerVenuesView_VenuesComponent.builder()
+            .venuesModule(VenuesModule())
+            .appComponent(FoursquareApp.appComponent)
+            .build()
+            .inject(this)*/
+        //createComponent(VenuesComponent::class.java, FoursquareApp.appComponent)
         FoursquareApp.appComponent.inject(this)
-
-        presenter = VenuesPresenter(foursquareApi, locationProvider)
+        presenter.bind(this)
 
         venuesAdapter = VenuesAdapter(picasso)
         venuesList.adapter = venuesAdapter
@@ -87,6 +92,7 @@ class VenuesView : LinearLayout, VenuesScreen {
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         subscriptions.unsubscribe() //unsubscribe from all to avoid leaks
+        presenter.unbind()
     }
 
     /**
@@ -121,7 +127,6 @@ class VenuesView : LinearLayout, VenuesScreen {
                 eventId ->
                 when (eventId) {
                     Snackbar.Callback.DISMISS_EVENT_ACTION -> {
-                        //nearbyVenuesSubscription.unsubscribe()
                         presenter.cancelVenuesSearch()
                     }
                     else -> {

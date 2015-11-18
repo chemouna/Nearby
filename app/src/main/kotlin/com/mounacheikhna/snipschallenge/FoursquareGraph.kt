@@ -1,12 +1,8 @@
 package com.mounacheikhna.snipschallenge
 
-import com.mounacheikhna.snipschallenge.ui.MainActivity
-import com.mounacheikhna.snipschallenge.ui.views.VenuesView
+import com.mounacheikhna.snipschallenge.ui.venues.VenuesView
 
 public interface FoursquareGraph {
-
     fun inject(application: FoursquareApp)
-    fun inject(mainActivity: MainActivity)
-    fun inject(venuesView: VenuesView)
-
+    fun inject(venuesView: VenuesView) //temp
 }

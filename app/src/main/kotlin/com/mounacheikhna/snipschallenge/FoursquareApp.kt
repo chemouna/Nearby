@@ -1,11 +1,9 @@
 package com.mounacheikhna.snipschallenge
 
 import android.app.Application
-import android.util.Log
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
-import rx.plugins.RxJavaPlugins
 import timber.log.Timber
 
 public open class FoursquareApp : Application() {
@@ -19,21 +17,17 @@ public open class FoursquareApp : Application() {
         AndroidThreeTen.init(this)
         LeakCanary.install(this);
 
-        ///temp
-        Timber.plant(Timber.DebugTree())
-        Stetho.initializeWithDefaults(this);
-        //
-        /*if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
             Stetho.initializeWithDefaults(this);
 
         } else {
             //TODO: add crashlytics tree ?
-        }*/
+        }
 
         appComponent = DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .build()
+            .appModule(AppModule(this))
+            .build()
         appComponent.inject(this)
     }
 

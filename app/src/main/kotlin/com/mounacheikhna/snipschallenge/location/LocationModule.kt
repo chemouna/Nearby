@@ -1,7 +1,6 @@
 package com.mounacheikhna.snipschallenge.location
 
 import android.content.Context
-import android.location.LocationManager
 import com.mounacheikhna.snipschallenge.annotation.ApplicationContext
 import dagger.Module
 import dagger.Provides

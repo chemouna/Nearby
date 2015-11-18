@@ -1,6 +1,5 @@
 package com.mounacheikhna.snipschallenge.data
 
-import android.app.Application
 import android.content.Context
 import com.mounacheikhna.snipschallenge.annotation.ApplicationContext
 import com.squareup.okhttp.OkHttpClient

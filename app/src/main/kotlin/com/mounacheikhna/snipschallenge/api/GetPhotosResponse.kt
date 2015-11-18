@@ -1,7 +1,7 @@
 package com.mounacheikhna.snipschallenge.api
 
 public data class GetPhotosResponse(
-    val meta : Meta,
+    val meta: Meta,
     val response: PhotosResponse
 )
 

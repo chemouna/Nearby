@@ -1,10 +1,11 @@
-package com.mounacheikhna.snipschallenge.ui.presenters
+package com.mounacheikhna.snipschallenge.ui.venues
 
 import android.location.Location
 import com.google.android.gms.location.LocationRequest
 import com.mounacheikhna.snipschallenge.api.FoursquareApi
 import com.mounacheikhna.snipschallenge.ui.VenueResult
-import com.mounacheikhna.snipschallenge.ui.screens.VenuesScreen
+import com.mounacheikhna.snipschallenge.ui.base.BasePresenter
+import com.mounacheikhna.snipschallenge.ui.base.ScopeSingleton
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider
 import rx.Observable
 import rx.Subscription
@@ -12,7 +13,11 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
+//@ScopeSingleton(VenuesView.VenuesComponent::class)
+@Singleton //temp
 class VenuesPresenter : BasePresenter<VenuesScreen> {
 
     lateinit var searchVenuesSubscription: Subscription
@@ -22,6 +27,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
     val foursquareApi: FoursquareApi
 
     //TODO: maybe inject it here and make it also injectable in its view ?
+    @Inject
     public constructor(foursquareApi: FoursquareApi, locationProvider: ReactiveLocationProvider) : super() {
         this.foursquareApi = foursquareApi
         this.locationProvider = locationProvider
@@ -43,7 +49,9 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
     }
 
     /**
-     * Fetches venues near a {@link Location} then for each id fetches the {@link Venue}
+     * Fetches venues near a {@link Location} then for each id fetches the {@link (
+    com.mounacheikhna.snipschallenge.api.Venue)
+    }
      * to get its ratings and photos then displays them.
      *
      * @param location to fetch venues near it.
@@ -68,7 +76,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { venueResult -> view?.onVenueFetchSuccess(venueResult) },
-                { error -> view?.onVenueFetchError()/*displayError()*/ },
+                { error -> view?.onVenueFetchError() },
                 { Timber.d(" completed! ") }
             )
 

@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.ViewAnimator
 
-class BetterViewAnimator(context: Context, attrs: AttributeSet): ViewAnimator(context, attrs) {
+class BetterViewAnimator(context: Context, attrs: AttributeSet) : ViewAnimator(context, attrs) {
 
     fun setDisplayedChildId(id: Int) {
         if (getDisplayedChildId() == id) {

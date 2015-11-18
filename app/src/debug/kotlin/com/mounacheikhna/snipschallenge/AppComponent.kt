@@ -10,5 +10,5 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(AppModule::class, CoreApiModule::class, DebugApiModule::class,
     LocationModule::class, DataModule::class))
-public interface AppComponent: FoursquareGraph {
+public interface AppComponent: FoursquareGraph, BaseComponent {
 }

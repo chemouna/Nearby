@@ -1,7 +1,5 @@
 package com.mounacheikhna.snipschallenge.api
 
-import java.net.Inet4Address
-
 public data class Venue
 (
     val id: String,
@@ -14,10 +12,9 @@ public data class Venue
     val verified: Boolean,
     /*val stats:Stats,*/
     //var ratingAvailability:RatingLoadingStatus = RatingLoadingStatus.NOT_LOADED,
-    val rating:Double?,
+    val rating: Double?,
     val description: String
 )
-
 
 enum class RatingLoadingStatus {
     NOT_LOADED,
@@ -53,15 +50,15 @@ public data class Location
 
 public data class Category
 (
-    val id:String,
-    val name:String,
-    val pluralName:String,
-    val icon:String
+    val id: String,
+    val name: String,
+    val pluralName: String,
+    val icon: String
 )
 
 public data class Stats
 (
-    val checkinsCount:Int,
-    val usersCount:Int,
-    val tipCount:Int
+    val checkinsCount: Int,
+    val usersCount: Int,
+    val tipCount: Int
 )

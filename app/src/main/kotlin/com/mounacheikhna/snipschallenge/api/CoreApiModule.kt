@@ -1,6 +1,5 @@
 package com.mounacheikhna.snipschallenge.api
 
-import com.facebook.stetho.okhttp.StethoInterceptor
 import com.mounacheikhna.snipschallenge.BuildConfig
 import com.mounacheikhna.snipschallenge.annotation.*
 import com.squareup.moshi.Moshi
@@ -13,7 +12,6 @@ import org.threeten.bp.Clock
 import retrofit.MoshiConverterFactory
 import retrofit.Retrofit
 import retrofit.RxJavaCallAdapterFactory
-import java.util.*
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -49,13 +47,15 @@ public class CoreApiModule {
                          @AppInterceptors interceptors: List<out Interceptor>,
                          @NetworkInterceptors networkInterceptors: List<out Interceptor>): OkHttpClient {
         var okClient = client.clone()
-        okClient.interceptors().addAll(interceptors)//TODO: may need to add it instead to network interceptors
+        okClient.interceptors().addAll(
+            interceptors)//TODO: may need to add it instead to network interceptors
         okClient.networkInterceptors().addAll(networkInterceptors)
         return okClient
     }
 
     @Provides @Singleton @AppInterceptors
-    fun provideAppInterceptors(foursquareInterceptor: FoursquareInterceptor): List<out Interceptor> {
+    fun provideAppInterceptors(
+        foursquareInterceptor: FoursquareInterceptor): List<out Interceptor> {
         return arrayListOf(foursquareInterceptor);
     }
 

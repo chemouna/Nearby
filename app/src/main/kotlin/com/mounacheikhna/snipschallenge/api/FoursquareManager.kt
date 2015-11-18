@@ -1,12 +1,5 @@
 package com.mounacheikhna.snipschallenge.api
 
-import com.mounacheikhna.snipschallenge.annotation.ClientId
-import com.mounacheikhna.snipschallenge.annotation.ClientSecret
-import com.mounacheikhna.snipschallenge.annotation.FoursquareApiVersion
-import com.mounacheikhna.snipschallenge.annotation.FoursquareType
-import rx.Observable
-import javax.inject.Inject
-
 public class FoursquareManager {
 
     //@Inject lateinit var foursquareApi: FoursquareApi
