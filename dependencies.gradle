@@ -29,44 +29,50 @@ ext {
 
   supportWearable = 'com.google.android.support:wearable:1.3.0'
 
-  dagger = 'com.google.dagger:dagger:2.0.2'
-  daggerCompiler = 'com.google.dagger:dagger-compiler:2.0.2'
+  daggerVersion = "2.0.2"
+  dagger = "com.google.dagger:dagger:$daggerVersion"
+  daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
   javaxAnnotation = 'org.glassfish:javax.annotation:10.0-b28'
 
-  retrofit = 'com.squareup.retrofit:retrofit:2.0.0-beta2'
-  converterMoshi = 'com.squareup.retrofit:converter-moshi:2.0.0-beta2'
-  adapterRxjava = 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+  retrofitVersion = "2.0.0-beta2"
+  retrofit = "com.squareup.retrofit:retrofit:$retrofitVersion"
+  converterMoshi = "com.squareup.retrofit:converter-moshi:$retrofitVersion"
+  adapterRxjava = "com.squareup.retrofit:adapter-rxjava:$retrofitVersion"
+  retrofitMock = "com.squareup.retrofit:retrofit-mock:$retrofitVersion"
+  adapterRxJavaMock = "com.squareup.retrofit:adapter-rxjava-mock:$retrofitVersion"
 
-  timber = 'com.jakewharton.timber:timber:4.1.0'
-  kotterknife = 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
+  timber = "com.jakewharton.timber:timber:4.1.0"
+  kotterknife = "com.jakewharton:kotterknife:0.1.0-SNAPSHOT"
 
-  leakcanary = 'com.squareup.leakcanary:leakcanary-android:1.4-SNAPSHOT'
-  leakcanaryNoOp = 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-SNAPSHOT'
+  leakCanaryVersion = "1.4-SNAPSHOT"
+  leakcanary = "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+  leakcanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
 
-  reactiveLocation = 'pl.charmas.android:android-reactive-location:0.8@aar'
-  rxJava = 'io.reactivex:rxjava:1.0.16'
-  rxAndroid = 'io.reactivex:rxandroid:1.0.1'
+  reactiveLocation = "pl.charmas.android:android-reactive-location:0.8@aar"
+  rxJava = "io.reactivex:rxjava:1.0.16"
+  rxAndroid = "io.reactivex:rxandroid:1.0.1"
 
-  rxJavaDebug = 'io.reactivex:rxjava-debug:1.0.3'
-  rxpermissions = 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
-  rxKotlin = 'io.reactivex:rxkotlin:0.24.100'
+  rxJavaDebug = "io.reactivex:rxjava-debug:1.0.3"
+  rxpermissions = "com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar"
+  rxKotlin = "io.reactivex:rxkotlin:0.24.100"
 
-  rxbinding = 'com.jakewharton.rxbinding:rxbinding:0.3.0'
-  rxbindingDesign = 'com.jakewharton.rxbinding:rxbinding-design:0.3.0'
+  rxbindingVersion = "0.3.0"
+  rxbinding = "com.jakewharton.rxbinding:rxbinding:$rxbindingVersion"
+  rxbindingDesign = "com.jakewharton.rxbinding:rxbinding-design:$rxbindingVersion"
 
-  stetho = 'com.facebook.stetho:stetho:1.2.0'
-  stethoOkhttp = 'com.facebook.stetho:stetho-okhttp:1.2.0'
+  stetho = "com.facebook.stetho:stetho:1.2.0"
+  stethoOkhttp = "com.facebook.stetho:stetho-okhttp:1.2.0"
   threetenabp = 'com.jakewharton.threetenabp:threetenabp:1.0.2'
 
-  picasso = 'com.squareup.picasso:picasso:2.5.2'
+  picasso = "com.squareup.picasso:picasso:2.5.2"
 
-  supportTestRunner = 'com.android.support.test:runner:0.4.1'
-  supportTestRules = 'com.android.support.test:rules:0.4.1'
-  supportTestEspresso = 'com.android.support.test.espresso:espresso-core:2.2.1'
-  supportTestEspressoContrib = 'com.android.support.test.espresso:espresso-contrib:2.2.1'
+  supportTestRunner = "com.android.support.test:runner:0.4.1"
+  supportTestRules = "com.android.support.test:rules:0.4.1"
+  supportTestEspresso = "com.android.support.test.espresso:espresso-core:2.2.1"
+  supportTestEspressoContrib = "com.android.support.test.espresso:espresso-contrib:2.2.1"
 
-  junit = 'junit:junit:4.12'
-  truth = 'com.google.truth:truth:0.27'
-  mockito = 'org.mockito:mockito-core:2.0.31-beta'
+  junit = "junit:junit:4.12"
+  truth = "com.google.truth:truth:0.27"
+  mockito = "org.mockito:mockito-core:1.9.5"
 
 }

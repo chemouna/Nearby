@@ -58,6 +58,15 @@ public class VenuesPresenterTest {
         testSubscriber.assertCompleted()
     }
 
+    //TODO: use mock web server to simulate an error and check error state displayed
+    @Test //#FBN
+    fun fetchForLocations() {
+        var mockLocation = mockLocation()
+        `when`(locationProvider.getUpdatedLocation(presenter.createLocationRequest()))
+            .thenReturn(Observable.just(mockLocation))
+
+    }
+
     private fun mockLocation(): Location {
         var mockLocation = mock(Location::class.java)
         //Paris: 48.8567° N, 2.3508° E
