@@ -3,6 +3,7 @@ package com.mounacheikhna.snipschallenge.ui.venues
 import android.Manifest
 import android.annotation.TargetApi
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
@@ -84,11 +85,10 @@ class VenuesView : LinearLayout, VenuesScreen {
         venuesList.adapter = venuesAdapter
         venuesList.layoutManager = LinearLayoutManager(context)
 
-        //val dividerPaddingStart = context.dimenRes(R.dimen.venue_divider_padding_start)
+        val dividerPaddingStart = resources.getDimension(R.dimen.venue_divider_padding_start)
         val forRtl = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && isRtl()
         venuesList.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST, 0F,
-                forRtl))
+            DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST, dividerPaddingStart, forRtl))
         checkLocationPermission()
     }
 
@@ -142,6 +142,7 @@ class VenuesView : LinearLayout, VenuesScreen {
     override fun onNewLocationUpdate() {
         var snackBar = Snackbar.make(this, R.string.info_location_changed_fetch,
             Snackbar.LENGTH_LONG)
+            .setActionTextColor(Color.WHITE)
             .setAction(R.string.cancel,
                 { /* click action is specified in dismiss subscribe method*/ })
         var snackBarSubscription = RxSnackbar.dismisses(snackBar)
@@ -150,8 +151,7 @@ class VenuesView : LinearLayout, VenuesScreen {
                 eventId ->
                 when (eventId) {
                     Snackbar.Callback.DISMISS_EVENT_ACTION -> {
-                        //presenter.cancelVenuesSearch()
-                        cancelFetchForLocation.onNext(null)
+                        cancelFetchForLocation.onNext(null) //triggers cancel on presenter
                     }
                     else -> {
                         venuesAdapter.clear()
@@ -167,11 +167,15 @@ class VenuesView : LinearLayout, VenuesScreen {
     }
 
     private fun showSnackbar(message: String) {
-        Snackbar.make(this, message, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+            .setActionTextColor(Color.WHITE)
+            .show()
     }
 
     private fun showSnackbar(@StringRes message: Int) {
-        Snackbar.make(this, message, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+            .setActionTextColor(Color.WHITE)
+            .show()
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1) private fun isRtl(): Boolean {

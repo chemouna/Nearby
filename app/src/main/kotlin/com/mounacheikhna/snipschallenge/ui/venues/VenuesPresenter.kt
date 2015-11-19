@@ -8,9 +8,7 @@ import com.mounacheikhna.snipschallenge.ui.base.BasePresenter
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
-import rx.lang.kotlin.BehaviourSubject
 import rx.schedulers.Schedulers
-import rx.subjects.PublishSubject
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,16 +35,11 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
     fun fetchVenuesForLocations(): Observable<VenueResult> {
         val updatedLocation = locationProvider.getUpdatedLocation(
             createLocationRequest()).distinctUntilChanged()
-        var locationSubscription = updatedLocation
-            .subscribe { location ->
-                view?.onNewLocationUpdate()
-            }
-        addSubscription(locationSubscription)
         return updatedLocation
-                        .flatMap { it -> startNearbyVenuesSearch(it) }
-                        .takeUntil(view?.cancelRefreshForLocation())
-
-        //return searchVenuesSubject
+            .flatMap { it ->
+                view?.onNewLocationUpdate()
+                nearbyVenuesSearch(it)
+            }
     }
 
     /**
@@ -56,8 +49,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
      * @param location to fetch venues near it.
      * @return subscription to unsubscribe from it.
      */
-    fun startNearbyVenuesSearch(location: Location): Observable<VenueResult> {
-        //var searchSubject = BehaviourSubject<VenueResult>()
+    private fun nearbyVenuesSearch(location: Location): Observable<VenueResult> {
         val searchObservable = foursquareApi.searchVenues(
             "${location.latitude}, ${location.longitude}")
             .flatMapIterable { it -> it.response.venues }
@@ -72,12 +64,9 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
             { respVenues, respPhotos ->
                 VenueResult(respVenues.response.venue, respPhotos.getMainPhotoUrl())
             })
+            .takeUntil(view?.cancelRefreshForLocation())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            //.subscribe(searchSubject)
-
-        /*addSubscription(subscription)
-        return searchSubject*/
     }
 
     /**
@@ -89,7 +78,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
     fun createLocationRequest(): LocationRequest {
         val locationRequest = LocationRequest()
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-            .setInterval(100000) //1000000
+            .setInterval(100000) // or 1000000
         return locationRequest
     }
 

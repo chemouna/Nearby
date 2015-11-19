@@ -3,5 +3,7 @@
 
     <dimen name="venue_divider_padding_start">16dp</dimen>
     <dimen name="venue_photo_radius">1dp</dimen>
+    <dimen name="detail_backdrop_height">256dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 </resources>

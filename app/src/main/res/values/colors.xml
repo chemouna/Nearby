@@ -11,5 +11,8 @@
   <color name="icons">#212121</color>
   <color name="divider">#B6B6B6</color>
 
+  <color name="scrim">#99323232</color>
+
+
 </resources>
 

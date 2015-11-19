@@ -1,15 +1,20 @@
 package com.mounacheikhna.snipschallenge.ui.venues
 
+import android.app.ActivityOptions
 import android.content.Context
+import android.content.Intent
 import android.support.percent.PercentRelativeLayout
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Pair
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import butterknife.bindView
 import com.mounacheikhna.snipschallenge.R
 import com.mounacheikhna.snipschallenge.photo.RoundedCornersTransformation
+import com.mounacheikhna.snipschallenge.ui.VenueActivity
 import com.mounacheikhna.snipschallenge.ui.VenueResult
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
@@ -46,11 +51,27 @@ class VenueItemView : PercentRelativeLayout {
         if (!TextUtils.isEmpty(item.photoUrl)) {
             picasso.load(item.photoUrl)
                 .placeholder(R.drawable.ic_city)
-                .fit()
                 .error(R.drawable.ic_city)
                 .transform(photoTransformation)
+                .fit()
                 .into(venueImage)
         }
+       /* venueImage.setOnClickListener({ view ->
+            venueImage.setTransitionName(venueImage.getResources().getString(R.string.transition_shot))
+            venueImage.setBackgroundColor(
+                ContextCompat.getColor(host, R.color.background_light))
+            val intent = Intent()
+            intent.setClass(context, VenueActivity::class.java)
+            intent.putExtra(VenueActivity.EXTRA_SHOT, shot)
+
+            //TODO: find a way to pass activity here without bearking mvp
+            val options = ActivityOptions.makeSceneTransitionAnimation(activity,
+                Pair.create<View, String>(view, host.getString(R.string.transition_shot)),
+                Pair.create<View, String>(view,
+                    resources.getString(R.string.transition_shot_background)))
+            context.startActivity(intent, options.toBundle())
+        })*/
+
         var venue = item.venue
         venueName.text = venue.name
         venueRating.text = if (venue.rating != null) "${venue.rating}" else "0"

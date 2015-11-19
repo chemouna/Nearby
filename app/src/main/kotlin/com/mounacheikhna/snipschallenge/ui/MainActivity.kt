@@ -1,11 +1,12 @@
-package com.mounacheikhna.snipschallenge
+package com.mounacheikhna.snipschallenge.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import butterknife.bindView
+import com.mounacheikhna.snipschallenge.R
 
-class MainActivity : AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
 

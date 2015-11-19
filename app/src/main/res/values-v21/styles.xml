@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.Translucent" parent="AppTheme.BaseTranslucent">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="AppTheme.Translucent.Venue">
+        <item name="android:windowSharedElementEnterTransition">@transition/venue_shared_enter</item>
+        <item name="android:windowSharedElementReturnTransition">@transition/venue_shared_return</item>
+
+        <!-- TODO: do this one later on the fab that's going to be on foursquare screen -->
+
+        <!--<item name="android:windowEnterTransition">@transition/venue_shot_enter</item>
+        <item name="android:windowReturnTransition">@transition/venue_return</item>-->
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
+    </style>
+
+
+</resources>
