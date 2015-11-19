@@ -10,7 +10,7 @@ class RoundedCornersTransformation(val radius: Int, val margin: Int) : Transform
         paint.isAntiAlias = true
         paint.setShader(BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP))
 
-        var output = Bitmap.createBitmap(source.getWidth(), source.getHeight(),
+        var output = Bitmap.createBitmap(source.width, source.height,
             Bitmap.Config.ARGB_8888)
         var canvas = Canvas(output)
         canvas.drawRoundRect(

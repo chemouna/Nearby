@@ -28,7 +28,7 @@ interface MockSearchVenues {
 
         /* val BISTRO_DE_LA_PLACE = VenueResult(
 
-             "https://irs0.4sqi.net/img/general/300x500/guKQdHYresuw1Cw-sBio20d6Eqap4zEtXZ4QKeYxHM0.jpg"
+             "https://irs0.4sqi.net/img/general/300x300/guKQdHYresuw1Cw-sBio20d6Eqap4zEtXZ4QKeYxHM0.jpg"
              )*/
 
 

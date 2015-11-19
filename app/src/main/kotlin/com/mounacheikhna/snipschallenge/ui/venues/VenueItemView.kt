@@ -18,7 +18,7 @@ class VenueItemView : PercentRelativeLayout {
 
     val venueImage: ImageView by bindView(R.id.venue_image)
     val venueName: TextView by bindView(R.id.venue_name)
-    val venueDescription: TextView by bindView(R.id.venue_description)
+    //val venueDescription: TextView by bindView(R.id.venue_description)
     val venueLocation: TextView by bindView(R.id.venue_location)
     val venueRating: TextView by bindView(R.id.venue_rating)
     val venuePrice: TextView by bindView(R.id.venue_price)
@@ -62,7 +62,7 @@ class VenueItemView : PercentRelativeLayout {
         } else {
             venueLocation.text = venue.location.formattedAddress?.joinToString(",")
         }
-        venueDescription.text = venue.description
+        //venueDescription.text = venue.description
         venueLocation.text = venue.location.address
     }
 }

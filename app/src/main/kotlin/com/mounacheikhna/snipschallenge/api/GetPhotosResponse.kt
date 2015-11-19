@@ -7,7 +7,7 @@ data class GetPhotosResponse(
     fun getMainPhotoUrl(): String {
         val photos = response?.photos?.items
         if (photos != null && photos.size > 0) {
-            return "${photos[0].prefix}300x500${photos[0].suffix}"
+            return "${photos[0].prefix}300x300${photos[0].suffix}"
         }
         return "";
     }

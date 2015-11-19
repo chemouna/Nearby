@@ -8,6 +8,7 @@ import com.mounacheikhna.snipschallenge.ui.base.BasePresenter
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
+import rx.lang.kotlin.BehaviourSubject
 import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
 import javax.inject.Inject
@@ -42,10 +43,10 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
                 view?.onNewLocationUpdate()
             }
         addSubscription(locationSubscription)
-        updatedLocation.map { it ->  searchVenuesSubject = startNearbyVenuesSearch(it) }
-                      .takeUntil(view?.cancelRefreshForLocation())
+        return updatedLocation.flatMap { it -> startNearbyVenuesSearch(it) }
+                      //.takeUntil(view?.cancelRefreshForLocation())
 
-        return searchVenuesSubject
+        //return searchVenuesSubject
     }
 
     /**
@@ -56,7 +57,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
      * @return subscription to unsubscribe from it.
      */
     fun startNearbyVenuesSearch(location: Location): Observable<VenueResult> {
-        var searchSubject = PublishSubject.create<VenueResult>()
+        //var searchSubject = BehaviourSubject<VenueResult>()
         val searchObservable = foursquareApi.searchVenues(
             "${location.latitude}, ${location.longitude}")
             .flatMapIterable { it -> it.response.venues }
@@ -67,16 +68,16 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
             foursquareApi.venuePhotos(it.id, 1)
         }
 
-        var subscription = Observable.zip(venueDetailsObservable, venuePhotosObservable,
+        return Observable.zip(venueDetailsObservable, venuePhotosObservable,
             { respVenues, respPhotos ->
                 VenueResult(respVenues.response.venue, respPhotos.getMainPhotoUrl())
             })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(searchSubject)
+            //.subscribe(searchSubject)
 
-        addSubscription(subscription)
-        return searchSubject
+        /*addSubscription(subscription)
+        return searchSubject*/
     }
 
     /**
