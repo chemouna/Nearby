@@ -21,7 +21,6 @@ import javax.inject.Singleton
 @Singleton //temp
 class VenuesPresenter : BasePresenter<VenuesScreen> {
 
-    lateinit var searchVenuesSubject: Observable<VenueResult>
     val locationProvider: ReactiveLocationProvider
     val foursquareApi: FoursquareApi
 
@@ -43,8 +42,9 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
                 view?.onNewLocationUpdate()
             }
         addSubscription(locationSubscription)
-        return updatedLocation.flatMap { it -> startNearbyVenuesSearch(it) }
-                      //.takeUntil(view?.cancelRefreshForLocation())
+        return updatedLocation
+                        .flatMap { it -> startNearbyVenuesSearch(it) }
+                        .takeUntil(view?.cancelRefreshForLocation())
 
         //return searchVenuesSubject
     }
@@ -89,7 +89,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
     fun createLocationRequest(): LocationRequest {
         val locationRequest = LocationRequest()
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-            .setInterval(1000000)
+            .setInterval(100000) //1000000
         return locationRequest
     }
 

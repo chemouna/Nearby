@@ -18,7 +18,6 @@ class VenueItemView : PercentRelativeLayout {
 
     val venueImage: ImageView by bindView(R.id.venue_image)
     val venueName: TextView by bindView(R.id.venue_name)
-    //val venueDescription: TextView by bindView(R.id.venue_description)
     val venueLocation: TextView by bindView(R.id.venue_location)
     val venueRating: TextView by bindView(R.id.venue_rating)
     val venuePrice: TextView by bindView(R.id.venue_price)
@@ -55,14 +54,19 @@ class VenueItemView : PercentRelativeLayout {
         var venue = item.venue
         venueName.text = venue.name
         venueRating.text = if (venue.rating != null) "${venue.rating}" else "0"
-        //venuePrice.setText(venue.price)
 
-        if (venue.location.formattedAddress == null) {
+        if (venue.price == null || venue.price?.tier == null) {
+            venuePrice.visibility = View.GONE
+        }
+        else {
+            venuePrice.text =  venue.price?.tier.toString()
+        }
+
+        if (venue.location.formattedAddress == null ) {
             venueLocation.visibility = View.GONE
         } else {
             venueLocation.text = venue.location.formattedAddress?.joinToString(",")
         }
-        //venueDescription.text = venue.description
         venueLocation.text = venue.location.address
     }
 }

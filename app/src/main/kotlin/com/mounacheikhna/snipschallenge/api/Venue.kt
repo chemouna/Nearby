@@ -10,7 +10,8 @@ data class Venue
     val hours: Hours?,
     val verified: Boolean,
     val rating: Double?,
-    val description: String
+    val description: String,
+    val price: Price?
 )
 
 data class Contact(
@@ -37,17 +38,7 @@ data class VenueLocation
     var formattedAddress: Array<String>?
 )
 
-data class Category
-(
-    val id: String,
-    val name: String,
-    val pluralName: String,
-    val icon: String
-)
-
-data class Stats
-(
-    val checkinsCount: Int,
-    val usersCount: Int,
-    val tipCount: Int
+data class Price(
+    val tier: Int,
+    val message: String
 )
