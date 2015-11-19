@@ -2,15 +2,17 @@ package com.mounacheikhna.snipschallenge.ui.venues
 
 import android.content.Context
 import android.support.percent.PercentRelativeLayout
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import butterknife.bindView
 import com.mounacheikhna.snipschallenge.R
+import com.mounacheikhna.snipschallenge.photo.RoundedCornersTransformation
 import com.mounacheikhna.snipschallenge.ui.VenueResult
 import com.squareup.picasso.Picasso
-import timber.log.Timber
+import com.squareup.picasso.Transformation
 
 class VenueItemView : PercentRelativeLayout {
 
@@ -21,33 +23,33 @@ class VenueItemView : PercentRelativeLayout {
     val venueRating: TextView by bindView(R.id.venue_rating)
     val venuePrice: TextView by bindView(R.id.venue_price)
 
+    lateinit var photoTransformation: Transformation
+
     public constructor(context: Context) : super(context) {
-        init(context);
+        init()
     }
 
     public constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init(context);
+        init()
     }
 
     public constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context,
         attrs, defStyleAttr) {
-        init(context);
+        init()
     }
 
-    private fun init(context: Context) {
-        //orientation = VERTICAL
+    private fun init() {
+        var corner = resources.getDimensionPixelSize(R.dimen.venue_photo_radius);
+        photoTransformation = RoundedCornersTransformation(corner, 0)
     }
 
     fun bindTo(item: VenueResult, picasso: Picasso) {
-        val photos = item.getAllPhotos()
-        if (photos != null && photos.size > 0) {
-            val url = "${photos[0].prefix}300x500${photos[0].suffix}"
-            Timber.d(" TEST - load url for img : " + url)
-            picasso.load(url)
+        if (!TextUtils.isEmpty(item.photoUrl)) {
+            picasso.load(item.photoUrl)
                 .placeholder(R.drawable.ic_city)
                 .fit()
                 .error(R.drawable.ic_city)
-                //.transform(avatarTransformation)
+                .transform(photoTransformation)
                 .into(venueImage)
         }
         var venue = item.venue

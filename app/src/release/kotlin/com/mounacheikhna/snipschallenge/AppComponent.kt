@@ -8,6 +8,6 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(AppModule::class, CoreApiModule::class, ReleaseApiModule::class,
-    LocationModule::class, DataModule::class))
+    LocationModule::class))
 public interface AppComponent: FoursquareGraph {
 }

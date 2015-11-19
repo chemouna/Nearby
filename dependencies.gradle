@@ -13,7 +13,7 @@ ext {
   kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
   kotlinAndroidSdkAnnotations = "org.jetbrains.kotlin:kotlin-android-sdk-annotations:$kotlinVersion"
-  kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
+  //kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
 
   supportVersion = '23.1.1'
   supportAnnotations = "com.android.support:support-annotations:$supportVersion"

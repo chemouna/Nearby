@@ -1,40 +1,29 @@
 package com.mounacheikhna.snipschallenge.api
 
-public data class Venue
+data class Venue
 (
     val id: String,
     val name: String,
-    var contact: Contact,
-    val location: Location,
-    val canonicalUrl: String,
-    val hours: Hours,
-    //val categories:List<Category>,
+    var contact: Contact?,
+    val location: VenueLocation,
+    val canonicalUrl: String?,
+    val hours: Hours?,
     val verified: Boolean,
-    /*val stats:Stats,*/
-    //var ratingAvailability:RatingLoadingStatus = RatingLoadingStatus.NOT_LOADED,
     val rating: Double?,
     val description: String
 )
 
-enum class RatingLoadingStatus {
-    NOT_LOADED,
-    LOADING,
-    AVAILABLE,
-    NOT_AVAILABLE,
-    ERROR
-}
-
-public data class Contact(
+data class Contact(
     val phone: String,
     val formattedPhone: String
 )
 
-public data class Hours(
+data class Hours(
     val status: String,
     val isOpen: Boolean
 )
 
-public data class Location
+data class VenueLocation
 (
     val lat: Double? = null,
     val lng: Double? = null,
@@ -48,7 +37,7 @@ public data class Location
     var formattedAddress: Array<String>?
 )
 
-public data class Category
+data class Category
 (
     val id: String,
     val name: String,
@@ -56,7 +45,7 @@ public data class Category
     val icon: String
 )
 
-public data class Stats
+data class Stats
 (
     val checkinsCount: Int,
     val usersCount: Int,

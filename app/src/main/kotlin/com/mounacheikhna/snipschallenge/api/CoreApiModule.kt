@@ -1,5 +1,6 @@
 package com.mounacheikhna.snipschallenge.api
 
+import android.app.Application
 import android.content.Context
 import com.mounacheikhna.snipschallenge.BuildConfig
 import com.mounacheikhna.snipschallenge.annotation.*
@@ -88,10 +89,11 @@ public class CoreApiModule {
     fun provideClock(): Clock = Clock.systemDefaultZone()
 
     @Provides @Singleton
-    fun providePicasso(@ApplicationContext context: Context, okHttpClient: OkHttpClient): Picasso {
+    fun providePicasso(@ApplicationContext context: Context, client: OkHttpClient): Picasso {
         return Picasso.Builder(context).downloader(
-            OkHttpDownloader(okHttpClient)).listener { picasso, uri, e ->
-            Timber.e(e, "Failed to load image with url : %s", uri)
+            OkHttpDownloader(client)).listener { picasso, uri, e ->
+            Timber.e(e, "Failed to load image: %s", uri)
         }.build()
     }
+
 }

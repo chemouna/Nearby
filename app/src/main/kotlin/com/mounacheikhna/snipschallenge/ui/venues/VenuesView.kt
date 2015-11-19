@@ -20,6 +20,8 @@ import com.mounacheikhna.snipschallenge.ui.BetterViewAnimator
 import com.mounacheikhna.snipschallenge.ui.DividerItemDecoration
 import com.squareup.picasso.Picasso
 import com.tbruyelle.rxpermissions.RxPermissions
+import rx.Observable
+import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 class VenuesView : LinearLayout, VenuesScreen {
@@ -33,6 +35,12 @@ class VenuesView : LinearLayout, VenuesScreen {
 
     @Module
     class VenuesModule {}*/
+
+    /**
+     *  A {@link PublishSubject} to let subscribers know that the user wants to cancel
+     *  the current fetch for location
+     */
+    private var cancelFetchForLocation: PublishSubject<Void> = PublishSubject.create()
 
     val venuesList: RecyclerView by bindView(R.id.venues_list)
     val venuesAnimator: BetterViewAnimator by bindView(R.id.venues_animator)
@@ -76,8 +84,7 @@ class VenuesView : LinearLayout, VenuesScreen {
         venuesList.adapter = venuesAdapter
         venuesList.layoutManager = LinearLayoutManager(context)
 
-        /*val dividerPaddingStart = context.resources.getDimension(
-            R.dimen.venue_divider_padding_start)*/
+        //val dividerPaddingStart = context.dimenRes(R.dimen.venue_divider_padding_start)
         val forRtl = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && isRtl()
         venuesList.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST, 0F,
@@ -143,7 +150,8 @@ class VenuesView : LinearLayout, VenuesScreen {
                 eventId ->
                 when (eventId) {
                     Snackbar.Callback.DISMISS_EVENT_ACTION -> {
-                        presenter.cancelVenuesSearch()
+                        //presenter.cancelVenuesSearch()
+                        cancelFetchForLocation.onNext(null)
                     }
                     else -> {
                         venuesAdapter.clear()
@@ -152,6 +160,10 @@ class VenuesView : LinearLayout, VenuesScreen {
             }
         presenter.addSubscription(snackBarSubscription)
         snackBar.show();
+    }
+
+    override fun cancelRefreshForLocation(): Observable<Void> {
+        return cancelFetchForLocation
     }
 
     private fun showSnackbar(message: String) {

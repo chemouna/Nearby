@@ -8,6 +8,6 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(AppModule::class, CoreApiModule::class, DebugApiModule::class,
-    LocationModule::class   ))
+    LocationModule::class))
 interface AppComponent: AppGraph, AppDependencies {
 }

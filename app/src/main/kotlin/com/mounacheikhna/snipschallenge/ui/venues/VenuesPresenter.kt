@@ -20,7 +20,7 @@ import javax.inject.Singleton
 @Singleton //temp
 class VenuesPresenter : BasePresenter<VenuesScreen> {
 
-    lateinit var searchVenuesSubject: PublishSubject<VenueResult>
+    lateinit var searchVenuesSubject: Observable<VenueResult>
     val locationProvider: ReactiveLocationProvider
     val foursquareApi: FoursquareApi
 
@@ -34,16 +34,17 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
      * Fetch nearby venues each time a location change but gives the user a message saying it will
      * fetch so that if they don't want to they can cancel it.
      */
-    fun fetchVenuesForLocations(): PublishSubject<VenueResult> {
+    fun fetchVenuesForLocations(): Observable<VenueResult> {
         val updatedLocation = locationProvider.getUpdatedLocation(
             createLocationRequest()).distinctUntilChanged()
         var locationSubscription = updatedLocation
             .subscribe { location ->
                 view?.onNewLocationUpdate()
-                searchVenuesSubject = startNearbyVenuesSearch(location)
             }
-        //updatedLocation.map { location ->  startNearbyVenuesSearch(location)}.takeUntil(view.cancel)
         addSubscription(locationSubscription)
+        updatedLocation.map { it ->  searchVenuesSubject = startNearbyVenuesSearch(it) }
+                      .takeUntil(view?.cancelRefreshForLocation())
+
         return searchVenuesSubject
     }
 
@@ -54,7 +55,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
      * @param location to fetch venues near it.
      * @return subscription to unsubscribe from it.
      */
-    fun startNearbyVenuesSearch(location: Location): PublishSubject<VenueResult> {
+    fun startNearbyVenuesSearch(location: Location): Observable<VenueResult> {
         var searchSubject = PublishSubject.create<VenueResult>()
         val searchObservable = foursquareApi.searchVenues(
             "${location.latitude}, ${location.longitude}")
@@ -68,7 +69,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
 
         var subscription = Observable.zip(venueDetailsObservable, venuePhotosObservable,
             { respVenues, respPhotos ->
-                VenueResult(respVenues.response.venue, respPhotos)
+                VenueResult(respVenues.response.venue, respPhotos.getMainPhotoUrl())
             })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -76,11 +77,6 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
 
         addSubscription(subscription)
         return searchSubject
-    }
-
-    fun cancelVenuesSearch() {
-        //searchVenuesSubject.unsubscribe()
-        //TODO : maybe takeUntil
     }
 
     /**

@@ -52,10 +52,10 @@ public class VenuesPresenterTest {
             .thenReturn(Observable.empty())
 
         presenter.bind(venuesScreen)
-        var subject = presenter.fetchVenuesForLocations()
+        var observable = presenter.fetchVenuesForLocations()
 
         val testSubscriber = TestSubscriber<VenueResult>()
-        subject.subscribe(testSubscriber)
+        observable.subscribe(testSubscriber)
         testSubscriber.assertNoErrors()
         testSubscriber.assertNoValues()
         testSubscriber.assertCompleted()
@@ -69,12 +69,13 @@ public class VenuesPresenterTest {
             .thenReturn(Observable.just(mockLocation))
 
         val behavior = NetworkBehavior.create()
+        behavior.setVariancePercent(0)
         behavior.setFailurePercent(100)
         //behavior.setFailureException() //TODO: add another test with this as a network exception
         //and make sure view does displays to the user a network not existant error
 
         var mockRetrofit = MockRetrofit(behavior, RxJavaBehaviorAdapter.create());
-        //mockRetrofit.create(FoursquareApi::class.java, mockService);
+        //mockRetrofit.create(FoursquareApi::class.java, MockFoursquareApi());
     }
 
     @Test
