@@ -1,23 +1,26 @@
 package com.mounacheikhna.snipschallenge.ui
 
+import android.animation.ValueAnimator
 import android.app.SharedElementCallback
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.ColorUtils
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.Toolbar
+import android.support.v7.widget.ViewUtils
 import android.text.TextUtils
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import butterknife.bindView
 import com.mounacheikhna.snipschallenge.FoursquareApp
 import com.mounacheikhna.snipschallenge.R
-import com.mounacheikhna.snipschallenge.util.ColorUtil
+import com.mounacheikhna.snipschallenge.util.Colors
 import com.squareup.picasso.Callback.EmptyCallback
 import com.squareup.picasso.Picasso
 import timber.log.Timber
@@ -30,6 +33,7 @@ public class VenueActivity : AppCompatActivity() {
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val mainImage: ImageView by bindView(R.id.main_image)
     val collapsingTitle: CollapsingToolbarLayout by bindView(R.id.collapsing_toolbar)
+    private val SCRIM_ADJUSTMENT = 0.075f
 
     @Inject lateinit var picasso: Picasso
 
@@ -70,15 +74,15 @@ public class VenueActivity : AppCompatActivity() {
                 .clearFilters()
                 .generate { palette ->
                     val isDark: Boolean
-                    val lightness = ColorUtil.isDark(palette)
-                    if (lightness == ColorUtil.LIGHTNESS_UNKNOWN) {
-                        isDark = ColorUtil.isDark(bitmap, bitmap.width / 2, 0)
+                    val lightness = Colors.isDark(palette)
+                    if (lightness == Colors.LIGHTNESS_UNKNOWN) {
+                        isDark = Colors.isDark(bitmap, bitmap.width / 2, 0)
                     } else {
-                        isDark = lightness == ColorUtil.IS_DARK
+                        isDark = lightness == Colors.IS_DARK
                     }
 
                     if (!isDark) {
-                        // darken toolbar's back image on images that have a light color
+                        // darken toolbar back image on images that have a light color
                         var  colorFilter = PorterDuffColorFilter(R.color.primary_dark_icon, PorterDuff.Mode.MULTIPLY);
                         var upArrow = ContextCompat.getDrawable(baseContext, R.drawable.abc_ic_ab_back_mtrl_am_alpha);
                         upArrow.colorFilter = colorFilter;
@@ -86,7 +90,38 @@ public class VenueActivity : AppCompatActivity() {
                     }
 
 
+                    // color the status bar. Set a complementary dark color on L,
+                    // light or dark color on M (with matching status bar icons)
+                    var statusBarColor = window.statusBarColor
+                    val topColor = Colors.getMostPopulousSwatch(palette)
+                    if (topColor != null && (isDark || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
+                        statusBarColor = Colors.scrimify(topColor!!.getRgb(),
+                            isDark, SCRIM_ADJUSTMENT)
+                        // set a light status bar on M+
+                        if (!isDark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            setLightStatusBar(mainImage)
+                        }
+                    }
+
+                    if (statusBarColor != window.statusBarColor) {
+                        //mainImage.setScrimColor(statusBarColor)
+                        val statusBarColorAnim = ValueAnimator.ofArgb(window.statusBarColor,
+                            statusBarColor)
+                        statusBarColorAnim.addUpdateListener { animation -> window.statusBarColor = animation.animatedValue as Int }
+                        statusBarColorAnim.setDuration(1000)
+                        statusBarColorAnim.interpolator = AnimationUtils.loadInterpolator(baseContext, android.R.interpolator.fast_out_slow_in)
+                        statusBarColorAnim.start()
+                    }
+
                 }
+        }
+    }
+
+    fun setLightStatusBar(view: View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            var flags = view.systemUiVisibility
+            flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            view.systemUiVisibility = flags
         }
     }
 
