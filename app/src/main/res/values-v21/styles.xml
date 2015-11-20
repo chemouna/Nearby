@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme.Translucent" parent="AppTheme.BaseTranslucent">
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    </style>
-
     <style name="AppTheme.Translucent.Venue">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowSharedElementEnterTransition">@transition/venue_shared_enter</item>
         <item name="android:windowSharedElementReturnTransition">@transition/venue_shared_return</item>
 

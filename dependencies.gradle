@@ -22,6 +22,7 @@ ext {
   supportAppCompat = "com.android.support:appcompat-v7:$supportVersion"
   supportDesign = "com.android.support:design:$supportVersion"
   supportPercent = "com.android.support:percent:$supportVersion"
+  supportPalette = "com.android.support:palette-v7:$supportVersion"
 
   playServicesVersion = '8.3.0'
   playServicesLocation = "com.google.android.gms:play-services-location:$playServicesVersion"

@@ -64,6 +64,7 @@ dependencies {
   compile rootProject.ext.supportRecyclerView
   compile rootProject.ext.supportDesign
   compile rootProject.ext.supportPercent
+  compile rootProject.ext.supportPalette
 
   compile rootProject.ext.retrofit
   compile rootProject.ext.converterMoshi

@@ -1,17 +1,22 @@
 <resources>
     <string name="app_name">Nearby</string>
+
+    <!-- main venues screen -->
     <string name="nearby_venues_title">Nearby Venues</string>
     <string name="loading_message">Loading…</string>
     <string name="error_title">Error while fetching venues</string>
     <string name="error_message">Error</string>
     <string name="empty_title">No venues.</string>
     <string name="empty_message">No venues.</string>
-
     <string name="error_permission_not_granted">The app needs location permission to fetch venues.
     </string>
-
     <string name="info_location_changed_fetch">"You have moved, Fetching places near you."</string>
     <string name="cancel">Cancel</string>
     <string name="venue_image_desc">Venue\'s image</string>
+
+    <!-- transition shared elements -->
+    <string name="transition_venue" translatable="false">venue</string>
+    <string name="transition_venue_background" translatable="false">venue_background</string>
+
 
 </resources>

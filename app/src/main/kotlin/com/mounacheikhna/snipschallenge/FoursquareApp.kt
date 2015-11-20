@@ -6,7 +6,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import timber.log.Timber
 
-public open class FoursquareApp : Application() {
+public open class FoursquareApp: Application() {
 
     companion object {
         lateinit public var appComponent: AppComponent

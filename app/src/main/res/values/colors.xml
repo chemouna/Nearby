@@ -13,6 +13,8 @@
 
   <color name="scrim">#99323232</color>
 
+  <color name="background_light">#fafafa</color>
+
 
 </resources>
 

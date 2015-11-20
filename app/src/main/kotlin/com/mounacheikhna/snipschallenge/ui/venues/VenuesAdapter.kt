@@ -11,7 +11,6 @@ import java.util.*
 
 class VenuesAdapter(picasso: Picasso) : RecyclerView.Adapter<VenuesAdapter.VenueViewHolder>(), Action1<VenueResult> {
 
-    //TODO: maybe implement Action 1 and pass adapter to call method
     var venues: MutableList<VenueResult> = ArrayList()
     var picasso: Picasso
 
