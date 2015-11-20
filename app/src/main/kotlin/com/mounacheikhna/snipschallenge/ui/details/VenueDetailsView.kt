@@ -160,8 +160,8 @@ public class VenueDetailsView : LinearLayout {
                     } else {
                         isDark = lightness == Colors.IS_DARK
                     }
-                    applyToBackButton(isDark)
                     applyToStatusBar(isDark, palette)
+                    applyToBackButton(isDark)
                     applyToToolbar(palette)
                 }
 
@@ -171,6 +171,8 @@ public class VenueDetailsView : LinearLayout {
                     mainImage.foreground = createRipple(palette, 0.3f, 0.6f,
                         ContextCompat.getColor(context, R.color.medium_grey), true)
                 }
+
+            mainImage.background = null
         }
 
         private fun applyToToolbar(palette: Palette) {
@@ -209,9 +211,8 @@ public class VenueDetailsView : LinearLayout {
             }
 
             if (statusBarColor != window.statusBarColor) {
-                val statusBarColorAnim = ValueAnimator.ofArgb(window.statusBarColor,
-                    statusBarColor)
-                statusBarColorAnim.addUpdateListener { animation -> statusBarColor = animation.animatedValue as Int }
+                val statusBarColorAnim = ValueAnimator.ofArgb(window.statusBarColor, statusBarColor)
+                statusBarColorAnim.addUpdateListener { animation -> window.statusBarColor = animation.animatedValue as Int }
                 statusBarColorAnim.setDuration(1000)
                 statusBarColorAnim.interpolator = AnimationUtils.loadInterpolator(
                     context, android.R.interpolator.fast_out_slow_in)
@@ -229,7 +230,6 @@ public class VenueDetailsView : LinearLayout {
                      @ColorInt fallbackColor: Int,
                      bounded: Boolean): RippleDrawable {
         var rippleColor = fallbackColor
-        // try the named swatches in preference order
         if (palette.vibrantSwatch != null) {
             rippleColor = Colors.modifyAlpha(palette.vibrantSwatch!!.rgb, darkAlpha)
         } else if (palette.lightVibrantSwatch != null) {
