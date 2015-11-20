@@ -1,13 +1,11 @@
 package com.mounacheikhna.snipschallenge.ui
 
 import android.app.SharedElementCallback
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Matrix
-import android.graphics.RectF
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.ColorUtils
 import android.support.v7.app.AppCompatActivity
@@ -19,18 +17,19 @@ import android.widget.ImageView
 import butterknife.bindView
 import com.mounacheikhna.snipschallenge.FoursquareApp
 import com.mounacheikhna.snipschallenge.R
-
+import com.mounacheikhna.snipschallenge.util.ColorUtil
 import com.squareup.picasso.Callback.EmptyCallback
 import com.squareup.picasso.Picasso
 import timber.log.Timber
+import javax.annotation.Resource
 import javax.inject.Inject
 
 
 public class VenueActivity : AppCompatActivity() {
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
-
     val mainImage: ImageView by bindView(R.id.main_image)
+    val collapsingTitle: CollapsingToolbarLayout by bindView(R.id.collapsing_toolbar)
 
     @Inject lateinit var picasso: Picasso
 
@@ -41,25 +40,27 @@ public class VenueActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.venue_activity)
+        delegate.setSupportActionBar(toolbar)
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
+        supportActionBar.setDisplayShowHomeEnabled(true);
 
         FoursquareApp.appComponent.inject(this)
-        setupToolbar()
         setExitSharedElementCallback(fabSharedElementCallback)
 
-        var venueResult = intent.getParcelableExtra<VenueResult>(EXTRA_VENUE)
+        var venueResult: VenueResult? = intent.getParcelableExtra<VenueResult>(EXTRA_VENUE) ?: return
+        collapsingTitle.title = venueResult!!.venue.name
 
         //TODO: this in activity -> maybe put it in a view with a presenter
-        Timber.d(" TEST url : "+ venueResult.photoUrl)
-        if (!TextUtils.isEmpty(venueResult.photoUrl)) {
-            picasso.load(venueResult.photoUrl)
-                //.placeholder(R.drawable.ic_city)
-                //.error(R.drawable.ic_city)
-                .into(mainImage/*, PaletteCallback()*/)
+        Timber.d(" TEST url : "+ venueResult.bestPhotoUrl)
+        if (!TextUtils.isEmpty(venueResult.bestPhotoUrl)) {
+            picasso.load(venueResult.bestPhotoUrl)
+                .into(mainImage, PaletteCallback())
         }
+
 
     }
 
-    /*inner class PaletteCallback : EmptyCallback() {
+    inner class PaletteCallback : EmptyCallback() {
         override fun onSuccess() {
             super.onSuccess()
             var bitmap = (mainImage.drawable as BitmapDrawable).bitmap;
@@ -69,26 +70,25 @@ public class VenueActivity : AppCompatActivity() {
                 .clearFilters()
                 .generate { palette ->
                     val isDark: Boolean
-                    val lightness = isDark(palette)
-                    if (lightness == LIGHTNESS_UNKNOWN) {
-                        isDark = isDark(bitmap, bitmap.width / 2, 0)
+                    val lightness = ColorUtil.isDark(palette)
+                    if (lightness == ColorUtil.LIGHTNESS_UNKNOWN) {
+                        isDark = ColorUtil.isDark(bitmap, bitmap.width / 2, 0)
                     } else {
-                        isDark = lightness == IS_DARK
+                        isDark = lightness == ColorUtil.IS_DARK
                     }
 
                     if (!isDark) {
-                        // make back icon dark on light images
-                        *//*toolbar.setColorFilter(ContextCompat.getColor(
-                            this@DribbbleShot, R.color.dark_icon))*//*
+                        // darken toolbar's back image on images that have a light color
+                        var  colorFilter = PorterDuffColorFilter(R.color.primary_dark_icon, PorterDuff.Mode.MULTIPLY);
+                        var upArrow = ContextCompat.getDrawable(baseContext, R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+                        upArrow.colorFilter = colorFilter;
+                        supportActionBar.setHomeAsUpIndicator(upArrow);
                     }
+
+
                 }
         }
-    }*/
-
-    private fun setupToolbar() {
-         delegate.setSupportActionBar(toolbar)
-         setTitle(R.string.app_name)
-     }
+    }
 
     private val fabSharedElementCallback = object : SharedElementCallback() {
         override fun onCaptureSharedElementSnapshot(sharedElement: View,
@@ -110,8 +110,6 @@ public class VenueActivity : AppCompatActivity() {
 
 /*
     TODO:
-     - fix image display
-     - display fab with right icon
      - fix animation with shared elt on both enter/exit
      - add back btn to toolbar
      - add some content in the rest of screen

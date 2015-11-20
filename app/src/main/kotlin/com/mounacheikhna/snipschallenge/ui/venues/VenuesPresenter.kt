@@ -62,7 +62,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
 
         return Observable.zip(venueDetailsObservable, venuePhotosObservable,
             { respVenues, respPhotos ->
-                VenueResult(respPhotos.getMainPhotoUrl(), respVenues.response.venue)
+                VenueResult(respPhotos.getMainPhotoUrl(), respPhotos.getBestQualityPhotoUrl(), respVenues.response.venue)
             })
             .takeUntil(view?.cancelRefreshForLocation())
             .subscribeOn(Schedulers.io())

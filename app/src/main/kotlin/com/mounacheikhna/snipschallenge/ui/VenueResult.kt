@@ -6,11 +6,12 @@ import com.mounacheikhna.snipschallenge.api.Venue
 
 public data class VenueResult(
     val photoUrl: String?,
+    val bestPhotoUrl: String?,//for a better quality
     val venue: Venue
-    //val bestPhotoUrl: String? //for a better quality
 ) : Parcelable { //VenueResult needs to be parcelable to be passed in intent to VenueActivity
 
     constructor(source: Parcel) : this(
+        source.readString(),
         source.readString(),
         source.readParcelable<Venue>(Venue::class.java.classLoader))
 
@@ -18,6 +19,7 @@ public data class VenueResult(
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeString(photoUrl)
+        dest?.writeString(bestPhotoUrl)
         dest?.writeParcelable(venue, flags)
     }
 
