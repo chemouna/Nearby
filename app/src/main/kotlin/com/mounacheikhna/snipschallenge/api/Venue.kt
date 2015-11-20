@@ -17,16 +17,21 @@ public class Venue: Parcelable { //Venue needs to be parcelable to be passed (wi
     var description: String?
     var price: Price?
 
-   /* constructor(id: Int, name: String, contact: Contact?, location: VenueLocation,
-                canonicalUrl: String?,
-                hours: Hours?,
-                verified: Boolean,
-                rating: Double?,
-                description: String?,
-                price: Price?
-    ) {
+    constructor(id: String, name: String, contact: Contact?, location: VenueLocation,
+                canonicalUrl: String?, hours: Hours?, verified: Boolean, rating: Double?,
+                description: String?, price: Price?) {
+        this.id = id;
+        this.name = name;
+        this.contact = contact;
+        this.location = location;
+        this.canonicalUrl = canonicalUrl;
 
-    }*/
+        this.hours = hours;
+        this.verified = verified;
+        this.rating = rating;
+        this.description = description;
+        this.price = price;
+    }
 
     constructor(source: Parcel) {
         id = source.readString()

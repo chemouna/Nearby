@@ -1,6 +1,5 @@
 package com.mounacheikhna.snipschallenge
 
-import com.mounacheikhna.snipschallenge.ui.VenueDetailsActivity2
 import com.mounacheikhna.snipschallenge.ui.details.VenueDetailsView
 import com.mounacheikhna.snipschallenge.ui.venues.VenuesView
 

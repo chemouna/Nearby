@@ -8,27 +8,19 @@ import rx.Observable
 import java.io.IOException
 
 
-class MockFoursquareApi { /*(private val mMoshi: Moshi) : FoursquareApi {
+class MockFoursquareApi() : FoursquareApi {
 
     @Throws(IOException::class)
-    override fun searchVenues(location: String): SearchVenuesResponse {
-        if (MockSearchVenues.PLACE_NAME.equals(location, true)) {
-            return MockSearchVenues.SEARCH_RESPONSE)
-        }
-
-        return SearchVenuesResponse(true,
-            mMoshi.(ResourceReader(SEARCH_VENUES_FILE_NAME), Venues::class.java))
+    override fun searchVenues(location: String): Observable<SearchVenuesResponse> {
+        return Observable.just(MockFoursquareResponses.SEARCH_RESPONSE)
     }
 
-    override fun venueDetails(@Path("venue_id") venueId: String): Observable<VenueDetailsResponse> {
-        return null
+    override fun venueDetails(venueId: String): Observable<VenueDetailsResponse> {
+        return Observable.just(MockFoursquareResponses.VENUE_DETAIL_RESPONSE)
     }
 
-    override fun venuePhotos(@Path("venue_id") venueId: String,
-                             @Query("limit") limit: Int): Observable<GetPhotosResponse> {
-        return null
+    override fun venuePhotos(venueId: String, limit: Int): Observable<GetPhotosResponse> {
+        return Observable.just(MockFoursquareResponses.VENUE_PHOTOS_RESPONSE)
     }
-}
-*/
 
 }

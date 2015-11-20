@@ -3,6 +3,7 @@ package com.mounacheikhna.snipschallenge.ui.venues
 import android.location.Location
 import android.support.test.runner.AndroidJUnit4
 import com.mounacheikhna.snipschallenge.api.FoursquareApi
+import com.mounacheikhna.snipschallenge.mock.MockFoursquareApi
 import com.mounacheikhna.snipschallenge.ui.VenueResult
 import org.junit.Before
 import org.junit.Rule
@@ -61,7 +62,7 @@ public class VenuesPresenterTest {
         testSubscriber.assertCompleted()
     }
 
-    //TODO: use mock web server to simulate an error and check error state displayed
+    //use mock web server to simulate an error and check that error state used
     @Test //#FBN
     fun fetchForLocationWithErrorResultsEmitsErrorToScreen() {
         var mockLocation = mockLocation()
@@ -72,26 +73,38 @@ public class VenuesPresenterTest {
         behavior.setVariancePercent(0)
         behavior.setFailurePercent(100)
         var mockRetrofit = MockRetrofit(behavior, RxJavaBehaviorAdapter.create());
-        //mockRetrofit.create(FoursquareApi::class.java, MockFoursquareApi());
+        var mockApi = mockRetrofit.create(FoursquareApi::class.java, MockFoursquareApi())
+
+        presenter = VenuesPresenter(mockApi, locationProvider)
+        var observable = presenter.fetchVenuesForLocations()
+
+        val testSubscriber = TestSubscriber<VenueResult>()
+        observable.subscribe(testSubscriber)
+        //testSubscriber.assertError()
+        testSubscriber.assertNoValues()
     }
 
-    @Test
-    fun fetchForLocationWithNoNetworkEmitsNetworkError() {
-        //TODO
-    }
 
     @Test
     fun fetchForLocationWithResultsEmitsThemToScreen() {
+        var mockLocation = mockLocation()
+        `when`(locationProvider.getUpdatedLocation(presenter.createLocationRequest()))
+            .thenReturn(Observable.just(mockLocation))
 
-    }
-    /*private fun mockFoursquareApi(): FoursquareApi {
         val behavior = NetworkBehavior.create()
-        behavior.setDelay(100, TimeUnit.MILLISECONDS)
-        behavior.setFailurePercent(100)
-        behavior.setVariancePercent(networkVariancePercent.get())
+        behavior.setVariancePercent(0)
+        behavior.setFailurePercent(0)
+        var mockRetrofit = MockRetrofit(behavior, RxJavaBehaviorAdapter.create());
+        var mockApi = mockRetrofit.create(FoursquareApi::class.java, MockFoursquareApi())
 
-        MockRetrofit(behavior, RxJavaBehaviorAdapter.create());
-    }*/
+        presenter = VenuesPresenter(mockApi, locationProvider)
+        var observable = presenter.fetchVenuesForLocations()
+
+        val testSubscriber = TestSubscriber<VenueResult>()
+        observable.subscribe(testSubscriber)
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertCompleted()
+    }
 
     private fun mockLocation(): Location {
         var mockLocation = mock(Location::class.java)
