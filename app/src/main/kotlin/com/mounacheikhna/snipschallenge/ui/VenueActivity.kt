@@ -2,13 +2,19 @@ package com.mounacheikhna.snipschallenge.ui
 
 import android.animation.ValueAnimator
 import android.app.SharedElementCallback
+import android.content.res.ColorStateList
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.RippleDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.annotation.ColorInt
+import android.support.annotation.FloatRange
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.content.ContextCompat
+import android.support.v4.graphics.ColorUtils
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.Toolbar
@@ -95,13 +101,13 @@ public class VenueActivity : AppCompatActivity() {
                     var statusBarColor = window.statusBarColor
                     val topColor = Colors.getMostPopulousSwatch(palette)
                     if (topColor != null && (isDark || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
-                        statusBarColor = Colors.scrimify(topColor!!.getRgb(),
-                            isDark, SCRIM_ADJUSTMENT)
+                        statusBarColor = Colors.scrimify(topColor!!.rgb, isDark, SCRIM_ADJUSTMENT)
                         // set a light status bar on M+
                         if (!isDark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             setLightStatusBar(mainImage)
                         }
                     }
+                    //toolbar.setBackgroundColor(topColor.rgb); //temp //TODO: use a lighter color for it
 
                     if (statusBarColor != window.statusBarColor) {
                         //mainImage.setScrimColor(statusBarColor)
@@ -112,9 +118,45 @@ public class VenueActivity : AppCompatActivity() {
                         statusBarColorAnim.interpolator = AnimationUtils.loadInterpolator(baseContext, android.R.interpolator.fast_out_slow_in)
                         statusBarColorAnim.start()
                     }
-
                 }
+
+            Palette.from(bitmap)
+                .clearFilters()
+                .generate { palette ->
+                    // slightly more opaque ripple on the pinned image to compensate
+                    // for the scrim
+                    mainImage.foreground = createRipple(palette, 0.3f, 0.6f,
+                        ContextCompat.getColor(baseContext, R.color.medium_grey), true)
+                }
+
         }
+    }
+
+    fun createRipple(palette: Palette,
+                     @FloatRange(from = 0.0, to = 1.0) darkAlpha: Float,
+                     @FloatRange(from = 0.0, to = 1.0) lightAlpha: Float,
+                     @ColorInt fallbackColor: Int,
+                     bounded: Boolean): RippleDrawable {
+        var rippleColor = fallbackColor
+        // try the named swatches in preference order
+        if (palette.vibrantSwatch != null) {
+            rippleColor = Colors.modifyAlpha(palette.vibrantSwatch!!.rgb, darkAlpha)
+        } else if (palette.lightVibrantSwatch != null) {
+            rippleColor = Colors.modifyAlpha(palette.lightVibrantSwatch!!.rgb,
+                lightAlpha)
+        } else if (palette.darkVibrantSwatch != null) {
+            rippleColor = Colors.modifyAlpha(palette.darkVibrantSwatch!!.rgb,
+                darkAlpha)
+        } else if (palette.mutedSwatch != null) {
+            rippleColor = Colors.modifyAlpha(palette.mutedSwatch!!.rgb, darkAlpha)
+        } else if (palette.lightMutedSwatch != null) {
+            rippleColor = Colors.modifyAlpha(palette.lightMutedSwatch!!.rgb,
+                lightAlpha)
+        } else if (palette.darkMutedSwatch != null) {
+            rippleColor = Colors.modifyAlpha(palette.darkMutedSwatch!!.rgb, darkAlpha)
+        }
+        return RippleDrawable(ColorStateList.valueOf(rippleColor), null,
+            if (bounded) ColorDrawable(Color.WHITE) else null)
     }
 
     fun setLightStatusBar(view: View) {
