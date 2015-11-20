@@ -1,19 +1,40 @@
 package com.mounacheikhna.snipschallenge.ui
 
 import android.content.Context
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Checkable
 import android.widget.ImageButton
+import android.widget.LinearLayout
+import com.mounacheikhna.snipschallenge.R
 
 /**
  * A {@link Checkable} {@link ImageButton} which has a minimum offset i.e. translation Y.
  */
-class CheckableFab(context: Context, attrs: AttributeSet) : ImageButton(context, attrs), Checkable {
+class CheckableFab: FloatingActionButton, Checkable {
 
     private var isChecked = false
     private var minOffset: Int = 0
+
+    public constructor(context: Context) : super(context) {
+        init();
+    }
+
+    public constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        init();
+    }
+
+    public constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context,
+        attrs, defStyleAttr) {
+        init();
+    }
+
+    private fun init() {
+        setOnClickListener({ toggle() })
+    }
 
     fun setOffset(offset: Int) {
         var offset = offset
@@ -41,6 +62,8 @@ class CheckableFab(context: Context, attrs: AttributeSet) : ImageButton(context,
 
     override fun toggle() {
         setChecked(!isChecked)
+        //temp
+        jumpDrawablesToCurrentState()
     }
 
     override fun onCreateDrawableState(extraSpace: Int): IntArray {
@@ -55,4 +78,6 @@ class CheckableFab(context: Context, attrs: AttributeSet) : ImageButton(context,
 
         private val CHECKED_STATE_SET = intArrayOf(android.R.attr.state_checked)
     }
+
+
 }

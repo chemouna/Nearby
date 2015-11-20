@@ -16,6 +16,8 @@
   <color name="background_light">#fafafa</color>
   <color name="primary_dark_icon">#99000000</color>
   <color name="medium_grey">#40808080</color>
+  <color name="ripple_light">#99ffffff</color>
+  <dimen name="padding_normal">16dp</dimen>
 
 
 </resources>

@@ -185,12 +185,4 @@ public class VenueActivity : AppCompatActivity() {
 
 }
 
-/*
-    TODO:
-     - fix animation with shared elt on both enter/exit
-     - add back btn to toolbar
-     - add some content in the rest of screen
-     - apply rest of palette
-
-     */
 

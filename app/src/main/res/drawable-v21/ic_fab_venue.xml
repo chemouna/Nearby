@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:constantSize="true">
+
+    <item
+            android:id="@+id/saved"
+            android:state_checked="true"
+            android:drawable="@drawable/ic_bookmark_white_24dp" />
+
+    <item
+            android:id="@+id/not_saved"
+            android:drawable="@drawable/ic_bookmark_border_white_24dp"/>
+
+</animated-selector>
