@@ -50,30 +50,23 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingTop="24dp">
-
-        </LinearLayout>
+        <include layout="@layout/venue_description" />
 
     </android.support.v4.widget.NestedScrollView>
 
-        <com.mounacheikhna.snipschallenge.ui.CheckableFab
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                app:layout_anchor="@id/appbar"
-                app:layout_anchorGravity="bottom|right|end"
-                android:background="@drawable/fab_venue"
-                android:src="@drawable/ic_fab_venue"
-                android:layout_margin="@dimen/fab_margin"
-                android:layout_gravity="end"
-                android:layout_marginRight="@dimen/padding_normal"
-                android:layout_marginEnd="@dimen/padding_normal"
-                android:stateListAnimator="@animator/fab_anim"
-                android:alpha="0"
-                android:clickable="true"
-                />
+    <com.mounacheikhna.snipschallenge.ui.CheckableFab
+        android:id="@+id/venue_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|right|end"
+        android:background="@drawable/fab_venue"
+        android:src="@drawable/ic_fab_venue"
+        android:layout_margin="@dimen/fab_margin"
+        android:stateListAnimator="@animator/fab_anim"
+        android:alpha="0"
+        android:clickable="true"
+        />
+
 
 </android.support.design.widget.CoordinatorLayout>

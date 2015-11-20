@@ -5,13 +5,12 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowSharedElementEnterTransition">@transition/venue_shared_enter</item>
         <item name="android:windowSharedElementReturnTransition">@transition/venue_shared_return</item>
-
-        <!-- TODO: do this one later on the fab that's going to be on foursquare screen -->
-
-        <!--<item name="android:windowEnterTransition">@transition/venue_shot_enter</item>
-        <item name="android:windowReturnTransition">@transition/venue_return</item>-->
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
 
+    <style name="TextAppearance.VenueDescription" parent="@android:style/TextAppearance.Material.Subhead" >
+        <item name="android:textColor">@color/text_tertiary_dark</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style>
 
 </resources>

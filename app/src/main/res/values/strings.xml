@@ -17,6 +17,11 @@
     <!-- transition shared elements -->
     <string name="transition_venue" translatable="false">venue</string>
     <string name="transition_venue_background" translatable="false">venue_background</string>
+    <string name="evaluate">Evaluate</string>
+    <string name="share">Share</string>
+
+    <string name="open">Open</string>
+    <string name="closed">Closed</string>
 
 
 </resources>

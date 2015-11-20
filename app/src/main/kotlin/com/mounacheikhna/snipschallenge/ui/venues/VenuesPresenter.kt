@@ -78,7 +78,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
     fun createLocationRequest(): LocationRequest {
         val locationRequest = LocationRequest()
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-            .setInterval(100000) // or 1000000
+            .setInterval(200000) // or 1000000
         return locationRequest
     }
 

@@ -4,29 +4,31 @@ import android.os.Parcel
 import android.os.Parcelable
 
 
-public data class Venue
-(
-    val id: String,
-    val name: String,
-    var contact: Contact?,
-    val location: VenueLocation,
-    val canonicalUrl: String?,
-    val hours: Hours?,
-    val verified: Boolean,
-    val rating: Double?,
-    val description: String?,
-    val price: Price?
-) : Parcelable { //Venue needs to be parcelable to be passed (with VenueResult) in intent to VenueActivity
+public class Venue: Parcelable { //Venue needs to be parcelable to be passed (with VenueResult) in intent to VenueActivity
 
-    constructor(source: Parcel) : this(
-        source.readString(), source.readString(),
-        source.readParcelable<Contact>(Contact::class.java.classLoader),
-        source.readParcelable<VenueLocation>(VenueLocation::class.java.classLoader),
-        source.readString(),
-        source.readParcelable<Hours>(Hours::class.java.classLoader),
-        source.readInt() == 1, source.readDouble(), source.readString(),
-        source.readParcelable<Price>(Price::class.java.classLoader)
-    )
+    var id: String
+    var name: String
+    var contact: Contact?
+    var location: VenueLocation
+    var canonicalUrl: String?
+    var hours: Hours?
+    var verified: Boolean
+    var rating: Double?
+    var description: String?
+    var price: Price?
+
+    constructor(source: Parcel) {
+        id = source.readString()
+        name = source.readString()
+        contact = source.readParcelable<Contact>(Contact::class.java.classLoader)
+        location = source.readParcelable<VenueLocation>(VenueLocation::class.java.classLoader)
+        canonicalUrl = source.readString()
+        hours = source.readParcelable<Hours>(Hours::class.java.classLoader)
+        verified = source.readInt() == 1
+        rating = source.readDouble()
+        description = source.readString()
+        price = source.readParcelable<Price>(Price::class.java.classLoader)
+    }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeString(id)
@@ -158,16 +160,16 @@ data class VenueLocation
 }
 
 data class Price(
-    val tier: Int,
-    val message: String
+    val tier: Int?,
+    val message: String?
 ) : Parcelable {
     constructor(source: Parcel) : this(source.readInt(), source.readString())
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeInt(tier)
-        dest?.writeString(message)
+        dest?.writeInt(tier ?: 0)
+        dest?.writeString(message ?: "")
     }
 
     companion object {

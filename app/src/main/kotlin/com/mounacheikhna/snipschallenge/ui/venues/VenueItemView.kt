@@ -48,8 +48,8 @@ class VenueItemView : PercentRelativeLayout {
     }
 
     fun bindTo(item: VenueResult, picasso: Picasso) {
-        if (!TextUtils.isEmpty(item.photoUrl)) {
-            picasso.load(item.photoUrl)
+        if (!TextUtils.isEmpty(item.bestPhotoUrl)) {
+            picasso.load(item.bestPhotoUrl)
                 .placeholder(R.drawable.ic_city)
                 .error(R.drawable.ic_city)
                 .transform(photoTransformation)

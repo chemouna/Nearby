@@ -19,6 +19,8 @@
   <color name="ripple_light">#99ffffff</color>
   <dimen name="padding_normal">16dp</dimen>
 
+  <color name="text_tertiary_dark">#61000000</color>
+
 
 </resources>
 
