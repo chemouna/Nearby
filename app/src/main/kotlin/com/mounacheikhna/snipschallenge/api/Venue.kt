@@ -58,16 +58,16 @@ public data class Venue
 }
 
 data class Contact(
-    val phone: String,
-    val formattedPhone: String
+    val phone: String?,
+    val formattedPhone: String?
 ) : Parcelable {
     constructor(source: Parcel) : this(source.readString(), source.readString())
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeString(phone)
-        dest?.writeString(formattedPhone)
+        dest?.writeString(phone ?: "")
+        dest?.writeString(formattedPhone ?: "")
     }
 
     companion object {

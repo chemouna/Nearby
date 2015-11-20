@@ -89,11 +89,17 @@ public class CoreApiModule {
     fun provideClock(): Clock = Clock.systemDefaultZone()
 
     @Provides @Singleton
-    fun providePicasso(@ApplicationContext context: Context, client: OkHttpClient): Picasso {
-        return Picasso.Builder(context).downloader(
-            OkHttpDownloader(client)).listener { picasso, uri, e ->
-            Timber.e(e, "Failed to load image: %s", uri)
-        }.build()
+    fun providePicasso(@ApplicationContext context: Context, client: OkHttpClient,
+                       @NetworkInterceptors networkInterceptors: List<out Interceptor>): Picasso {
+        //add network interceptor so can log and debug picasso's request
+        var okClient = client.clone()
+        okClient.networkInterceptors().addAll(networkInterceptors)
+        return Picasso.Builder(context)
+            .downloader(OkHttpDownloader(okClient))
+            .listener { picasso, uri, e ->
+                Timber.e(e, "Failed to load image: %s", uri)
+            }
+            .build()
     }
 
 }

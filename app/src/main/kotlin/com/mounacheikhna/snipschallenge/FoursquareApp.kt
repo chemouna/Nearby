@@ -15,7 +15,7 @@ public open class FoursquareApp: Application() {
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
-        LeakCanary.install(this);
+        //LeakCanary.install(this); 
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())

@@ -5,19 +5,20 @@ import android.os.Parcelable
 import com.mounacheikhna.snipschallenge.api.Venue
 
 public data class VenueResult(
-    val venue: Venue,
-    val photoUrl: String?
+    val photoUrl: String?,
+    val venue: Venue
+    //val bestPhotoUrl: String? //for a better quality
 ) : Parcelable { //VenueResult needs to be parcelable to be passed in intent to VenueActivity
 
     constructor(source: Parcel) : this(
-        source.readParcelable<Venue>(Venue::class.java.classLoader),
-        source.readString())
+        source.readString(),
+        source.readParcelable<Venue>(Venue::class.java.classLoader))
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeParcelable(venue, flags)
         dest?.writeString(photoUrl)
+        dest?.writeParcelable(venue, flags)
     }
 
     companion object {
