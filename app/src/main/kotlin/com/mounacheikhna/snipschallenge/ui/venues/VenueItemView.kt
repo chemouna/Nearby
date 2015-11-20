@@ -15,7 +15,6 @@ import butterknife.bindView
 import com.mounacheikhna.snipschallenge.R
 import com.mounacheikhna.snipschallenge.photo.RoundedCornersTransformation
 import com.mounacheikhna.snipschallenge.ui.VenueDetailsActivity
-import com.mounacheikhna.snipschallenge.ui.VenueDetailsActivity2
 import com.mounacheikhna.snipschallenge.ui.VenueResult
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation

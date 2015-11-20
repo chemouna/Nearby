@@ -74,6 +74,8 @@ ext {
 
   junit = "junit:junit:4.12"
   truth = "com.google.truth:truth:0.27"
-  mockito = "org.mockito:mockito-core:1.9.5"
+  mockito = 'org.mockito:mockito-core:1.9.5'
+  dexmaker = 'com.google.dexmaker:dexmaker:1.0'
+  dexmakerMockito = 'com.google.dexmaker:dexmaker-mockito:1.0'
 
 }

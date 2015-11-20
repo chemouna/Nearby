@@ -103,6 +103,8 @@ dependencies {
   androidTestCompile rootProject.ext.junit
   androidTestCompile rootProject.ext.truth
   androidTestCompile rootProject.ext.mockito
+  androidTestCompile rootProject.ext.dexmaker
+  androidTestCompile rootProject.ext.dexmakerMockito
   androidTestCompile rootProject.ext.supportTestRunner
   androidTestCompile rootProject.ext.supportTestRules
 

@@ -27,10 +27,6 @@ interface MockFoursquareResponses {
         );
         val FOURSQUARE_VENUES = arrayOf(BISTRO_DE_LA_PLACE_VENUE)
 
-        val PLACE_NAME = "Versailles"
-
-        val SEARCH_VENUES_FILE_NAME = "search_venues.json"
-
         val SUCCESS_META = Meta(200)
 
         val SEARCH_RESPONSE = SearchVenuesResponse(SUCCESS_META,

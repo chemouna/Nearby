@@ -12,7 +12,7 @@ class MockFoursquareApi() : FoursquareApi {
 
     @Throws(IOException::class)
     override fun searchVenues(location: String): Observable<SearchVenuesResponse> {
-        return Observable.just(MockFoursquareResponses.SEARCH_RESPONSE)
+        return Observable.from(arrayOf(MockFoursquareResponses.SEARCH_RESPONSE))
     }
 
     override fun venueDetails(venueId: String): Observable<VenueDetailsResponse> {
