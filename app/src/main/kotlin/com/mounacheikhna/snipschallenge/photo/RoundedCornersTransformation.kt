@@ -3,6 +3,9 @@ package com.mounacheikhna.snipschallenge.photo
 import android.graphics.*
 import com.squareup.picasso.Transformation;
 
+/**
+ * A picasso transformation to add small round corners to images.
+ */
 class RoundedCornersTransformation(val radius: Int, val margin: Int) : Transformation {
 
     override fun transform(source: Bitmap): Bitmap {

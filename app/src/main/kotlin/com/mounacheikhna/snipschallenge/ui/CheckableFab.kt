@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import com.mounacheikhna.snipschallenge.R
 
 /**
- * A {@link Checkable} {@link ImageButton} which has a minimum offset i.e. translation Y.
+ * A {@link Checkable} {@link FloatingActionButton} that toggle its state.
  */
 class CheckableFab: FloatingActionButton, Checkable {
 

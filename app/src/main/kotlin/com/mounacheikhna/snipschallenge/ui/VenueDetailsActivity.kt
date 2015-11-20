@@ -5,23 +5,21 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import butterknife.bindView
 import com.mounacheikhna.snipschallenge.R
+import com.mounacheikhna.snipschallenge.ui.details.VenueDetailsView
 
-/**
- * Main venues activity.
- */
-class MainActivity: AppCompatActivity() {
+class VenueDetailsActivity: AppCompatActivity() {
 
-    val toolbar: Toolbar by bindView(R.id.toolbar)
+    val container: VenueDetailsView by bindView(R.id.container)
+
+    companion object {
+        public var EXTRA_VENUE = "extra_venue"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setupToolbar()
+        setContentView(R.layout.venue_activity)
+        container.bind(this)
     }
 
-    private fun setupToolbar() {
-        delegate.setSupportActionBar(toolbar)
-        setTitle(R.string.app_name)
-    }
 
 }

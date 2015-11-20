@@ -7,8 +7,10 @@ import android.transition.TransitionValues
 import android.util.AttributeSet
 import android.view.View
 
-//TODO: explain me
-class ShotSharedEnter(context: Context, attrs: AttributeSet) : ChangeBounds(context, attrs) {
+/**
+ * Enter transition for clicking in a venue to expand into venue's detail.
+ */
+class VenueSharedEnter(context: Context, attrs: AttributeSet) : ChangeBounds(context, attrs) {
 
     override fun captureEndValues(transitionValues: TransitionValues) {
         super.captureEndValues(transitionValues)
@@ -20,7 +22,6 @@ class ShotSharedEnter(context: Context, attrs: AttributeSet) : ChangeBounds(cont
     }
 
     companion object {
-
         private val PROPNAME_BOUNDS = "android:changeBounds:bounds"
         private val PROPNAME_PARENT = "android:changeBounds:parent"
     }

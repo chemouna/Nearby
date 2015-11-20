@@ -44,8 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/ic_check_in"
-                android:background="@null"
-                tools:text="Review"
+                android:text="@string/check_in"
                 style="@style/Widget.Nearby.VenueOption"/>
 
         <Button
@@ -53,7 +52,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginBottom="8dp"
                 android:drawableTop="@drawable/ic_share"
                 android:text="@string/share"
                 style="@style/Widget.Nearby.VenueOption"/>
@@ -66,7 +64,7 @@
             android:layout_columnSpan="3"
             android:layout_width="match_parent"
             android:paddingStart="@dimen/padding_normal"
-            android:paddingTop="32dp"
+            android:layout_marginTop="32dp"
             android:paddingEnd="@dimen/padding_normal"
             android:visibility="gone"
             tools:visibility="visible"
@@ -89,32 +87,32 @@
 
     </LinearLayout>
 
-        <LinearLayout
-                android:id="@+id/venue_hours_container"
-                android:layout_columnSpan="3"
+    <LinearLayout
+            android:id="@+id/venue_hours_container"
+            android:layout_columnSpan="3"
+            android:layout_width="match_parent"
+            android:paddingStart="@dimen/padding_normal"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/padding_normal"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:orientation="horizontal">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_hours"/>
+
+        <TextView
+                android:id="@+id/venue_hours"
                 android:layout_width="match_parent"
-                android:paddingStart="@dimen/padding_normal"
+                android:layout_height="match_parent"
                 android:paddingTop="8dp"
-                android:paddingEnd="@dimen/padding_normal"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:orientation="horizontal">
+                android:paddingLeft="8dp"
+                android:paddingStart="8dp"
+                android:textSize="16sp"
+                tools:text="Monday - Friday : 08:00 - 17:00"/>
 
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_hours"/>
-
-                <TextView
-                        android:id="@+id/venue_hours"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="8dp"
-                        android:paddingLeft="8dp"
-                        android:paddingStart="8dp"
-                        android:textSize="16sp"
-                        tools:text="Monday - Friday : 08:00 - 17:00"/>
-
-        </LinearLayout>
+    </LinearLayout>
 
 </GridLayout>

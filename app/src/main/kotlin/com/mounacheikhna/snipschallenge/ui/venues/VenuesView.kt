@@ -27,16 +27,6 @@ import javax.inject.Inject
 
 class VenuesView : LinearLayout, VenuesScreen {
 
-    /* @ScopeSingleton(VenuesComponent::class)
-     @Subcomponent(modules = arrayOf(VenuesModule&::class),
-         dependencies = arrayOf(AppComponent::class))
-     public interface VenuesComponent*//*: BaseComponent*//* {
-        fun inject(venuesView: VenuesView)
-    }
-
-    @Module
-    class VenuesModule {}*/
-
     /**
      *  A {@link PublishSubject} to let subscribers know that the user wants to cancel
      *  the current fetch for location
@@ -72,12 +62,6 @@ class VenuesView : LinearLayout, VenuesScreen {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        /*DaggerVenuesView_VenuesComponent.builder()
-            .venuesModule(VenuesModule())
-            .appComponent(FoursquareApp.appComponent)
-            .build()
-            .inject(this)*/
-        //createComponent(VenuesComponent::class.java, FoursquareApp.appComponent)
         FoursquareApp.appComponent.inject(this)
         presenter.onAttach(this)
 

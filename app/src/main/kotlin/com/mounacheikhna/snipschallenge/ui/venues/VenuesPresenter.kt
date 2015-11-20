@@ -13,10 +13,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Presenter for {@link VenuesView}
+ * Presenter for {@link VenuesView}.
  */
-//@ScopeSingleton(VenuesView.VenuesComponent::class)
-@Singleton //temp
+@Singleton
 class VenuesPresenter : BasePresenter<VenuesScreen> {
 
     val locationProvider: ReactiveLocationProvider
@@ -78,7 +77,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
     fun createLocationRequest(): LocationRequest {
         val locationRequest = LocationRequest()
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-            .setInterval(200000) // or 1000000
+            .setInterval(400000) // or 1000000
         return locationRequest
     }
 

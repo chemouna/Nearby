@@ -22,6 +22,7 @@
 
     <string name="open">Open</string>
     <string name="closed">Closed</string>
+    <string name="check_in">Check in</string>
 
 
 </resources>

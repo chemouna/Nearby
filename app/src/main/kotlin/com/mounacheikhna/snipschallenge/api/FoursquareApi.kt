@@ -5,6 +5,9 @@ import retrofit.http.Path
 import retrofit.http.Query
 import rx.Observable
 
+/**
+ * Foursquare apis used in the app.
+ */
 public interface FoursquareApi {
 
     @GET("/v2/venues/search")

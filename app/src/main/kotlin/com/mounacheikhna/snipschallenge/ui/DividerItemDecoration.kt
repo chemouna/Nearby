@@ -9,6 +9,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 
+/**
+ * A divider for items in a {@link RecyclerView}.
+ */
 class DividerItemDecoration(context: Context, orientation: Int, paddingStart: Float,
                             private val rtl: Boolean) : RecyclerView.ItemDecoration() {
     private val divider: Drawable

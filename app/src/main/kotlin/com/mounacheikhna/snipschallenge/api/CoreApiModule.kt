@@ -1,6 +1,5 @@
 package com.mounacheikhna.snipschallenge.api
 
-import android.app.Application
 import android.content.Context
 import com.mounacheikhna.snipschallenge.BuildConfig
 import com.mounacheikhna.snipschallenge.annotation.*
@@ -20,6 +19,9 @@ import timber.log.Timber
 import javax.inject.Named
 import javax.inject.Singleton
 
+/**
+ * Core dagger module that provides most core dependencies that the app needs.
+ */
 @Module
 public class CoreApiModule {
 

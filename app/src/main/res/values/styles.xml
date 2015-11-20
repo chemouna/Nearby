@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
   <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="colorPrimary">@color/primary</item>
@@ -22,19 +22,18 @@
 
   <style name="Widget.Nearby.VenueDescription">
     <item name="android:textAppearance">@style/TextAppearance.VenueDescription</item>
-    <item name="lineHeightHint">24sp</item>
+    <!--<item name="android:lineHeightHint">24sp</item>-->
   </style>
 
   <style name="TextAppearance.VenueDescription" parent="TextAppearance.AppCompat.Subhead" >
     <item name="android:textColor">@color/text_tertiary_dark</item>
-    <item name="letterSpacing">0.01</item>
+    <!--<item name="letterSpacing">0.01</item>-->
   </style>
 
-  <style name="TextAppearance.GreyedOut" parent="TextAppearance.AppCompat.Caption">
-    <item name="fontFamily">sans-serif-medium</item>
+  <style name="TextAppearance.GreyedOut" parent="TextAppearance.AppCompat.Caption" tools:ignore="NewApi">
+    <item name="android:fontFamily">sans-serif-medium</item>
     <item name="android:textSize">14sp</item>
-    <item name="fontFeatureSettings">smcp, onum</item>
-    <item name="letterSpacing">0.02</item>
+    <item name="android:letterSpacing">0.02</item>
   </style>
 
 

@@ -14,11 +14,15 @@ import android.widget.TextView
 import butterknife.bindView
 import com.mounacheikhna.snipschallenge.R
 import com.mounacheikhna.snipschallenge.photo.RoundedCornersTransformation
-import com.mounacheikhna.snipschallenge.ui.VenueActivity
+import com.mounacheikhna.snipschallenge.ui.VenueDetailsActivity
+import com.mounacheikhna.snipschallenge.ui.VenueDetailsActivity2
 import com.mounacheikhna.snipschallenge.ui.VenueResult
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
 
+/**
+ * View to display a {@link VenueResult} in venues list.
+ */
 class VenueItemView : PercentRelativeLayout {
 
     val venueImage: ImageView by bindView(R.id.venue_image)
@@ -60,8 +64,8 @@ class VenueItemView : PercentRelativeLayout {
             venueImage.transitionName = resources.getString(R.string.transition_venue)
             venueImage.setBackgroundColor(ContextCompat.getColor(context, R.color.background_light))
             val intent = Intent()
-            intent.setClass(context, VenueActivity::class.java)
-            intent.putExtra(VenueActivity.EXTRA_VENUE, item)
+            intent.setClass(context, VenueDetailsActivity::class.java)
+            intent.putExtra(VenueDetailsActivity.EXTRA_VENUE, item)
             val options = ActivityOptions.makeSceneTransitionAnimation(context as Activity,
                 android.util.Pair.create<View, String>(venueImage,
                     context.getString(R.string.transition_venue)),

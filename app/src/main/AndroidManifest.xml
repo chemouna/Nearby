@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-                android:name=".ui.VenueActivity"
+                android:name=".ui.VenueDetailsActivity"
                 android:parentActivityName=".ui.MainActivity"
                 android:theme="@style/AppTheme.Translucent.Venue">
             <meta-data

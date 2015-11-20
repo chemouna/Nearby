@@ -9,6 +9,9 @@ import com.squareup.picasso.Picasso
 import rx.functions.Action1
 import java.util.*
 
+/**
+ * Adapter for venues list.
+ */
 class VenuesAdapter(picasso: Picasso) : RecyclerView.Adapter<VenuesAdapter.VenueViewHolder>(), Action1<VenueResult> {
 
     var venues: MutableList<VenueResult> = ArrayList()
