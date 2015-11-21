@@ -9,6 +9,7 @@ import pl.charmas.android.reactivelocation.ReactiveLocationProvider
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -32,13 +33,12 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
      * fetch so that if they don't want to they can cancel it.
      */
     fun fetchVenuesForLocations(): Observable<VenueResult> {
-        val updatedLocation = locationProvider.getUpdatedLocation(
-            createLocationRequest()).distinctUntilChanged()
+        val updatedLocation = locationProvider.getUpdatedLocation(createLocationRequest())
+                .distinctUntilChanged()
+                .doOnNext {  view?.onNewLocationUpdate() }
         return updatedLocation
-            .flatMap { it ->
-                view?.onNewLocationUpdate()
-                nearbyVenuesSearch(it)
-            }
+            .flatMap { it -> nearbyVenuesSearch(it) }
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     /**
@@ -63,9 +63,8 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
             { respVenues, respPhotos ->
                 VenueResult(respPhotos.getMainPhotoUrl(), respPhotos.getBestQualityPhotoUrl(), respVenues.response.venue)
             })
-            .takeUntil(view?.cancelRefreshForLocation())
+            //.takeUntil(view?.cancelRefreshForLocation())
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
     }
 
     /**
@@ -77,7 +76,7 @@ class VenuesPresenter : BasePresenter<VenuesScreen> {
     fun createLocationRequest(): LocationRequest {
         val locationRequest = LocationRequest()
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-            .setInterval(400000) // or 1000000
+            .setInterval(100000) // or 1000000
         return locationRequest
     }
 

@@ -22,6 +22,8 @@ import com.mounacheikhna.snipschallenge.ui.DividerItemDecoration
 import com.squareup.picasso.Picasso
 import com.tbruyelle.rxpermissions.RxPermissions
 import rx.Observable
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
@@ -104,7 +106,7 @@ class VenuesView : LinearLayout, VenuesScreen {
     }
 
     private fun onLocationPermissionsGranted() {
-        presenter.fetchVenuesForLocations()
+        var subscription = presenter.fetchVenuesForLocations()
             .subscribe(
                 { venueResult ->
                     if (venuesAnimator.getDisplayedChildId() !== R.id.venues_list) {
@@ -121,6 +123,7 @@ class VenuesView : LinearLayout, VenuesScreen {
                     }
                 }
             )
+        presenter.addSubscription(subscription)
     }
 
     override fun onNewLocationUpdate() {
