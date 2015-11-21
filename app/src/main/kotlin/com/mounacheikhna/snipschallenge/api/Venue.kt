@@ -25,7 +25,6 @@ public class Venue: Parcelable { //Venue needs to be parcelable to be passed (wi
         this.contact = contact;
         this.location = location;
         this.canonicalUrl = canonicalUrl;
-
         this.hours = hours;
         this.verified = verified;
         this.rating = rating;
@@ -36,27 +35,27 @@ public class Venue: Parcelable { //Venue needs to be parcelable to be passed (wi
     constructor(source: Parcel) {
         id = source.readString()
         name = source.readString()
-        contact = source.readParcelable<Contact>(Contact::class.java.classLoader)
-        location = source.readParcelable<VenueLocation>(VenueLocation::class.java.classLoader)
+        contact = source.readTypedObject(Contact.CREATOR)
+        location = source.readTypedObject(VenueLocation.CREATOR)
         canonicalUrl = source.readString()
-        hours = source.readParcelable<Hours>(Hours::class.java.classLoader)
+        hours = source.readTypedObject<Hours>(Hours.CREATOR)
         verified = source.readInt() == 1
         rating = source.readDouble()
         description = source.readString()
-        price = source.readParcelable<Price>(Price::class.java.classLoader)
+        price = source.readTypedObject<Price>(Price.CREATOR)
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeString(id)
         dest?.writeString(name)
-        dest?.writeParcelable(contact, flags)
-        dest?.writeParcelable(location, flags)
+        dest?.writeTypedObject(contact, flags)
+        dest?.writeTypedObject(location, flags)
         dest?.writeString(canonicalUrl ?: "")
-        dest?.writeParcelable(hours, flags)
+        dest?.writeTypedObject(hours, flags)
         dest?.writeInt(if (verified) 1 else 0)
         dest?.writeDouble(rating ?: 0.0)
         dest?.writeString(description ?: "")
-        dest?.writeParcelable(price, flags)
+        dest?.writeTypedObject(price, flags)
     }
 
     override fun describeContents() = 0
@@ -103,7 +102,7 @@ data class Contact(
 }
 
 data class Hours(
-    val status: String,
+    val status: String?,
     val isOpen: Boolean
 ) : Parcelable {
     constructor(source: Parcel) : this(source.readString(), source.readInt() == 1)
@@ -111,7 +110,7 @@ data class Hours(
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeString(status)
+        dest?.writeString(status ?: "")
         dest?.writeInt(if (isOpen) 1 else 0)
     }
 
@@ -176,15 +175,15 @@ data class VenueLocation
 }
 
 data class Price(
-    val tier: Int?,
+    val tier: String?,
     val message: String?
 ) : Parcelable {
-    constructor(source: Parcel) : this(source.readInt(), source.readString())
+    constructor(source: Parcel) : this(source.readString(), source.readString())
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeInt(tier ?: 0)
+        dest?.writeString(tier ?: "")
         dest?.writeString(message ?: "")
     }
 

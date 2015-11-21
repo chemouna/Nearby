@@ -128,7 +128,9 @@ public class VenueDetailsView : LinearLayout {
             containerHours.visibility = View.VISIBLE
             var openText = if (venueResult.venue.hours?.isOpen ?: false) resources.getString(
                 R.string.open) else resources.getString(R.string.closed)
-            venueHours.text = "$openText ${venueResult.venue.hours?.status}"
+            var status = venueResult.venue.hours?.status;
+            var formattedStatus = if(status == null || "null".equals(status))  "" else status
+            venueHours.text = "$openText $formattedStatus"
         }
     }
 

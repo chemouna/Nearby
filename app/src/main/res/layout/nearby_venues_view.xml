@@ -28,8 +28,6 @@
                     android:scaleType="center"
                     android:clickable="true"
                     />
-            <!-- android:src="@drawable/loading" -->
-            <!-- TODO: find some or create some beautiful icons -->
 
             <TextView
                     android:id="@+id/venues_loading_message"
@@ -56,8 +54,6 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginBottom="32dp"
                     />
-            <!-- android:src="@drawable/error" -->
-            <!-- TODO: find some or create some beautiful icons -->
 
             <TextView
                     android:layout_width="match_parent"
@@ -91,7 +87,6 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginBottom="32dp"
                     />
-            <!-- android:src="@drawable/empty" TODO: create this drawable -->
 
             <TextView
                     android:layout_width="match_parent"
@@ -110,16 +105,11 @@
                     android:text="@string/empty_message"
                     />
         </RelativeLayout>
-        <!--<android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/venues_swipe_refresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >-->
+
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/venues_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     />
-        <!--</android.support.v4.widget.SwipeRefreshLayout>-->
     </com.mounacheikhna.snipschallenge.ui.BetterViewAnimator>
 </merge>

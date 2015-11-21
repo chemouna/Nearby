@@ -20,9 +20,6 @@ public open class FoursquareApp: Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
             Stetho.initializeWithDefaults(this);
-
-        } else {
-            //TODO: add Crashlytics tree
         }
 
         appComponent = DaggerAppComponent.builder()
