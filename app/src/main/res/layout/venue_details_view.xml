@@ -59,7 +59,7 @@
 
         </android.support.v4.widget.NestedScrollView>
 
-        <com.mounacheikhna.snipschallenge.ui.CheckableFab
+        <com.mounacheikhna.nearby.ui.CheckableFab
                 android:id="@+id/venue_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -9,7 +9,8 @@
         android:columnCount="3"
         android:rowCount="7"
         android:useDefaultMargins="false"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        tools:background="@color/primary">
 
     <TextView
             android:id="@+id/venue_description"

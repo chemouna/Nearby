@@ -1,12 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.mounacheikhna.snipschallenge">
+        package="com.mounacheikhna.nearby">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
-            android:name=".FoursquareApp"
+            android:name="com.mounacheikhna.nearby.FoursquareApp"
             android:allowBackup="true"
             android:label="@string/app_name"
             android:icon="@mipmap/ic_launcher"
@@ -14,7 +14,7 @@
             android:theme="@style/AppTheme">
 
         <activity
-                android:name=".ui.MainActivity"
+                android:name="com.mounacheikhna.nearby.ui.MainActivity"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -23,12 +23,12 @@
         </activity>
 
         <activity
-                android:name=".ui.VenueDetailsActivity"
-                android:parentActivityName=".ui.MainActivity"
+                android:name="com.mounacheikhna.nearby.ui.VenueDetailsActivity"
+                android:parentActivityName="com.mounacheikhna.nearby.ui.MainActivity"
                 android:theme="@style/AppTheme.Translucent.Venue">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".ui.MainActivity" />
+                    android:value="com.mounacheikhna.nearby.ui.MainActivity" />
         </activity>
 
     </application>

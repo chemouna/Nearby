@@ -5,7 +5,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.mounacheikhna.snipschallenge"
+        applicationId "com.mounacheikhna.nearby"
         minSdkVersion rootProject.ext.minWearSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode

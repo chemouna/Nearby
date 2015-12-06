@@ -11,7 +11,7 @@
     </changeBounds>
 
     <transition
-            class="com.mounacheikhna.snipschallenge.transition.VenueSharedEnter">
+            class="com.mounacheikhna.nearby.transition.VenueSharedEnter">
         <targets>
             <target android:targetId="@id/venue_image" />
         </targets>
