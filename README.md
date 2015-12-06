@@ -21,5 +21,3 @@ A Simple Foursquare client written in kotlin
 * Taking advantage of android build types to use a debug build for features such as logging that we don't want on release builds.
 
 
-
-A
