@@ -23,3 +23,8 @@ A Simple Foursquare client written in kotlin
 * Using an MVP structure.
 * Dependency injection with Dagger2.
 * Taking advantage of android build types to use a debug build for features such as logging that we don't want on release builds.
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 1cd3f4d79af41d916ced6df054bea5b8fd406004
