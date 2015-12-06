@@ -2,6 +2,10 @@
 A Simple Foursquare client written in kotlin
 ====================================
 
+
+![Alt Text](https://github.com/chemouna/Nearby/blob/master/demo.gif)
+
+
 #Features :
 * Display list of venues for a location.
 * Observe location changes and update venues list whenever a new location is detected.
