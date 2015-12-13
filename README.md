@@ -3,7 +3,7 @@ A Simple Foursquare client written in kotlin
 ====================================
 
 ##Demo
-[![Alt text for your video](https://i.ytimg.com/vi/VDtn8DSFXNM/1.jpg?time=1450007954423)](https://youtu.be/VDtn8DSFXNM)
+[![Alt text for your video](https://i.ytimg.com/vi/VDtn8DSFXNM/0.jpg)](https://youtu.be/VDtn8DSFXNM)
 
 
 #Features :
