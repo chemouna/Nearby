@@ -37,7 +37,7 @@ interface MockFoursquareResponses {
             VenueResponse(BISTRO_DE_LA_PLACE_VENUE))
 
         //https://irs1.4sqi.net/img/general/width960/5858343_o2t48KiJEnBaXPE82GNBrunUYBrdk_B7ZjyJ_E20gEg.jpg
-        var photo1 = Photo("4fca14e1e4b098b3eefb6962", "https://irs1.4sqi.net/img/",
+        val photo1 = Photo("4fca14e1e4b098b3eefb6962", "https://irs1.4sqi.net/img/",
             "5858343_o2t48KiJEnBaXPE82GNBrunUYBrdk_B7ZjyJ_E20gEg.jpg")
 
         val VENUE_PHOTOS_RESPONSE = GetPhotosResponse(SUCCESS_META,

@@ -12,7 +12,7 @@ class VenueDetailsActivity: AppCompatActivity() {
     val container: VenueDetailsView by bindView(R.id.container)
 
     companion object {
-        public var EXTRA_VENUE = "extra_venue"
+        public val EXTRA_VENUE = "extra_venue"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

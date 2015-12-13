@@ -6,16 +6,16 @@ import android.os.Parcelable
 
 public class Venue: Parcelable { //Venue needs to be parcelable to be passed (with VenueResult) in intent to VenueActivity
 
-    var id: String
-    var name: String
-    var contact: Contact?
-    var location: VenueLocation
-    var canonicalUrl: String?
-    var hours: Hours?
-    var verified: Boolean
-    var rating: Double?
-    var description: String?
-    var price: Price?
+    val id: String
+    val name: String
+    val contact: Contact?
+    val location: VenueLocation
+    val canonicalUrl: String?
+    val hours: Hours?
+    val verified: Boolean
+    val rating: Double?
+    val description: String?
+    val price: Price?
 
     constructor(id: String, name: String, contact: Contact?, location: VenueLocation,
                 canonicalUrl: String?, hours: Hours?, verified: Boolean, rating: Double?,

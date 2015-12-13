@@ -93,7 +93,7 @@ public class VenueDetailsView : LinearLayout {
         activity.setExitSharedElementCallback(fabSharedElementCallback)
         activity.window.sharedElementReturnTransition.addListener(venueReturnHomeListener)
 
-        var venueResult: VenueResult? = activity.intent.getParcelableExtra<VenueResult>(
+        val venueResult: VenueResult? = activity.intent.getParcelableExtra<VenueResult>(
             VenueDetailsActivity.EXTRA_VENUE) ?: return
         populateWithVenueItem(activity, venueResult)
     }
@@ -126,10 +126,10 @@ public class VenueDetailsView : LinearLayout {
 
         if (venueResult.venue.hours != null) {
             containerHours.visibility = View.VISIBLE
-            var openText = if (venueResult.venue.hours?.isOpen ?: false) resources.getString(
+            val openText = if (venueResult.venue.hours?.isOpen ?: false) resources.getString(
                 R.string.open) else resources.getString(R.string.closed)
-            var status = venueResult.venue.hours?.status;
-            var formattedStatus = if(status == null || "null".equals(status))  "" else status
+            val status = venueResult.venue.hours?.status;
+            val formattedStatus = if(status == null || "null".equals(status))  "" else status
             venueHours.text = "$openText $formattedStatus"
         }
     }
@@ -149,7 +149,7 @@ public class VenueDetailsView : LinearLayout {
     inner class PaletteCallback : Callback.EmptyCallback() {
         override fun onSuccess() {
             super.onSuccess()
-            var bitmap = (mainImage.drawable as BitmapDrawable).bitmap;
+            val bitmap = (mainImage.drawable as BitmapDrawable).bitmap;
 
             Palette.from(bitmap)
                 .maximumColorCount(3)
@@ -178,8 +178,8 @@ public class VenueDetailsView : LinearLayout {
         }
 
         private fun applyToToolbar(palette: Palette) {
-            var primaryDark = ContextCompat.getColor(context, R.color.primary_dark);
-            var primary = ContextCompat.getColor(context, R.color.primary);
+            val primaryDark = ContextCompat.getColor(context, R.color.primary_dark);
+            val primary = ContextCompat.getColor(context, R.color.primary);
             collapsingTitle.setContentScrimColor(palette.getMutedColor(primary));
             collapsingTitle.setStatusBarScrimColor(palette.getDarkMutedColor(primaryDark));
         }
@@ -189,7 +189,7 @@ public class VenueDetailsView : LinearLayout {
          */
         private fun applyToBackButton(isDark: Boolean) {
             if (!isDark) {
-                var colorFilter = PorterDuffColorFilter(R.color.primary_dark_icon,
+                val colorFilter = PorterDuffColorFilter(R.color.primary_dark_icon,
                     PorterDuff.Mode.MULTIPLY);
                 var upArrow = ContextCompat.getDrawable(context,
                     R.drawable.abc_ic_ab_back_mtrl_am_alpha);

@@ -53,7 +53,7 @@ public class CoreApiModule {
     fun provideApiClient(client: OkHttpClient,
                          @AppInterceptors interceptors: List<out Interceptor>,
                          @NetworkInterceptors networkInterceptors: List<out Interceptor>): OkHttpClient {
-        var okClient = client.clone()
+        val okClient = client.clone()
         okClient.interceptors().addAll(interceptors)
         okClient.networkInterceptors().addAll(networkInterceptors)
         return okClient
@@ -94,7 +94,7 @@ public class CoreApiModule {
     fun providePicasso(@ApplicationContext context: Context, client: OkHttpClient,
                        @NetworkInterceptors networkInterceptors: List<out Interceptor>): Picasso {
         //add network interceptor so can log and debug picasso's request
-        var okClient = client.clone()
+        val okClient = client.clone()
         okClient.networkInterceptors().addAll(networkInterceptors)
         return Picasso.Builder(context)
             .downloader(OkHttpDownloader(okClient))

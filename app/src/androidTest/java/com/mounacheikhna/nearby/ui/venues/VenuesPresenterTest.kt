@@ -31,7 +31,7 @@ import rx.plugins.RxJavaSchedulersTestRule
 @RunWith(AndroidJUnit4::class)
 public class VenuesPresenterTest {
 
-    @get:Rule public var rxJavaSchedulersHookResetRule = RxJavaSchedulersTestRule()
+    @get:Rule public val rxJavaSchedulersHookResetRule = RxJavaSchedulersTestRule()
 
     lateinit var presenter: VenuesPresenter
     @Mock lateinit var locationProvider: ReactiveLocationProvider
@@ -46,14 +46,14 @@ public class VenuesPresenterTest {
 
     @Test
     fun fetchForLocationWithEmptyResultsDoesntEmitValuesToScreen() {
-        var mockLocation = mockLocation()
+        val mockLocation = mockLocation()
         `when`(locationProvider.getUpdatedLocation(presenter.createLocationRequest()))
             .thenReturn(Observable.just(mockLocation))
         `when`(foursquareApi.searchVenues("${mockLocation.latitude}, ${mockLocation.longitude}"))
             .thenReturn(Observable.empty())
 
         presenter.bind(venuesScreen)
-        var observable = presenter.fetchVenuesForLocations()
+        val observable = presenter.fetchVenuesForLocations()
 
         val testSubscriber = TestSubscriber<VenueResult>()
         observable.subscribe(testSubscriber)
@@ -65,18 +65,18 @@ public class VenuesPresenterTest {
     //use mock web server to simulate an error and check that error state used
     @Test //#FBN
     fun fetchForLocationWithErrorResultsEmitsErrorToScreen() {
-        var mockLocation = mockLocation()
+        val mockLocation = mockLocation()
         `when`(locationProvider.getUpdatedLocation(presenter.createLocationRequest()))
             .thenReturn(Observable.just(mockLocation))
 
         val behavior = NetworkBehavior.create()
         behavior.setVariancePercent(0)
         behavior.setFailurePercent(100)
-        var mockRetrofit = MockRetrofit(behavior, RxJavaBehaviorAdapter.create());
-        var mockApi = mockRetrofit.create(FoursquareApi::class.java, MockFoursquareApi())
+        val mockRetrofit = MockRetrofit(behavior, RxJavaBehaviorAdapter.create());
+        val mockApi = mockRetrofit.create(FoursquareApi::class.java, MockFoursquareApi())
 
         presenter = VenuesPresenter(mockApi, locationProvider)
-        var observable = presenter.fetchVenuesForLocations()
+        val observable = presenter.fetchVenuesForLocations()
 
         val testSubscriber = TestSubscriber<VenueResult>()
         observable.subscribe(testSubscriber)
@@ -87,18 +87,18 @@ public class VenuesPresenterTest {
 
     @Test
     fun fetchForLocationWithResultsEmitsThemToScreen() {
-        var mockLocation = mockLocation()
+        val mockLocation = mockLocation()
         `when`(locationProvider.getUpdatedLocation(presenter.createLocationRequest()))
             .thenReturn(Observable.just(mockLocation))
 
         val behavior = NetworkBehavior.create()
         behavior.setVariancePercent(0)
         behavior.setFailurePercent(0)
-        var mockRetrofit = MockRetrofit(behavior, RxJavaBehaviorAdapter.create());
-        var mockApi = mockRetrofit.create(FoursquareApi::class.java, MockFoursquareApi())
+        val mockRetrofit = MockRetrofit(behavior, RxJavaBehaviorAdapter.create());
+        val mockApi = mockRetrofit.create(FoursquareApi::class.java, MockFoursquareApi())
 
         presenter = VenuesPresenter(mockApi, locationProvider)
-        var observable = presenter.fetchVenuesForLocations()
+        val observable = presenter.fetchVenuesForLocations()
 
         val testSubscriber = TestSubscriber<VenueResult>()
         observable.subscribe(testSubscriber)
@@ -107,7 +107,7 @@ public class VenuesPresenterTest {
     }
 
     private fun mockLocation(): Location {
-        var mockLocation = mock(Location::class.java)
+        val mockLocation = mock(Location::class.java)
         //Paris: 48.8567° N, 2.3508° E
         `when`(mockLocation.latitude).thenReturn(48.8567)
         `when`(mockLocation.longitude).thenReturn(2.3508)

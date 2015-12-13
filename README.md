@@ -15,7 +15,7 @@ A Simple Foursquare client written in kotlin
 * Animating the display of detail view from the list of venues.
 * Support for Marshmallow permissions (Asking for each needed permission).
 
-#Use :
+#Implementation :
 * Implemented entirely in Kotlin.
 * Heavy use of Reactive paradigms (with RxJava, Retrofit and RxBindings). 
 * Unit tests (with mocking of foursquare service).
@@ -23,3 +23,18 @@ A Simple Foursquare client written in kotlin
 * Using an MVP structure.
 * Dependency injection with Dagger2.
 * Taking advantage of android build types to use a debug build for features such as logging that we don't want on release builds.
+
+
+#To Learn from this project :
+
+##Minimize mutability
+  - Use val most of the time for immutability and minimise the use of var.
+
+
+##Idiomatic use of kotlin
+
+##Rx
+  - Don't break the chain
+
+
+##Espresso tests

@@ -26,7 +26,7 @@ class DebugFoursquareApp: FoursquareApp() {
         }
 
         override fun <T> start(n: DebugNotification<T>?): Any? {
-            var contextObject = n?.observer.toString()
+            val contextObject = n?.observer.toString()
             super.start(n)
             return contextObject
         }

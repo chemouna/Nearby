@@ -46,7 +46,7 @@ class VenueItemView : PercentRelativeLayout {
     }
 
     private fun init() {
-        var corner = resources.getDimensionPixelSize(R.dimen.venue_photo_radius);
+        val corner = resources.getDimensionPixelSize(R.dimen.venue_photo_radius);
         photoTransformation = RoundedCornersTransformation(corner, 0)
     }
 
@@ -73,7 +73,7 @@ class VenueItemView : PercentRelativeLayout {
             context.startActivity(intent, options.toBundle())
         })
 
-        var venue = item.venue
+        val venue = item.venue
         venueName.text = venue.name
         venueRating.text = if (venue.rating != null) "${venue.rating}" else "0"
 
