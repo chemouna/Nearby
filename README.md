@@ -2,8 +2,7 @@
 A Simple Foursquare client written in kotlin
 ====================================
 
-
-![Alt Text](https://github.com/chemouna/Nearby/blob/master/demo.gif)
+[![Alt text for your video](https://i.ytimg.com/vi/VDtn8DSFXNM/1.jpg?time=1450007954423)](https://youtu.be/VDtn8DSFXNM)
 
 
 #Features :
@@ -41,4 +40,4 @@ A Simple Foursquare client written in kotlin
 
 
 ##Tests
-  - Mocks with retrofit  
+  - Mocks with retrofit
