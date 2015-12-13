@@ -3,9 +3,9 @@ A Simple Foursquare client written in kotlin
 ====================================
 
 ###Demo
-(click to view on youtube)
 [![Alt text for your video](https://i.ytimg.com/vi/VDtn8DSFXNM/0.jpg)](https://youtu.be/VDtn8DSFXNM)
 
+(click to view on youtube)
 
 #Features :
 * Display list of venues for a location.
