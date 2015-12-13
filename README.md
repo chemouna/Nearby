@@ -32,9 +32,13 @@ A Simple Foursquare client written in kotlin
 
 
 ##Idiomatic use of kotlin
+  - Use extensions
+
+  - Use apply
 
 ##Rx
   - Don't break the chain
 
 
-##Espresso tests
+##Tests
+  - Mocks with retrofit  
