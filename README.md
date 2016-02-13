@@ -37,6 +37,9 @@ A Simple Foursquare client written in kotlin
 
   - Use apply
 
+  - Use of kotlin higher order functions to have a LINQ-style code
+
+
 ##Rx
   - Don't break the chain
 

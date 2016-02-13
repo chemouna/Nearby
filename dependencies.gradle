@@ -1,5 +1,5 @@
 ext {
-  androidPlugin = 'com.android.tools.build:gradle:1.5.0'
+  androidPlugin = 'com.android.tools.build:gradle:2.0.0-beta2'
   minSdkVersion = 15
   minWearSdkVersion = 21
   targetSdkVersion = 23
@@ -9,7 +9,7 @@ ext {
   versionCode = 1
   versionName = "1.0"
 
-  kotlinVersion = '1.0.0-beta-2423'
+  kotlinVersion = '1.0.0-rc-1036'
   kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
   kotlinAndroidSdkAnnotations = "org.jetbrains.kotlin:kotlin-android-sdk-annotations:$kotlinVersion"
@@ -24,7 +24,7 @@ ext {
   supportPercent = "com.android.support:percent:$supportVersion"
   supportPalette = "com.android.support:palette-v7:$supportVersion"
 
-  playServicesVersion = '8.3.0'
+  playServicesVersion = '8.4.0'
   playServicesLocation = "com.google.android.gms:play-services-location:$playServicesVersion"
   playServicesWearables = "com.google.android.gms:play-services-wearable:$playServicesVersion"
 
@@ -50,11 +50,11 @@ ext {
   leakcanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
 
   reactiveLocation = "pl.charmas.android:android-reactive-location:0.8@aar"
-  rxJava = "io.reactivex:rxjava:1.0.16"
-  rxAndroid = "io.reactivex:rxandroid:1.0.1"
+  rxJava = "io.reactivex:rxjava:1.1.1"
+  rxAndroid = "io.reactivex:rxandroid:1.1.0"
 
   rxJavaDebug = "io.reactivex:rxjava-debug:1.0.3"
-  rxpermissions = "com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar"
+  rxpermissions = "com.tbruyelle.rxpermissions:rxpermissions:0.5.1@aar"
   rxKotlin = "io.reactivex:rxkotlin:0.24.100"
 
   rxbindingVersion = "0.3.0"
