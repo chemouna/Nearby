@@ -19,7 +19,7 @@ class DebugApiModule {
      * about server api to be logged on release buildS.
      */
     @Provides @Singleton @NetworkInterceptors
-    fun provideNetworkInterceptors(clock: Clock): List<out Interceptor> {//dagger needs 'out' here
+    fun provideNetworkInterceptors(clock: Clock): List<Interceptor> {//dagger needs 'out' here
                                     // to generate the correct binding with '? extend' in java.
         return arrayListOf(StethoInterceptor(), LoggingInterceptor(clock))
     }

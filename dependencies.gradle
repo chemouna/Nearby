@@ -9,7 +9,8 @@ ext {
   versionCode = 1
   versionName = "1.0"
 
-  kotlinVersion = '1.0.0-rc-1036'
+  //kotlinVersion = '1.0.0-rc-1036'
+  kotlinVersion = '1.0.0-beta-2423'
   kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
   kotlinAndroidSdkAnnotations = "org.jetbrains.kotlin:kotlin-android-sdk-annotations:$kotlinVersion"
