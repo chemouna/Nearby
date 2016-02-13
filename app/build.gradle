@@ -46,6 +46,9 @@ android {
     }
     exclude "META-INF/LICENSE.txt"
   }
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+  }
 }
 
 configurations.all {
@@ -107,9 +110,21 @@ dependencies {
   androidTestCompile rootProject.ext.dexmakerMockito
   androidTestCompile rootProject.ext.supportTestRunner
   androidTestCompile rootProject.ext.supportTestRules
-
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 kapt {
   generateStubs = true
+}
+buildscript {
+  ext.kotlin_version = '1.0.0-rc-1036'
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+}
+repositories {
+  mavenCentral()
 }

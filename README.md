@@ -24,25 +24,19 @@ A Simple Foursquare client written in kotlin
 * Using an MVP structure.
 * Dependency injection with Dagger2.
 * Taking advantage of android build types to use a debug build for features such as logging that we don't want on release builds.
+* Testing: using Mocks with retrofit
 
-
-#To Learn from this project :
+#Focus on:
 
 ##Minimize mutability
   - Use val most of the time for immutability and minimise the use of var.
 
-
 ##Idiomatic use of kotlin
   - Use extensions
-
   - Use apply
-
   - Use of kotlin higher order functions to have a LINQ-style code
 
-
 ##Rx
-  - Don't break the chain
+  - Don't break the chain.
 
 
-##Tests
-  - Mocks with retrofit
