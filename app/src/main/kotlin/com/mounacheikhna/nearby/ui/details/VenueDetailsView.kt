@@ -85,7 +85,7 @@ public class VenueDetailsView : LinearLayout {
         FoursquareApp.appComponent.inject(this)
 
         activity.delegate.setSupportActionBar(toolbar)
-        supportActionBar = activity.supportActionBar
+        supportActionBar = activity.delegate.supportActionBar
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setDisplayShowHomeEnabled(true);
 
