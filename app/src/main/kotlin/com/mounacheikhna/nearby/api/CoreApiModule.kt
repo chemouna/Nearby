@@ -22,7 +22,7 @@ import javax.inject.Singleton
 /**
  * Core dagger module that provides most core dependencies that the app needs.
  */
-@Module
+@Module()
 public class CoreApiModule {
 
     private val FOURSQUARE_ENDPOINT_URL = "https://api.foursquare.com/";
@@ -51,8 +51,8 @@ public class CoreApiModule {
 
     @Provides @Singleton @Named("Api")
     fun provideApiClient(client: OkHttpClient,
-                         @AppInterceptors interceptors: List<out Interceptor>,
-                         @NetworkInterceptors networkInterceptors: List<out Interceptor>): OkHttpClient {
+                         @AppInterceptors interceptors: List<Interceptor>,
+                         @NetworkInterceptors networkInterceptors: List<Interceptor>): OkHttpClient {
         val okClient = client.clone()
         okClient.interceptors().addAll(interceptors)
         okClient.networkInterceptors().addAll(networkInterceptors)
@@ -61,9 +61,7 @@ public class CoreApiModule {
 
     @Provides @Singleton @AppInterceptors
     fun provideAppInterceptors(
-        foursquareInterceptor: FoursquareInterceptor): List<out Interceptor> {
-        return arrayListOf(foursquareInterceptor);
-    }
+        foursquareInterceptor: FoursquareInterceptor) : List<@JvmWildcard Interceptor> = arrayListOf(foursquareInterceptor)
 
     @Provides @Singleton
     fun provideRetrofit(@Named("Api") apiClient: OkHttpClient,
@@ -92,7 +90,7 @@ public class CoreApiModule {
 
     @Provides @Singleton
     fun providePicasso(@ApplicationContext context: Context, client: OkHttpClient,
-                       @NetworkInterceptors networkInterceptors: List<out Interceptor>): Picasso {
+                       @NetworkInterceptors networkInterceptors: List<Interceptor>): Picasso {
         //add network interceptor so can log and debug picasso's request
         val okClient = client.clone()
         okClient.networkInterceptors().addAll(networkInterceptors)

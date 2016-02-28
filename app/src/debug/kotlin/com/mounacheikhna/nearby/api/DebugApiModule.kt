@@ -3,12 +3,9 @@ package com.mounacheikhna.nearby.api
 import com.facebook.stetho.okhttp.StethoInterceptor
 import com.mounacheikhna.nearby.annotation.NetworkInterceptors
 import com.squareup.okhttp.Interceptor
-import com.squareup.okhttp.OkHttpClient
 import dagger.Module
 import dagger.Provides
 import org.threeten.bp.Clock
-import java.util.*
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -19,7 +16,7 @@ class DebugApiModule {
      * about server api to be logged on release buildS.
      */
     @Provides @Singleton @NetworkInterceptors
-    fun provideNetworkInterceptors(clock: Clock): List<out Interceptor> {//dagger needs 'out' here
+    fun provideNetworkInterceptors(clock: Clock): List<@JvmWildcard Interceptor> {//dagger needs 'out' here
                                     // to generate the correct binding with '? extend' in java.
         return arrayListOf(StethoInterceptor(), LoggingInterceptor(clock))
     }
