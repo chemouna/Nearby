@@ -22,7 +22,7 @@ import javax.inject.Singleton
 /**
  * Core dagger module that provides most core dependencies that the app needs.
  */
-@Module
+@Module()
 public class CoreApiModule {
 
     private val FOURSQUARE_ENDPOINT_URL = "https://api.foursquare.com/";
@@ -61,9 +61,7 @@ public class CoreApiModule {
 
     @Provides @Singleton @AppInterceptors
     fun provideAppInterceptors(
-        foursquareInterceptor: FoursquareInterceptor): List<Interceptor> {
-        return arrayListOf(foursquareInterceptor);
-    }
+        foursquareInterceptor: FoursquareInterceptor) : List<@JvmWildcard Interceptor> = arrayListOf(foursquareInterceptor)
 
     @Provides @Singleton
     fun provideRetrofit(@Named("Api") apiClient: OkHttpClient,
