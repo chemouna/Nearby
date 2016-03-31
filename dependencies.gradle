@@ -1,5 +1,5 @@
 ext {
-  androidPlugin = 'com.android.tools.build:gradle:2.0.0-beta6'
+  androidPlugin = 'com.android.tools.build:gradle:2.1.0-alpha4'
   minSdkVersion = 15
   minWearSdkVersion = 21
   targetSdkVersion = 23
